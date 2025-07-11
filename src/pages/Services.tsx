@@ -40,6 +40,7 @@ interface ServiceCategory {
 }
 
 const Services = () => {
+  console.log('🔵 Services component rendering');
   const [services, setServices] = useState<Service[]>([]);
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,14 +63,17 @@ const Services = () => {
   }, [selectedCategory]);
 
   const fetchData = async () => {
+    console.log('🟡 Starting fetchData...');
     setLoading(true);
     try {
       // Fetch categories
+      console.log('🟡 Fetching categories...');
       const { data: categoriesData, error: categoriesError } = await supabase
         .from('service_categories')
         .select('*')
         .order('name');
 
+      console.log('🟢 Categories result:', categoriesData?.length, 'Error:', categoriesError);
       if (categoriesError) throw categoriesError;
       if (categoriesData) {
         setCategories(categoriesData);
@@ -91,14 +95,18 @@ const Services = () => {
         query = query.eq('category_id', selectedCategory);
       }
 
+      console.log('🟡 Fetching services with query...');
       const { data: servicesData, error } = await query;
 
+      console.log('🟢 Services result:', servicesData?.length, 'Error:', error);
       if (error) throw error;
 
       if (servicesData) {
         setServices(servicesData);
+        console.log('✅ Services set successfully:', servicesData.length);
       }
     } catch (error: any) {
+      console.error('❌ Error in fetchData:', error);
       toast({
         title: "Error fetching services",
         description: error.message,
@@ -106,6 +114,7 @@ const Services = () => {
       });
     } finally {
       setLoading(false);
+      console.log('🏁 Loading finished');
     }
   };
 
@@ -114,6 +123,14 @@ const Services = () => {
     service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
     service.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  console.log('📊 Render state:', {
+    loading,
+    totalServices: services.length,
+    filteredServices: filteredServices.length,
+    searchQuery,
+    selectedCategory
+  });
 
   const formatPrice = (priceFrom: number, priceTo: number | null, unit: string) => {
     if (priceTo && priceTo !== priceFrom) {
