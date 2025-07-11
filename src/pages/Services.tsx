@@ -57,7 +57,12 @@ const Services = () => {
     fetchData();
   }, [searchParams]);
 
+  useEffect(() => {
+    fetchData();
+  }, [selectedCategory]);
+
   const fetchData = async () => {
+    setLoading(true);
     try {
       // Fetch categories
       const { data: categoriesData } = await supabase
@@ -80,9 +85,9 @@ const Services = () => {
         .eq('is_available', true)
         .order('created_at', { ascending: false });
 
-      const categoryParam = searchParams.get('category');
-      if (categoryParam && categoryParam !== 'all') {
-        query = query.eq('category_id', categoryParam);
+      // Filter by selected category
+      if (selectedCategory && selectedCategory !== 'all') {
+        query = query.eq('category_id', selectedCategory);
       }
 
       const { data: servicesData, error } = await query;
