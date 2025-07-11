@@ -138,6 +138,99 @@ export type Database = {
           },
         ]
       }
+      customer_favorites: {
+        Row: {
+          created_at: string
+          customer_id: string
+          id: string
+          provider_id: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          id?: string
+          provider_id: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          id?: string
+          provider_id?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          attachment_url: string | null
+          booking_id: string
+          created_at: string
+          id: string
+          is_read: boolean
+          message_text: string
+          message_type: string
+          receiver_id: string
+          sender_id: string
+          updated_at: string
+        }
+        Insert: {
+          attachment_url?: string | null
+          booking_id: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message_text: string
+          message_type?: string
+          receiver_id: string
+          sender_id: string
+          updated_at?: string
+        }
+        Update: {
+          attachment_url?: string | null
+          booking_id?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message_text?: string
+          message_type?: string
+          receiver_id?: string
+          sender_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          action_url: string | null
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          action_url?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message: string
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          action_url?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           address: string | null
@@ -446,10 +539,15 @@ export type Database = {
           booking_id: string
           created_at: string
           customer_id: string
+          dimensions: Json | null
+          helpful_count: number | null
           id: string
           is_verified: boolean | null
           provider_id: string
           rating: number
+          response_date: string | null
+          response_text: string | null
+          review_photos: string[] | null
           review_text: string | null
           updated_at: string
         }
@@ -458,10 +556,15 @@ export type Database = {
           booking_id: string
           created_at?: string
           customer_id: string
+          dimensions?: Json | null
+          helpful_count?: number | null
           id?: string
           is_verified?: boolean | null
           provider_id: string
           rating: number
+          response_date?: string | null
+          response_text?: string | null
+          review_photos?: string[] | null
           review_text?: string | null
           updated_at?: string
         }
@@ -470,10 +573,15 @@ export type Database = {
           booking_id?: string
           created_at?: string
           customer_id?: string
+          dimensions?: Json | null
+          helpful_count?: number | null
           id?: string
           is_verified?: boolean | null
           provider_id?: string
           rating?: number
+          response_date?: string | null
+          response_text?: string | null
+          review_photos?: string[] | null
           review_text?: string | null
           updated_at?: string
         }
@@ -595,6 +703,36 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      search_history: {
+        Row: {
+          clicked_service_id: string | null
+          created_at: string
+          id: string
+          results_count: number | null
+          search_filters: Json | null
+          search_query: string
+          user_id: string
+        }
+        Insert: {
+          clicked_service_id?: string | null
+          created_at?: string
+          id?: string
+          results_count?: number | null
+          search_filters?: Json | null
+          search_query: string
+          user_id: string
+        }
+        Update: {
+          clicked_service_id?: string | null
+          created_at?: string
+          id?: string
+          results_count?: number | null
+          search_filters?: Json | null
+          search_query?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       service_categories: {
         Row: {

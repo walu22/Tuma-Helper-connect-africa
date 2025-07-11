@@ -15,6 +15,8 @@ import BecomeProvider from "./pages/BecomeProvider";
 import ProviderDashboard from "./pages/ProviderDashboard";
 import ProviderProfile from "./pages/ProviderProfile";
 import TrainingCenter from "./pages/TrainingCenter";
+import Messages from "./pages/Messages";
+import Favorites from "./pages/Favorites";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -38,6 +40,8 @@ const App = () => (
             <Route path="/provider/dashboard" element={<ProviderDashboard />} />
             <Route path="/provider/profile" element={<ProviderProfile />} />
             <Route path="/provider/training" element={<TrainingCenter />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/favorites" element={<Favorites />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
