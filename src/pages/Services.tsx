@@ -40,7 +40,6 @@ interface ServiceCategory {
 }
 
 const Services = () => {
-  console.log('Services component rendering');
   const [services, setServices] = useState<Service[]>([]);
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,7 +62,6 @@ const Services = () => {
   }, [selectedCategory]);
 
   const fetchData = async () => {
-    console.log('Fetching data...');
     setLoading(true);
     try {
       // Fetch categories
@@ -72,7 +70,6 @@ const Services = () => {
         .select('*')
         .order('name');
 
-      console.log('Categories data:', categoriesData);
       if (categoriesData) {
         setCategories(categoriesData);
       }
@@ -97,12 +94,10 @@ const Services = () => {
 
       if (error) throw error;
 
-      console.log('Services data:', servicesData);
       if (servicesData) {
         setServices(servicesData);
       }
     } catch (error: any) {
-      console.error('Error fetching services:', error);
       toast({
         title: "Error fetching services",
         description: error.message,
@@ -110,7 +105,6 @@ const Services = () => {
       });
     } finally {
       setLoading(false);
-      console.log('Loading finished, services:', services.length);
     }
   };
 
