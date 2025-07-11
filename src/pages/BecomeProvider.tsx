@@ -121,23 +121,34 @@ const BecomeProvider = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary to-primary-glow text-white py-16">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Start Earning with Your Skills
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90">
-              Join thousands of providers serving customers across Namibia
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                Free to Join
-              </Badge>
-              <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                Flexible Hours
-              </Badge>
-              <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                Secure Payments
-              </Badge>
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-between mb-6">
+              <Button 
+                variant="ghost" 
+                onClick={() => navigate("/")}
+                className="text-white hover:bg-white/10 mb-4"
+              >
+                ← Back to Home
+              </Button>
+            </div>
+            <div className="text-center">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+                Start Earning with Your Skills
+              </h1>
+              <p className="text-xl md:text-2xl mb-8 text-white/90">
+                Join thousands of providers serving customers across Namibia
+              </p>
+              <div className="flex flex-wrap justify-center gap-4 mb-8">
+                <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                  Free to Join
+                </Badge>
+                <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                  Flexible Hours
+                </Badge>
+                <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                  Secure Payments
+                </Badge>
+              </div>
             </div>
           </div>
         </div>
