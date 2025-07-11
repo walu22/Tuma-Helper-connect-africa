@@ -188,9 +188,15 @@ const Services = () => {
     }
   };
 
-  // Initial load and category param handling
+  // Initial load and URL param handling
   useEffect(() => {
+    const searchParam = searchParams.get('search');
+    const locationParam = searchParams.get('location');
     const categoryParam = searchParams.get('category');
+    
+    if (searchParam) {
+      setSearchQuery(searchParam);
+    }
     if (categoryParam && categoryParam !== selectedCategory) {
       setSelectedCategory(categoryParam);
     } else {
