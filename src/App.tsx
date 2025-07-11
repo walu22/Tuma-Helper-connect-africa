@@ -19,6 +19,7 @@ import Messages from "./pages/Messages";
 import Favorites from "./pages/Favorites";
 import AdminDashboard from "./pages/AdminDashboard";
 import HowItWorks from "./pages/HowItWorks";
+import Help from "./pages/Help";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/help" element={<Help />} />
             <Route path="/services" element={<Services />} />
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/bookings" element={<Bookings />} />
