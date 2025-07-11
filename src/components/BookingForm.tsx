@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Clock, MapPin, User, Phone, MessageSquare } from 'lucide-react';
+import { Calendar, Clock, MapPin, User, Phone, MessageSquare, CreditCard, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
+import PaymentForm from './PaymentForm';
 
 interface Service {
   id: string;
@@ -30,6 +32,8 @@ interface BookingFormProps {
 
 const BookingForm = ({ service, onClose }: BookingFormProps) => {
   const [loading, setLoading] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [createdBookingId, setCreatedBookingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     booking_date: '',
     booking_time: '09:00',
@@ -86,7 +90,7 @@ const BookingForm = ({ service, onClose }: BookingFormProps) => {
     return basePrice * formData.duration_hours;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
       toast({
@@ -134,15 +138,8 @@ const BookingForm = ({ service, onClose }: BookingFormProps) => {
 
       if (error) throw error;
 
-      toast({
-        title: "Booking created successfully!",
-        description: "Your booking request has been sent to the service provider.",
-      });
-
-      // Navigate to booking confirmation page
-      navigate(`/bookings/${data.id}`);
-      
-      if (onClose) onClose();
+      setCreatedBookingId(data.id);
+      setCurrentStep(2); // Move to payment step
     } catch (error: any) {
       toast({
         title: "Booking failed",
@@ -154,11 +151,52 @@ const BookingForm = ({ service, onClose }: BookingFormProps) => {
     }
   };
 
+  const handlePaymentSuccess = () => {
+    toast({
+      title: "Payment successful!",
+      description: "Your booking has been confirmed and payment processed.",
+    });
+    
+    if (createdBookingId) {
+      navigate(`/bookings/${createdBookingId}`);
+    }
+    
+    if (onClose) onClose();
+  };
+
+  const handleBack = () => {
+    setCurrentStep(1);
+  };
+
   // Get minimum date (today)
   const getMinDate = () => {
     const today = new Date();
     return today.toISOString().split('T')[0];
   };
+
+  if (currentStep === 2 && createdBookingId) {
+    return (
+      <div className="w-full max-w-2xl mx-auto space-y-6">
+        <div className="flex items-center gap-4 mb-6">
+          <Button variant="ghost" onClick={handleBack}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Details
+          </Button>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold">Complete Payment</h3>
+            <p className="text-sm text-muted-foreground">Secure payment for your booking</p>
+          </div>
+        </div>
+        
+        <PaymentForm
+          bookingId={createdBookingId}
+          amount={calculateTotalAmount()}
+          onSuccess={handlePaymentSuccess}
+          onCancel={handleBack}
+        />
+      </div>
+    );
+  }
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
@@ -172,7 +210,7 @@ const BookingForm = ({ service, onClose }: BookingFormProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleBookingSubmit} className="space-y-6">
           {/* Date and Time Selection */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -323,7 +361,14 @@ const BookingForm = ({ service, onClose }: BookingFormProps) => {
               </Button>
             )}
             <Button type="submit" disabled={loading} className="flex-1 btn-hero">
-              {loading ? 'Creating Booking...' : 'Book This Service'}
+              {loading ? (
+                'Creating Booking...'
+              ) : (
+                <>
+                  Continue to Payment
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </>
+              )}
             </Button>
           </div>
         </form>
