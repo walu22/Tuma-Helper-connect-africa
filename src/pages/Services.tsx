@@ -51,14 +51,18 @@ const Services = () => {
   const { toast } = useToast();
 
   useEffect(() => {
+    console.log('🟦 useEffect 1 triggered with searchParams:', searchParams.toString());
     const categoryParam = searchParams.get('category');
     if (categoryParam) {
       setSelectedCategory(categoryParam);
     }
+    console.log('🟦 About to call fetchData from useEffect 1');
     fetchData();
   }, [searchParams]);
 
   useEffect(() => {
+    console.log('🟦 useEffect 2 triggered with selectedCategory:', selectedCategory);
+    console.log('🟦 About to call fetchData from useEffect 2');
     fetchData();
   }, [selectedCategory]);
 
