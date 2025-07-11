@@ -1,17 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, MapPin, Star } from "lucide-react";
+import { Search, MapPin, Star, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("Windhoek, Namibia");
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
-  const handleSearch = () => {
+  useEffect(() => {
+    if (user) {
+      fetchSearchHistory();
+    }
+  }, [user]);
+
+  const fetchSearchHistory = async () => {
+    if (!user) return;
+    
+    const { data } = await supabase
+      .from("search_history")
+      .select("search_query")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(5);
+    
+    if (data) {
+      const suggestions = [...new Set(data.map(item => item.search_query))];
+      setSearchSuggestions(suggestions);
+    }
+  };
+
+  const saveSearchHistory = async (query: string) => {
+    if (!user || !query.trim()) return;
+
+    await supabase
+      .from("search_history")
+      .insert({
+        user_id: user.id,
+        search_query: query,
+        search_filters: { query, location } as any
+      });
+  };
+
+  const handleSearch = async () => {
     if (searchQuery.trim()) {
+      await saveSearchHistory(searchQuery);
       navigate(`/services?search=${encodeURIComponent(searchQuery)}&location=${encodeURIComponent(location)}`);
+      setShowSuggestions(false);
     }
   };
 
@@ -64,10 +105,38 @@ const Hero = () => {
                   type="text"
                   placeholder="What service do you need? (e.g., plumber, house cleaning)"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowSuggestions(e.target.value.length > 0 && searchSuggestions.length > 0);
+                  }}
+                  onFocus={() => setShowSuggestions(searchQuery.length > 0 && searchSuggestions.length > 0)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                   className="pl-12 h-14 text-lg bg-white/90 border-white/30 focus:bg-white"
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                 />
+                
+                {/* Search Suggestions */}
+                {showSuggestions && (
+                  <div className="absolute top-full left-0 right-0 bg-card border border-border rounded-md shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
+                    {searchSuggestions
+                      .filter(suggestion => suggestion.toLowerCase().includes(searchQuery.toLowerCase()))
+                      .map((suggestion, index) => (
+                        <button
+                          key={index}
+                          className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-foreground"
+                          onClick={() => {
+                            setSearchQuery(suggestion);
+                            setShowSuggestions(false);
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-sm text-foreground">{suggestion}</span>
+                          </div>
+                        </button>
+                      ))}
+                  </div>
+                )}
               </div>
               
               <div className="relative">
