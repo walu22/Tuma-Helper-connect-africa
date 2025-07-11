@@ -145,13 +145,13 @@ const AdvancedSearch = ({ onSearch, initialFilters }: AdvancedSearchProps) => {
             
             {/* Search Suggestions */}
             {showSuggestions && (
-              <div className="absolute top-full left-0 right-0 bg-background border border-border rounded-md shadow-lg z-50 max-h-40 overflow-y-auto">
+              <div className="absolute top-full left-0 right-0 bg-card border border-border rounded-md shadow-lg z-50 max-h-40 overflow-y-auto">
                 {searchSuggestions
                   .filter(suggestion => suggestion.toLowerCase().includes(filters.query.toLowerCase()))
                   .map((suggestion, index) => (
                     <button
                       key={index}
-                      className="w-full text-left px-3 py-2 hover:bg-muted transition-colors"
+                      className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-foreground"
                       onClick={() => {
                         updateFilter("query", suggestion);
                         setShowSuggestions(false);
@@ -159,7 +159,7 @@ const AdvancedSearch = ({ onSearch, initialFilters }: AdvancedSearchProps) => {
                     >
                       <div className="flex items-center gap-2">
                         <Clock className="h-3 w-3 text-muted-foreground" />
-                        <span className="text-sm">{suggestion}</span>
+                        <span className="text-sm text-foreground">{suggestion}</span>
                       </div>
                     </button>
                   ))}
