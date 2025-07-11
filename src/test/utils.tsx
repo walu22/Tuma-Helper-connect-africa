@@ -1,12 +1,13 @@
 import React, { ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
+import { screen, fireEvent } from '@testing-library/react'
+import { waitFor } from '@testing-library/dom'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from '@/components/ui/sonner'
 
-// Re-export testing library utilities
-export { screen, fireEvent } from '@testing-library/react'
-export { waitFor } from '@testing-library/react'
+// Re-export testing utilities
+export { screen, fireEvent, waitFor }
 
 // Mock Supabase client with vi.fn() support
 export const createMockSupabase = () => ({
