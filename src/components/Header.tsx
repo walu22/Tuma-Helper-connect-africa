@@ -18,7 +18,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedCityId, setSelectedCityId] = useState<string>('');
   const navigate = useNavigate();
-  const { user, signOut, loading } = useAuth();
+  const { user, signOut, loading, isAdmin } = useAuth();
   const { t } = useLanguage();
 
   return (
@@ -92,12 +92,16 @@ const Header = () => {
                     <Key className="w-4 h-4 mr-2" />
                     API Management
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/admin/dashboard")}>
-                    Admin Dashboard
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/admin/analytics")}>
-                    Advanced Analytics
-                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <>
+                      <DropdownMenuItem onClick={() => navigate("/admin/dashboard")}>
+                        Admin Dashboard
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate("/admin/analytics")}>
+                        Advanced Analytics
+                      </DropdownMenuItem>
+                    </>
+                  )}
                   <DropdownMenuItem onClick={signOut} className="text-destructive">
                     <LogOut className="w-4 h-4 mr-2" />
                     Sign Out
