@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Search, MapPin, Star } from 'lucide-react';
+import { Search, MapPin, Star, Heart, Clock, CheckCircle, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -30,7 +32,14 @@ interface Service {
   };
   profiles: {
     display_name: string | null;
+    avatar_url: string | null;
   };
+  service_images: Array<{
+    id: string;
+    image_url: string;
+    is_primary: boolean;
+  }>;
+  is_favorited?: boolean;
 }
 
 interface ServiceCategory {
@@ -42,12 +51,76 @@ interface ServiceCategory {
 const Services = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<string>('newest');
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  // Fetch favorites for logged-in users
+  const fetchFavorites = async () => {
+    if (!user) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('customer_favorites')
+        .select('provider_id')
+        .eq('customer_id', user.id);
+      
+      if (error) throw error;
+      setFavorites(new Set(data.map(fav => fav.provider_id)));
+    } catch (error: any) {
+      console.error('Error fetching favorites:', error);
+    }
+  };
+
+  // Toggle favorite
+  const toggleFavorite = async (serviceId: string, providerId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) {
+      toast({
+        title: "Please sign in",
+        description: "You need to be signed in to save favorites",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const isFavorited = favorites.has(providerId);
+      
+      if (isFavorited) {
+        await supabase
+          .from('customer_favorites')
+          .delete()
+          .eq('customer_id', user.id)
+          .eq('provider_id', providerId);
+        
+        setFavorites(prev => {
+          const newFavorites = new Set(prev);
+          newFavorites.delete(providerId);
+          return newFavorites;
+        });
+      } else {
+        await supabase
+          .from('customer_favorites')
+          .insert({ customer_id: user.id, provider_id: providerId });
+        
+        setFavorites(prev => new Set([...prev, providerId]));
+      }
+    } catch (error: any) {
+      console.error('Error toggling favorite:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update favorites",
+        variant: "destructive",
+      });
+    }
+  };
 
   // Fetch data function
   const fetchData = async () => {
@@ -69,10 +142,25 @@ const Services = () => {
         .select(`
           *,
           service_categories (name, icon),
-          profiles (display_name)
+          profiles (display_name, avatar_url),
+          service_images (id, image_url, is_primary)
         `)
-        .eq('is_available', true)
-        .order('created_at', { ascending: false });
+        .eq('is_available', true);
+
+      // Apply sorting
+      switch (sortBy) {
+        case 'rating':
+          query = query.order('rating', { ascending: false });
+          break;
+        case 'price_low':
+          query = query.order('price_from', { ascending: true });
+          break;
+        case 'price_high':
+          query = query.order('price_from', { ascending: false });
+          break;
+        default:
+          query = query.order('created_at', { ascending: false });
+      }
 
       // Apply category filter
       if (selectedCategory && selectedCategory !== 'all') {
@@ -83,6 +171,11 @@ const Services = () => {
       if (servicesError) throw servicesError;
 
       setServices(servicesData || []);
+      
+      // Fetch favorites for logged-in users
+      if (user) {
+        fetchFavorites();
+      }
     } catch (error: any) {
       console.error('Error fetching data:', error);
       toast({
@@ -105,10 +198,10 @@ const Services = () => {
     }
   }, [searchParams]);
 
-  // Refetch when category changes
+  // Refetch when category or sort changes
   useEffect(() => {
     fetchData();
-  }, [selectedCategory]);
+  }, [selectedCategory, sortBy]);
 
   // Filter services based on search query
   const filteredServices = services.filter(service =>
@@ -187,14 +280,31 @@ const Services = () => {
                 ))}
               </SelectContent>
             </Select>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-full md:w-[180px]">
+                <Filter className="w-4 h-4 mr-2" />
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="newest">Newest First</SelectItem>
+                <SelectItem value="rating">Highest Rated</SelectItem>
+                <SelectItem value="price_low">Price: Low to High</SelectItem>
+                <SelectItem value="price_high">Price: High to Low</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
         {/* Results Count */}
-        <div className="mb-6">
+        <div className="mb-6 flex justify-between items-center">
           <p className="text-muted-foreground">
             {filteredServices.length} service{filteredServices.length !== 1 ? 's' : ''} found
           </p>
+          {user && (
+            <p className="text-sm text-muted-foreground">
+              {favorites.size} favorite{favorites.size !== 1 ? 's' : ''}
+            </p>
+          )}
         </div>
 
         {/* Services Grid */}
@@ -213,53 +323,122 @@ const Services = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredServices.map((service) => (
-              <Card 
-                key={service.id} 
-                className="cursor-pointer hover:shadow-lg transition-shadow duration-200"
-                onClick={() => navigate(`/services/${service.id}`)}
-              >
-                <div className="h-48 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                  <div className="text-6xl text-primary/30">🛠️</div>
-                </div>
-                <CardHeader className="pb-2">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg line-clamp-1">{service.title}</CardTitle>
-                      <CardDescription className="line-clamp-2 mt-1">
-                        {service.description}
-                      </CardDescription>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 mt-2">
-                    <Badge variant="secondary" className="text-xs">
-                      {service.service_categories.name}
-                    </Badge>
-                    {service.rating > 0 && (
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <Star className="w-3 h-3 fill-current text-yellow-400" />
-                        <span>{service.rating.toFixed(1)}</span>
-                        <span>({service.total_reviews})</span>
+            {filteredServices.map((service) => {
+              const primaryImage = service.service_images?.find(img => img.is_primary) || service.service_images?.[0];
+              const isFavorited = favorites.has(service.provider_id);
+              
+              return (
+                <Card 
+                  key={service.id} 
+                  className="group cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden border-0 shadow-lg"
+                  onClick={() => navigate(`/services/${service.id}`)}
+                >
+                  {/* Service Image with Favorite Button */}
+                  <div className="relative h-48 overflow-hidden">
+                    {primaryImage ? (
+                      <img 
+                        src={primaryImage.image_url} 
+                        alt={service.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                        <div className="text-6xl opacity-30">🛠️</div>
                       </div>
                     )}
+                    
+                    {/* Favorite Button */}
+                    <button
+                      onClick={(e) => toggleFavorite(service.id, service.provider_id, e)}
+                      className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm transition-all duration-200 ${
+                        isFavorited 
+                          ? 'bg-red-500 text-white' 
+                          : 'bg-white/80 text-gray-600 hover:bg-white hover:text-red-500'
+                      }`}
+                    >
+                      <Heart className={`w-4 h-4 ${isFavorited ? 'fill-current' : ''}`} />
+                    </button>
+
+                    {/* Verified Badge */}
+                    <div className="absolute top-3 left-3">
+                      <Badge className="bg-green-500 text-white border-0">
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Verified
+                      </Badge>
+                    </div>
+
+                    {/* Availability Indicator */}
+                    <div className="absolute bottom-3 left-3">
+                      <Badge variant="secondary" className="bg-white/90 text-gray-800">
+                        <Clock className="w-3 h-3 mr-1" />
+                        Available Today
+                      </Badge>
+                    </div>
                   </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <MapPin className="w-3 h-3" />
-                      <span>{service.location}</span>
+
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <CardTitle className="text-lg font-semibold line-clamp-1 group-hover:text-primary transition-colors">
+                          {service.title}
+                        </CardTitle>
+                        <CardDescription className="line-clamp-2 mt-1 text-sm">
+                          {service.description}
+                        </CardDescription>
+                      </div>
                     </div>
-                    <div className="text-lg font-semibold text-primary">
-                      {formatPrice(service.price_from, service.price_to, service.price_unit)}
+                    
+                    {/* Rating and Category */}
+                    <div className="flex items-center justify-between mt-3">
+                      <Badge variant="outline" className="text-xs">
+                        {service.service_categories.name}
+                      </Badge>
+                      {service.rating > 0 && (
+                        <div className="flex items-center gap-1 text-sm">
+                          <Star className="w-4 h-4 fill-current text-yellow-400" />
+                          <span className="font-medium">{service.rating.toFixed(1)}</span>
+                          <span className="text-muted-foreground">({service.total_reviews})</span>
+                        </div>
+                      )}
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      by {service.profiles.display_name || 'Service Provider'}
+                  </CardHeader>
+
+                  <CardContent className="pt-0">
+                    {/* Provider Info */}
+                    <div className="flex items-center gap-3 mb-3 p-3 bg-muted/50 rounded-lg">
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage src={service.profiles.avatar_url || ''} />
+                        <AvatarFallback className="text-xs">
+                          {service.profiles.display_name?.charAt(0) || 'P'}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">
+                          {service.profiles.display_name || 'Service Provider'}
+                        </p>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <MapPin className="w-3 h-3" />
+                          <span>{service.location}</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+
+                    {/* Price */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-xl font-bold text-primary">
+                          {formatPrice(service.price_from, service.price_to, service.price_unit)}
+                        </div>
+                        <p className="text-xs text-muted-foreground">Starting price</p>
+                      </div>
+                      <Button size="sm" className="shrink-0">
+                        Book Now
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>
