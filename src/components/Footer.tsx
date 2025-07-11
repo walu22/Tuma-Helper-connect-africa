@@ -77,10 +77,10 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary-glow rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">D</span>
+                <span className="text-white font-bold text-lg">T</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold">Dial a Service</h1>
+                <h1 className="text-xl font-bold">Tuma Helper</h1>
                 <p className="text-sm text-white/70">One tap, every service</p>
               </div>
             </div>
@@ -98,7 +98,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3 text-white/80">
                 <Mail className="w-5 h-5 text-primary" />
-                <span>hello@dialaservice.na</span>
+                <span>hello@tumahelper.na</span>
               </div>
             </div>
           </div>
@@ -178,7 +178,7 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-white/80">
-              © 2024 Dial a Service. All rights reserved.
+              © 2024 Tuma Helper. All rights reserved.
             </div>
             <div className="flex space-x-6">
               <button className="text-white/80 hover:text-white transition-colors">

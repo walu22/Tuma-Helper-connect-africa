@@ -15,10 +15,10 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate("/")}>
             <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary-glow rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">D</span>
+              <span className="text-white font-bold text-lg">T</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">Dial a Service</h1>
+              <h1 className="text-xl font-bold text-foreground">Tuma Helper</h1>
               <p className="text-xs text-muted-foreground">One tap, every service</p>
             </div>
           </div>
