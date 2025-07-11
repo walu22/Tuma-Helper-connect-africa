@@ -171,6 +171,13 @@ const Services = () => {
       <Header />
       
       <div className="container mx-auto px-4 py-8">
+        <div className="text-center p-8 bg-red-100 border border-red-300 rounded mb-4">
+          <h2 className="text-2xl font-bold text-red-800">Services Component Test</h2>
+          <p className="text-red-600">If you can see this, the component is rendering!</p>
+          <p className="text-sm mt-2">Loading: {loading ? 'true' : 'false'}</p>
+          <p className="text-sm">Services count: {services.length}</p>
+          <p className="text-sm">Categories count: {categories.length}</p>
+        </div>
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Services in Windhoek</h1>
