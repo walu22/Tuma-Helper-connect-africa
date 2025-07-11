@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -10,69 +11,121 @@ import {
   ArrowRight,
   Users,
   Clock,
-  Shield
+  Shield,
+  Flower,
+  Heart,
+  Camera,
+  BookOpen,
+  Laptop,
+  Truck
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+
+interface ServiceCategory {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  serviceCount?: number;
+}
+
+const iconMap: { [key: string]: any } = {
+  home: Home,
+  car: Car,
+  scissors: Scissors,
+  sparkles: Sparkles,
+  laptop: Laptop,
+  truck: Truck,
+  wrench: Wrench,
+  flower: Flower,
+  heart: Heart,
+  camera: Camera,
+  'book-open': BookOpen,
+  zap: Zap,
+};
+
+const colorMap: { [key: string]: string } = {
+  'Home Services': 'from-blue-500 to-blue-600',
+  'Beauty & Wellness': 'from-pink-500 to-pink-600',
+  'Automotive': 'from-purple-500 to-purple-600',
+  'Delivery & Moving': 'from-orange-500 to-orange-600',
+  'Tech Support': 'from-cyan-500 to-cyan-600',
+  'Gardening': 'from-green-500 to-green-600',
+  'Tutoring': 'from-indigo-500 to-indigo-600',
+  'Events': 'from-red-500 to-red-600',
+  'Pet Services': 'from-yellow-500 to-yellow-600',
+  'Handyman': 'from-gray-500 to-gray-600',
+};
 
 const ServiceCategories = () => {
   const navigate = useNavigate();
-  
-  const categories = [
-    {
-      icon: Home,
-      title: "House Cleaning",
-      description: "Professional home cleaning services",
-      providers: "120+ providers",
-      avgTime: "2-3 hours",
-      services: ["Deep cleaning", "Regular maintenance", "Move-in/out cleaning"],
-      color: "from-blue-500 to-blue-600"
-    },
-    {
-      icon: Wrench,
-      title: "Plumbing",
-      description: "Emergency and scheduled plumbing services",
-      providers: "85+ providers",
-      avgTime: "1-2 hours",
-      services: ["Leak repairs", "Installation", "Emergency callouts"],
-      color: "from-red-500 to-red-600"
-    },
-    {
-      icon: Zap,
-      title: "Electrical",
-      description: "Certified electricians for all your needs",
-      providers: "95+ providers",
-      avgTime: "1-3 hours",
-      services: ["Wiring", "Appliance installation", "Fault finding"],
-      color: "from-yellow-500 to-yellow-600"
-    },
-    {
-      icon: Sparkles,
-      title: "Gardening",
-      description: "Garden maintenance and landscaping",
-      providers: "70+ providers",
-      avgTime: "2-4 hours",
-      services: ["Lawn mowing", "Pruning", "Garden design"],
-      color: "from-green-500 to-green-600"
-    },
-    {
-      icon: Scissors,
-      title: "Beauty & Wellness",
-      description: "Personal care services at your location",
-      providers: "60+ providers",
-      avgTime: "1-2 hours",
-      services: ["Hair styling", "Massage", "Nails"],
-      color: "from-pink-500 to-pink-600"
-    },
-    {
-      icon: Car,
-      title: "Car Services",
-      description: "Vehicle maintenance and detailing",
-      providers: "45+ providers",
-      avgTime: "1-4 hours",
-      services: ["Car wash", "Detailing", "Minor repairs"],
-      color: "from-purple-500 to-purple-600"
+  const [categories, setCategories] = useState<ServiceCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      // Fetch categories with service counts
+      const { data: categoriesData, error } = await supabase
+        .from('service_categories')
+        .select(`
+          id,
+          name,
+          description,
+          icon,
+          services (count)
+        `)
+        .order('name');
+
+      if (error) throw error;
+      
+      if (categoriesData) {
+        // Map the data and add service counts
+        const mappedCategories = categoriesData.map(category => ({
+          ...category,
+          serviceCount: category.services?.length || 0
+        }));
+        setCategories(mappedCategories.slice(0, 6)); // Show first 6 categories
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-gradient-to-b from-background to-muted/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+              Browse Our Services
+            </h2>
+            <div className="h-6 bg-muted animate-pulse rounded w-96 mx-auto"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, i) => (
+              <Card key={i} className="animate-pulse">
+                <CardHeader className="pb-4">
+                  <div className="w-16 h-16 bg-muted rounded-2xl mb-4"></div>
+                  <div className="h-6 bg-muted rounded mb-2"></div>
+                  <div className="h-4 bg-muted rounded w-3/4"></div>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-24 bg-muted rounded"></div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-gradient-to-b from-background to-muted/20">
@@ -87,20 +140,21 @@ const ServiceCategories = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category, index) => {
-            const IconComponent = category.icon;
+          {categories.map((category) => {
+            const IconComponent = iconMap[category.icon] || Home;
+            const colorClass = colorMap[category.name] || 'from-gray-500 to-gray-600';
             return (
               <Card 
-                key={index} 
+                key={category.id} 
                 className="service-card group cursor-pointer hover:scale-105 transition-all duration-300"
-                onClick={() => navigate(`/services/${category.title.toLowerCase().replace(/\s+/g, '-')}`)}
+                onClick={() => navigate(`/services?category=${category.id}`)}
               >
                 <CardHeader className="pb-4">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${category.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${colorClass} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                     <IconComponent className="w-8 h-8 text-white" />
                   </div>
                   <CardTitle className="text-xl font-bold text-foreground">
-                    {category.title}
+                    {category.name}
                   </CardTitle>
                   <CardDescription className="text-muted-foreground">
                     {category.description}
@@ -111,21 +165,17 @@ const ServiceCategories = () => {
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center space-x-1 text-muted-foreground">
                       <Users className="w-4 h-4" />
-                      <span>{category.providers}</span>
+                      <span>{category.serviceCount || 0} services</span>
                     </div>
                     <div className="flex items-center space-x-1 text-muted-foreground">
-                      <Clock className="w-4 h-4" />
-                      <span>{category.avgTime}</span>
+                      <Shield className="w-4 h-4" />
+                      <span>Verified</span>
                     </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    {category.services.map((service, serviceIndex) => (
-                      <div key={serviceIndex} className="flex items-center space-x-2 text-sm text-muted-foreground">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                        <span>{service}</span>
-                      </div>
-                    ))}
+                  <div className="text-sm text-muted-foreground min-h-[60px] flex items-center">
+                    Professional {category.name.toLowerCase()} services available in Windhoek. 
+                    All providers are background-checked and rated by our community.
                   </div>
                   
                   <Button 

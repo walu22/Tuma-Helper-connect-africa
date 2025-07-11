@@ -44,6 +44,131 @@ export type Database = {
         }
         Relationships: []
       }
+      service_categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      service_images: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string
+          is_primary: boolean | null
+          service_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url: string
+          is_primary?: boolean | null
+          service_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_primary?: boolean | null
+          service_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_images_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      services: {
+        Row: {
+          category_id: string
+          created_at: string
+          description: string
+          id: string
+          is_available: boolean | null
+          location: string
+          price_from: number
+          price_to: number | null
+          price_unit: string | null
+          provider_id: string
+          rating: number | null
+          title: string
+          total_reviews: number | null
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          description: string
+          id?: string
+          is_available?: boolean | null
+          location: string
+          price_from: number
+          price_to?: number | null
+          price_unit?: string | null
+          provider_id: string
+          rating?: number | null
+          title: string
+          total_reviews?: number | null
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_available?: boolean | null
+          location?: string
+          price_from?: number
+          price_to?: number | null
+          price_unit?: string | null
+          provider_id?: string
+          rating?: number | null
+          title?: string
+          total_reviews?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "services_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "service_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "services_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
