@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BookingForm from '@/components/BookingForm';
 
 interface ServiceDetail {
   id: string;
@@ -38,6 +40,7 @@ const ServiceDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [service, setService] = useState<ServiceDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showBookingForm, setShowBookingForm] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -94,11 +97,7 @@ const ServiceDetail = () => {
       return;
     }
     
-    // TODO: Navigate to booking flow
-    toast({
-      title: "Booking feature coming soon!",
-      description: "The booking system is currently under development.",
-    });
+    setShowBookingForm(true);
   };
 
   const handleContactProvider = () => {
@@ -244,13 +243,28 @@ const ServiceDetail = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Button 
-                  className="w-full btn-hero"
-                  onClick={handleBookService}
-                >
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Book This Service
-                </Button>
+                <Dialog open={showBookingForm} onOpenChange={setShowBookingForm}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      className="w-full btn-hero"
+                      onClick={handleBookService}
+                    >
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Book This Service
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>Book Service</DialogTitle>
+                    </DialogHeader>
+                    {service && (
+                      <BookingForm 
+                        service={service}
+                        onClose={() => setShowBookingForm(false)}
+                      />
+                    )}
+                  </DialogContent>
+                </Dialog>
                 
                 <Button 
                   variant="outline" 
