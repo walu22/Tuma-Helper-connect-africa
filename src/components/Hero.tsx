@@ -111,7 +111,7 @@ const Hero = () => {
                   }}
                   onFocus={() => setShowSuggestions(searchQuery.length > 0 && searchSuggestions.length > 0)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                  className="pl-12 h-14 text-lg bg-white/90 border-white/30 focus:bg-white"
+                  className="pl-12 h-14 text-lg bg-white/90 border-white/30 focus:bg-white text-gray-900 placeholder:text-gray-600"
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                 />
                 
@@ -145,7 +145,7 @@ const Hero = () => {
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="pl-12 h-14 text-lg bg-white/90 border-white/30 focus:bg-white"
+                  className="pl-12 h-14 text-lg bg-white/90 border-white/30 focus:bg-white text-gray-900 placeholder:text-gray-600"
                 />
               </div>
               
