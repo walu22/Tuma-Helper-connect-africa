@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_analytics: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          metric_metadata: Json | null
+          metric_name: string
+          metric_value: number
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          metric_metadata?: Json | null
+          metric_name: string
+          metric_value: number
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          metric_metadata?: Json | null
+          metric_name?: string
+          metric_value?: number
+        }
+        Relationships: []
+      }
       booking_status_history: {
         Row: {
           booking_id: string
@@ -159,6 +186,99 @@ export type Database = {
         }
         Relationships: []
       }
+      error_logs: {
+        Row: {
+          created_at: string
+          error_message: string
+          error_type: string
+          id: string
+          page_url: string | null
+          stack_trace: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          error_message: string
+          error_type: string
+          id?: string
+          page_url?: string | null
+          stack_trace?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          error_message?: string
+          error_type?: string
+          id?: string
+          page_url?: string | null
+          stack_trace?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      financial_reports: {
+        Row: {
+          created_at: string
+          data: Json
+          generated_by: string
+          id: string
+          period_end: string
+          period_start: string
+          report_type: string
+        }
+        Insert: {
+          created_at?: string
+          data: Json
+          generated_by: string
+          id?: string
+          period_end: string
+          period_start: string
+          report_type: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          generated_by?: string
+          id?: string
+          period_end?: string
+          period_start?: string
+          report_type?: string
+        }
+        Relationships: []
+      }
+      loyalty_program: {
+        Row: {
+          created_at: string
+          id: string
+          points_balance: number | null
+          tier: string | null
+          total_earned_points: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          points_balance?: number | null
+          tier?: string | null
+          total_earned_points?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          points_balance?: number | null
+          tier?: string | null
+          total_earned_points?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           attachment_url: string | null
@@ -231,6 +351,60 @@ export type Database = {
         }
         Relationships: []
       }
+      performance_metrics: {
+        Row: {
+          id: string
+          metadata: Json | null
+          metric_name: string
+          metric_value: number
+          timestamp: string
+        }
+        Insert: {
+          id?: string
+          metadata?: Json | null
+          metric_name: string
+          metric_value: number
+          timestamp?: string
+        }
+        Update: {
+          id?: string
+          metadata?: Json | null
+          metric_name?: string
+          metric_value?: number
+          timestamp?: string
+        }
+        Relationships: []
+      }
+      pricing_suggestions: {
+        Row: {
+          confidence_score: number
+          created_at: string
+          factors: Json
+          id: string
+          is_applied: boolean | null
+          service_id: string
+          suggested_price: number
+        }
+        Insert: {
+          confidence_score: number
+          created_at?: string
+          factors: Json
+          id?: string
+          is_applied?: boolean | null
+          service_id: string
+          suggested_price: number
+        }
+        Update: {
+          confidence_score?: number
+          created_at?: string
+          factors?: Json
+          id?: string
+          is_applied?: boolean | null
+          service_id?: string
+          suggested_price?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           address: string | null
@@ -288,6 +462,51 @@ export type Database = {
           updated_at?: string
           user_id?: string
           user_type?: string | null
+        }
+        Relationships: []
+      }
+      promotional_campaigns: {
+        Row: {
+          created_at: string
+          description: string | null
+          discount_type: string
+          discount_value: number
+          end_date: string
+          id: string
+          is_active: boolean | null
+          max_usage: number | null
+          name: string
+          start_date: string
+          target_audience: Json | null
+          usage_count: number | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          discount_type: string
+          discount_value: number
+          end_date: string
+          id?: string
+          is_active?: boolean | null
+          max_usage?: number | null
+          name: string
+          start_date: string
+          target_audience?: Json | null
+          usage_count?: number | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          end_date?: string
+          id?: string
+          is_active?: boolean | null
+          max_usage?: number | null
+          name?: string
+          start_date?: string
+          target_audience?: Json | null
+          usage_count?: number | null
         }
         Relationships: []
       }
@@ -793,6 +1012,45 @@ export type Database = {
           },
         ]
       }
+      service_packages: {
+        Row: {
+          created_at: string
+          description: string
+          discount_percentage: number | null
+          id: string
+          is_active: boolean | null
+          name: string
+          package_price: number
+          provider_id: string
+          service_ids: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          discount_percentage?: number | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          package_price: number
+          provider_id: string
+          service_ids: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          discount_percentage?: number | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          package_price?: number
+          provider_id?: string
+          service_ids?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           category_id: string
@@ -858,6 +1116,78 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      smart_recommendations: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          is_clicked: boolean | null
+          is_shown: boolean | null
+          recommendation_type: string
+          score: number
+          user_id: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          id?: string
+          is_clicked?: boolean | null
+          is_shown?: boolean | null
+          recommendation_type: string
+          score: number
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          is_clicked?: boolean | null
+          is_shown?: boolean | null
+          recommendation_type?: string
+          score?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          assigned_admin_id: string | null
+          created_at: string
+          customer_id: string
+          description: string
+          id: string
+          priority: string
+          resolution: string | null
+          status: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_admin_id?: string | null
+          created_at?: string
+          customer_id: string
+          description: string
+          id?: string
+          priority?: string
+          resolution?: string | null
+          status?: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_admin_id?: string | null
+          created_at?: string
+          customer_id?: string
+          description?: string
+          id?: string
+          priority?: string
+          resolution?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       training_modules: {
         Row: {
