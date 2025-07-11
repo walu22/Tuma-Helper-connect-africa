@@ -18,6 +18,8 @@ interface Profile {
   country?: string;
   is_verified?: boolean;
   kyc_status?: 'pending' | 'submitted' | 'approved' | 'rejected';
+  created_at?: string;
+  updated_at?: string;
 }
 
 interface AuthContextType {
@@ -77,6 +79,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         country: data.country,
         is_verified: data.is_verified,
         kyc_status: data.kyc_status as 'pending' | 'submitted' | 'approved' | 'rejected',
+        created_at: data.created_at,
+        updated_at: data.updated_at,
       };
 
       return profile;
