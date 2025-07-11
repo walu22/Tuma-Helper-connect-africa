@@ -316,31 +316,46 @@ const AdminDashboard = () => {
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Revenue Trends</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-64 flex items-center justify-center text-muted-foreground">
-                    <PieChart className="h-16 w-16 mb-4" />
-                    <p>Revenue analytics will be displayed here</p>
-                  </div>
-                </CardContent>
-              </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  Analytics Overview
+                  <Button onClick={() => window.open('/admin/analytics', '_blank')} variant="outline">
+                    <BarChart3 className="h-4 w-4 mr-2" />
+                    Open Advanced Analytics
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid lg:grid-cols-2 gap-6">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Revenue Trends</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-64 flex flex-col items-center justify-center text-muted-foreground">
+                        <PieChart className="h-16 w-16 mb-4" />
+                        <p className="text-center">Basic revenue overview available here.</p>
+                        <p className="text-sm text-center mt-2">For detailed analytics, use Advanced Analytics.</p>
+                      </div>
+                    </CardContent>
+                  </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>User Growth</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-64 flex items-center justify-center text-muted-foreground">
-                    <BarChart3 className="h-16 w-16 mb-4" />
-                    <p>User growth analytics will be displayed here</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>User Growth</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-64 flex flex-col items-center justify-center text-muted-foreground">
+                        <BarChart3 className="h-16 w-16 mb-4" />
+                        <p className="text-center">Basic user growth metrics available here.</p>
+                        <p className="text-sm text-center mt-2">For detailed analytics, use Advanced Analytics.</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="users" className="space-y-6">

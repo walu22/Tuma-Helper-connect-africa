@@ -95,6 +95,9 @@ const Header = () => {
                   <DropdownMenuItem onClick={() => navigate("/admin/dashboard")}>
                     Admin Dashboard
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/admin/analytics")}>
+                    Advanced Analytics
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={signOut} className="text-destructive">
                     <LogOut className="w-4 h-4 mr-2" />
                     Sign Out

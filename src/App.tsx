@@ -18,6 +18,7 @@ import TrainingCenter from "./pages/TrainingCenter";
 import Messages from "./pages/Messages";
 import Favorites from "./pages/Favorites";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdvancedAnalytics from "./pages/AdvancedAnalytics";
 import HowItWorks from "./pages/HowItWorks";
 import Help from "./pages/Help";
 import { AuthProvider } from "./hooks/useAuth";
@@ -54,6 +55,7 @@ const App = () => (
               <Route path="/messages" element={<Messages />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/analytics" element={<AdvancedAnalytics />} />
               <Route path="/corporate-dashboard" element={
                 <div className="min-h-screen bg-gradient-to-br from-background to-muted">
                   <div className="sticky top-0 z-50 w-full"><Header /></div>
