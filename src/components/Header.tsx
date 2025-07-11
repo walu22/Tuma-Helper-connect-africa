@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Menu, X, MapPin } from "lucide-react";
+import { Search, Menu, X, MapPin, User, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, signOut, loading } = useAuth();
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -45,12 +53,37 @@ const Header = () => {
               <MapPin className="w-4 h-4" />
               <span>Windhoek, Namibia</span>
             </div>
-            <Button variant="outline" onClick={() => navigate("/login")}>
-              Sign In
-            </Button>
-            <Button className="btn-hero" onClick={() => navigate("/register")}>
-              Sign Up
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="flex items-center space-x-2">
+                    <User className="w-4 h-4" />
+                    <span>{user.email}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => navigate("/profile")}>
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/bookings")}>
+                    My Bookings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={signOut} className="text-destructive">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button variant="outline" onClick={() => navigate("/auth")}>
+                  Sign In
+                </Button>
+                <Button className="btn-hero" onClick={() => navigate("/auth")}>
+                  Sign Up
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -82,14 +115,33 @@ const Header = () => {
                 <MapPin className="w-4 h-4" />
                 <span>Windhoek, Namibia</span>
               </div>
-              <div className="flex space-x-2 px-4">
-                <Button variant="outline" className="flex-1" onClick={() => navigate("/login")}>
-                  Sign In
-                </Button>
-                <Button className="btn-hero flex-1" onClick={() => navigate("/register")}>
-                  Sign Up
-                </Button>
-              </div>
+              {user ? (
+                <div className="px-4 space-y-2">
+                  <div className="text-sm text-muted-foreground">
+                    Signed in as {user.email}
+                  </div>
+                  <Button variant="outline" className="w-full justify-start" onClick={() => navigate("/profile")}>
+                    <User className="w-4 h-4 mr-2" />
+                    Profile
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start" onClick={() => navigate("/bookings")}>
+                    My Bookings
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start text-destructive" onClick={signOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex space-x-2 px-4">
+                  <Button variant="outline" className="flex-1" onClick={() => navigate("/auth")}>
+                    Sign In
+                  </Button>
+                  <Button className="btn-hero flex-1" onClick={() => navigate("/auth")}>
+                    Sign Up
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         )}
