@@ -2,12 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Dial a Service Design System - Southern African Service Platform */
 
 @layer base {
   :root {
+    /* Core brand colors - Modern African-inspired palette */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -17,26 +16,41 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Vibrant orange representing African sunset */
+    --primary: 24 95% 53%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 24 100% 65%;
 
+    /* Secondary - Warm terracotta */
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
+    /* Accent - Deep teal for trust and reliability */
+    --accent: 180 84% 40%;
+    --accent-foreground: 0 0% 100%;
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 24 95% 53%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Custom design tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(24 95% 53%), hsl(24 100% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(24 95% 53%), hsl(180 84% 40%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    
+    --shadow-soft: 0 4px 12px -4px hsl(24 95% 53% / 0.15);
+    --shadow-medium: 0 8px 25px -8px hsl(24 95% 53% / 0.25);
+    --shadow-strong: 0 12px 40px -12px hsl(24 95% 53% / 0.35);
+    
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -91,6 +105,11 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Dark mode adjustments */
+    --primary: 24 95% 53%;
+    --primary-glow: 24 100% 65%;
+    --accent: 180 84% 40%;
   }
 }
 
@@ -101,5 +120,26 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Hero button variant */
+  .btn-hero {
+    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground;
+    @apply shadow-[var(--shadow-medium)] hover:shadow-[var(--shadow-strong)];
+    @apply transition-[var(--transition-smooth)] hover:scale-105;
+  }
+  
+  /* Service card styling */
+  .service-card {
+    @apply bg-gradient-to-br from-card to-muted/20;
+    @apply shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)];
+    @apply transition-[var(--transition-smooth)] hover:-translate-y-1;
+  }
+  
+  /* Glass effect for overlays */
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
   }
 }
