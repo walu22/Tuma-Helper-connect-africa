@@ -40,7 +40,6 @@ interface ServiceCategory {
 }
 
 const Services = () => {
-  console.log('Services component rendering');
   const [services, setServices] = useState<Service[]>([]);
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,7 +62,6 @@ const Services = () => {
   }, [selectedCategory]);
 
   const fetchData = async () => {
-    console.log('Fetching data...');
     setLoading(true);
     try {
       // Fetch categories
@@ -72,7 +70,7 @@ const Services = () => {
         .select('*')
         .order('name');
 
-      console.log('Categories:', categoriesData, 'Error:', categoriesError);
+      if (categoriesError) throw categoriesError;
       if (categoriesData) {
         setCategories(categoriesData);
       }
@@ -95,15 +93,12 @@ const Services = () => {
 
       const { data: servicesData, error } = await query;
 
-      console.log('Services query result:', servicesData, 'Error:', error);
       if (error) throw error;
 
       if (servicesData) {
         setServices(servicesData);
-        console.log('Services set:', servicesData.length);
       }
     } catch (error: any) {
-      console.error('Error in fetchData:', error);
       toast({
         title: "Error fetching services",
         description: error.message,
@@ -111,7 +106,6 @@ const Services = () => {
       });
     } finally {
       setLoading(false);
-      console.log('Loading finished');
     }
   };
 
@@ -120,8 +114,6 @@ const Services = () => {
     service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
     service.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  console.log('Filtered services:', filteredServices.length, 'Total services:', services.length);
 
   const formatPrice = (priceFrom: number, priceTo: number | null, unit: string) => {
     if (priceTo && priceTo !== priceFrom) {
