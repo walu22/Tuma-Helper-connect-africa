@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          points_reward: number | null
+          rarity: string | null
+          requirements: Json | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          points_reward?: number | null
+          rarity?: string | null
+          requirements?: Json | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          points_reward?: number | null
+          rarity?: string | null
+          requirements?: Json | null
+        }
+        Relationships: []
+      }
       admin_analytics: {
         Row: {
           created_at: string
@@ -38,6 +77,36 @@ export type Database = {
           metric_metadata?: Json | null
           metric_name?: string
           metric_value?: number
+        }
+        Relationships: []
+      }
+      ai_recommendations: {
+        Row: {
+          created_at: string
+          id: string
+          interaction_type: string | null
+          reasoning: Json | null
+          recommendation_score: number
+          service_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          interaction_type?: string | null
+          reasoning?: Json | null
+          recommendation_score: number
+          service_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          interaction_type?: string | null
+          reasoning?: Json | null
+          recommendation_score?: number
+          service_id?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -77,6 +146,54 @@ export type Database = {
           permissions?: Json
           rate_limit?: number | null
           webhook_url?: string | null
+        }
+        Relationships: []
+      }
+      blockchain_transactions: {
+        Row: {
+          amount: number
+          block_number: number | null
+          booking_id: string | null
+          confirmed_at: string | null
+          created_at: string
+          currency: string
+          from_address: string
+          gas_fee: number | null
+          id: string
+          network: string
+          status: string | null
+          to_address: string
+          transaction_hash: string
+        }
+        Insert: {
+          amount: number
+          block_number?: number | null
+          booking_id?: string | null
+          confirmed_at?: string | null
+          created_at?: string
+          currency: string
+          from_address: string
+          gas_fee?: number | null
+          id?: string
+          network: string
+          status?: string | null
+          to_address: string
+          transaction_hash: string
+        }
+        Update: {
+          amount?: number
+          block_number?: number | null
+          booking_id?: string | null
+          confirmed_at?: string | null
+          created_at?: string
+          currency?: string
+          from_address?: string
+          gas_fee?: number | null
+          id?: string
+          network?: string
+          status?: string | null
+          to_address?: string
+          transaction_hash?: string
         }
         Relationships: []
       }
@@ -259,6 +376,69 @@ export type Database = {
         }
         Relationships: []
       }
+      community_members: {
+        Row: {
+          community_id: string
+          id: string
+          joined_at: string
+          role: string | null
+          user_id: string
+        }
+        Insert: {
+          community_id: string
+          id?: string
+          joined_at?: string
+          role?: string | null
+          user_id: string
+        }
+        Update: {
+          community_id?: string
+          id?: string
+          joined_at?: string
+          role?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      community_posts: {
+        Row: {
+          author_id: string
+          comments_count: number | null
+          community_id: string
+          content: string
+          created_at: string
+          id: string
+          likes_count: number | null
+          post_type: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          comments_count?: number | null
+          community_id: string
+          content: string
+          created_at?: string
+          id?: string
+          likes_count?: number | null
+          post_type?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          comments_count?: number | null
+          community_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          likes_count?: number | null
+          post_type?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       corporate_accounts: {
         Row: {
           billing_address: Json | null
@@ -311,6 +491,36 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      crypto_wallets: {
+        Row: {
+          blockchain_network: string
+          created_at: string
+          id: string
+          is_verified: boolean | null
+          user_id: string
+          wallet_address: string
+          wallet_type: string
+        }
+        Insert: {
+          blockchain_network: string
+          created_at?: string
+          id?: string
+          is_verified?: boolean | null
+          user_id: string
+          wallet_address: string
+          wallet_type: string
+        }
+        Update: {
+          blockchain_network?: string
+          created_at?: string
+          id?: string
+          is_verified?: boolean | null
+          user_id?: string
+          wallet_address?: string
+          wallet_type?: string
+        }
+        Relationships: []
       }
       customer_favorites: {
         Row: {
@@ -508,6 +718,117 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      iot_devices: {
+        Row: {
+          capabilities: Json | null
+          created_at: string
+          device_model: string | null
+          device_name: string
+          device_token: string | null
+          device_type: string
+          id: string
+          last_seen: string | null
+          manufacturer: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          capabilities?: Json | null
+          created_at?: string
+          device_model?: string | null
+          device_name: string
+          device_token?: string | null
+          device_type: string
+          id?: string
+          last_seen?: string | null
+          manufacturer?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          capabilities?: Json | null
+          created_at?: string
+          device_model?: string | null
+          device_name?: string
+          device_token?: string | null
+          device_type?: string
+          id?: string
+          last_seen?: string | null
+          manufacturer?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      leaderboard_entries: {
+        Row: {
+          created_at: string
+          id: string
+          leaderboard_id: string
+          metadata: Json | null
+          period_end: string
+          period_start: string
+          rank: number | null
+          score: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          leaderboard_id: string
+          metadata?: Json | null
+          period_end: string
+          period_start: string
+          rank?: number | null
+          score: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          leaderboard_id?: string
+          metadata?: Json | null
+          period_end?: string
+          period_start?: string
+          rank?: number | null
+          score?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      leaderboards: {
+        Row: {
+          category: string
+          city_id: string | null
+          created_at: string
+          id: string
+          name: string
+          period: string | null
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          city_id?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          period?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          city_id?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          period?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       local_partnerships: {
         Row: {
@@ -720,6 +1041,30 @@ export type Database = {
         }
         Relationships: []
       }
+      post_interactions: {
+        Row: {
+          created_at: string
+          id: string
+          interaction_type: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          interaction_type: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          interaction_type?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       pricing_suggestions: {
         Row: {
           confidence_score: number
@@ -909,6 +1254,42 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      provider_community: {
+        Row: {
+          category: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          member_count: number | null
+          name: string
+          privacy_level: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          member_count?: number | null
+          name: string
+          privacy_level?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          member_count?: number | null
+          name?: string
+          privacy_level?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       provider_disputes: {
         Row: {
@@ -1572,6 +1953,39 @@ export type Database = {
         }
         Relationships: []
       }
+      smart_service_requests: {
+        Row: {
+          automated: boolean | null
+          created_at: string
+          device_data: Json | null
+          device_id: string
+          id: string
+          priority: string | null
+          service_type: string
+          status: string | null
+        }
+        Insert: {
+          automated?: boolean | null
+          created_at?: string
+          device_data?: Json | null
+          device_id: string
+          id?: string
+          priority?: string | null
+          service_type: string
+          status?: string | null
+        }
+        Update: {
+          automated?: boolean | null
+          created_at?: string
+          device_data?: Json | null
+          device_id?: string
+          id?: string
+          priority?: string | null
+          service_type?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       support_tickets: {
         Row: {
           assigned_admin_id: string | null
@@ -1647,6 +2061,93 @@ export type Database = {
           is_mandatory?: boolean | null
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      user_achievements: {
+        Row: {
+          achievement_id: string
+          earned_at: string
+          id: string
+          progress: Json | null
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          earned_at?: string
+          id?: string
+          progress?: Json | null
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          earned_at?: string
+          id?: string
+          progress?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_behavior_tracking: {
+        Row: {
+          action_type: string
+          created_at: string
+          id: string
+          metadata: Json | null
+          session_id: string | null
+          target_id: string | null
+          target_type: string | null
+          user_id: string
+        }
+        Insert: {
+          action_type: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          session_id?: string | null
+          target_id?: string | null
+          target_type?: string | null
+          user_id: string
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          session_id?: string | null
+          target_id?: string | null
+          target_type?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          preference_type: string
+          preference_value: Json
+          updated_at: string
+          user_id: string
+          weight: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          preference_type: string
+          preference_value?: Json
+          updated_at?: string
+          user_id: string
+          weight?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          preference_type?: string
+          preference_value?: Json
+          updated_at?: string
+          user_id?: string
+          weight?: number | null
         }
         Relationships: []
       }
