@@ -30,7 +30,7 @@ interface SmartServiceRequest {
   service_type: string;
   priority: string;
   automated: boolean;
-  device_data: Record<string, any>;
+  device_data: any;
   status: string;
   created_at: string;
   device?: IoTDevice;
@@ -78,21 +78,28 @@ export default function IoTDeviceManager() {
 
   const loadServiceRequests = async () => {
     try {
+      if (devices.length === 0) return;
+      
       const { data, error } = await supabase
         .from('smart_service_requests')
-        .select(`
-          *,
-          iot_devices (*)
-        `)
+        .select('*')
         .in('device_id', devices.map(d => d.id))
         .order('created_at', { ascending: false })
         .limit(20);
 
       if (error) throw error;
-      setServiceRequests(data?.map(req => ({
-        ...req,
-        device: req.iot_devices as IoTDevice
-      })) || []);
+      
+      // Get device details separately
+      const requestsWithDevices = data?.map(req => {
+        const device = devices.find(d => d.id === req.device_id);
+        return {
+          ...req,
+          device_data: req.device_data || {},
+          device
+        };
+      }) || [];
+      
+      setServiceRequests(requestsWithDevices);
     } catch (error) {
       console.error('Error loading service requests:', error);
     }

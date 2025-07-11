@@ -16,11 +16,11 @@ interface Achievement {
   category: string;
   icon?: string;
   points_reward: number;
-  requirements: Record<string, any>;
+  requirements: any;
   rarity: string;
   is_active: boolean;
   earned?: boolean;
-  progress?: Record<string, any>;
+  progress?: any;
 }
 
 interface LeaderboardEntry {
@@ -28,7 +28,7 @@ interface LeaderboardEntry {
   user_id: string;
   score: number;
   rank?: number;
-  metadata: Record<string, any>;
+  metadata: any;
   user?: {
     display_name?: string;
     avatar_url?: string;
@@ -116,13 +116,7 @@ export default function GamificationSystem() {
         (leaderboardsData || []).map(async (leaderboard) => {
           const { data: entries, error: entriesError } = await supabase
             .from('leaderboard_entries')
-            .select(`
-              *,
-              profiles!leaderboard_entries_user_id_fkey (
-                display_name,
-                avatar_url
-              )
-            `)
+            .select('*')
             .eq('leaderboard_id', leaderboard.id)
             .order('rank', { ascending: true })
             .limit(10);
@@ -132,11 +126,19 @@ export default function GamificationSystem() {
             return { ...leaderboard, entries: [] };
           }
 
+          // Get user profiles separately
+          const userIds = entries?.map(e => e.user_id) || [];
+          const { data: profiles } = await supabase
+            .from('profiles')
+            .select('user_id, display_name, avatar_url')
+            .in('user_id', userIds);
+
           return {
             ...leaderboard,
             entries: entries?.map(entry => ({
               ...entry,
-              user: entry.profiles
+              metadata: entry.metadata || {},
+              user: profiles?.find(p => p.user_id === entry.user_id) || {}
             })) || []
           };
         })
@@ -156,12 +158,19 @@ export default function GamificationSystem() {
       // Calculate total points from earned achievements
       const { data: userAchievements, error } = await supabase
         .from('user_achievements')
-        .select('achievements!inner(points_reward)')
+        .select('achievement_id')
         .eq('user_id', user?.id);
 
       if (error) throw error;
 
-      const totalPoints = userAchievements?.reduce((sum, ua) => sum + (ua.achievements?.points_reward || 0), 0) || 0;
+      // Get achievement details separately
+      const achievementIds = userAchievements?.map(ua => ua.achievement_id) || [];
+      const { data: achievementDetails } = await supabase
+        .from('achievements')
+        .select('points_reward')
+        .in('id', achievementIds);
+
+      const totalPoints = achievementDetails?.reduce((sum, achievement) => sum + (achievement.points_reward || 0), 0) || 0;
 
       setUserStats({
         total_points: totalPoints,
@@ -317,19 +326,19 @@ export default function GamificationSystem() {
                       <Progress value={achievement.earned ? 100 : 0} className="h-2" />
                     </div>
                     
-                    {achievement.requirements && (
-                      <div className="text-xs text-muted-foreground">
-                        <span className="font-medium">Requirements:</span>
-                        <div className="mt-1">
-                          {Object.entries(achievement.requirements).map(([key, value]) => (
-                            <div key={key} className="flex justify-between">
-                              <span>{key.replace('_', ' ')}:</span>
-                              <span>{value}</span>
-                            </div>
-                          ))}
+                      {achievement.requirements && typeof achievement.requirements === 'object' && (
+                        <div className="text-xs text-muted-foreground">
+                          <span className="font-medium">Requirements:</span>
+                          <div className="mt-1">
+                            {Object.entries(achievement.requirements as Record<string, any>).map(([key, value]) => (
+                              <div key={key} className="flex justify-between">
+                                <span>{key.replace('_', ' ')}:</span>
+                                <span>{String(value)}</span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
                     {achievement.earned ? (
                       <Badge variant="outline" className="w-full justify-center text-green-600 border-green-600">

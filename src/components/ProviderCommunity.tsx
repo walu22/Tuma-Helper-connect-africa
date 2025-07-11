@@ -116,20 +116,21 @@ export default function ProviderCommunity() {
     try {
       const { data: postsData, error } = await supabase
         .from('community_posts')
-        .select(`
-          *,
-          profiles!community_posts_author_id_fkey (
-            display_name,
-            avatar_url
-          )
-        `)
+        .select('*')
         .eq('community_id', communityId)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      // Check if user has liked each post
+      // Get author profiles separately
       if (postsData?.length) {
+        const authorIds = postsData.map(p => p.author_id);
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('user_id, display_name, avatar_url')
+          .in('user_id', authorIds);
+
+        // Check if user has liked each post
         const { data: interactions } = await supabase
           .from('post_interactions')
           .select('post_id')
@@ -137,13 +138,13 @@ export default function ProviderCommunity() {
           .eq('interaction_type', 'like')
           .in('post_id', postsData.map(p => p.id));
 
-        const postsWithLikes = postsData.map(post => ({
+        const postsWithDetails = postsData.map(post => ({
           ...post,
-          author: post.profiles,
+          author: profiles?.find(p => p.user_id === post.author_id) || {},
           user_liked: interactions?.some(i => i.post_id === post.id) || false
         }));
 
-        setPosts(postsWithLikes);
+        setPosts(postsWithDetails);
       }
     } catch (error) {
       console.error('Error loading posts:', error);
