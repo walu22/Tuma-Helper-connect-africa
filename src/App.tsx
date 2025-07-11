@@ -18,6 +18,7 @@ import TrainingCenter from "./pages/TrainingCenter";
 import Messages from "./pages/Messages";
 import Favorites from "./pages/Favorites";
 import AdminDashboard from "./pages/AdminDashboard";
+import HowItWorks from "./pages/HowItWorks";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/services" element={<Services />} />
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/bookings" element={<Bookings />} />
