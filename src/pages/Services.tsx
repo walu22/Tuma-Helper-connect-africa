@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Search, Filter, MapPin, Star } from 'lucide-react';
+import { Search, MapPin, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,7 +40,6 @@ interface ServiceCategory {
 }
 
 const Services = () => {
-  console.log('🔵 Services component rendering');
   const [services, setServices] = useState<Service[]>([]);
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -50,44 +49,21 @@ const Services = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  useEffect(() => {
-    console.log('🟦 useEffect 1 triggered with searchParams:', searchParams.toString());
-    const categoryParam = searchParams.get('category');
-    if (categoryParam) {
-      setSelectedCategory(categoryParam);
-    }
-    console.log('🟦 About to call fetchData from useEffect 1');
-    fetchData();
-  }, [searchParams]);
-
-  useEffect(() => {
-    console.log('🟦 useEffect 2 triggered with selectedCategory:', selectedCategory);
-    console.log('🟦 About to call fetchData from useEffect 2');
-    fetchData();
-  }, [selectedCategory]);
-
+  // Fetch data function
   const fetchData = async () => {
-    console.log('🟡 Starting fetchData...');
-    setLoading(true);
     try {
+      setLoading(true);
+
       // Fetch categories
-      console.log('🟡 Fetching categories...');
       const { data: categoriesData, error: categoriesError } = await supabase
         .from('service_categories')
         .select('*')
         .order('name');
 
-      console.log('🟢 Categories result:', categoriesData?.length, 'Error:', categoriesError);
-      if (categoriesError) {
-        console.error('❌ Categories error:', categoriesError);
-        throw categoriesError;
-      }
-      if (categoriesData) {
-        setCategories(categoriesData);
-        console.log('✅ Categories set:', categoriesData.length);
-      }
+      if (categoriesError) throw categoriesError;
+      setCategories(categoriesData || []);
 
-      // Fetch services with category and provider info
+      // Build services query
       let query = supabase
         .from('services')
         .select(`
@@ -98,47 +74,48 @@ const Services = () => {
         .eq('is_available', true)
         .order('created_at', { ascending: false });
 
-      // Filter by selected category
+      // Apply category filter
       if (selectedCategory && selectedCategory !== 'all') {
         query = query.eq('category_id', selectedCategory);
       }
 
-      console.log('🟡 Fetching services with query...');
-      const { data: servicesData, error } = await query;
+      const { data: servicesData, error: servicesError } = await query;
+      if (servicesError) throw servicesError;
 
-      console.log('🟢 Services result:', servicesData?.length, 'Error:', error);
-      if (error) throw error;
-
-      if (servicesData) {
-        setServices(servicesData);
-        console.log('✅ Services set successfully:', servicesData.length);
-      }
+      setServices(servicesData || []);
     } catch (error: any) {
-      console.error('❌ Error in fetchData:', error);
+      console.error('Error fetching data:', error);
       toast({
-        title: "Error fetching services",
+        title: "Error loading services",
         description: error.message,
         variant: "destructive",
       });
     } finally {
       setLoading(false);
-      console.log('🏁 Loading finished');
     }
   };
 
+  // Initial load and category param handling
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam && categoryParam !== selectedCategory) {
+      setSelectedCategory(categoryParam);
+    } else {
+      fetchData();
+    }
+  }, [searchParams]);
+
+  // Refetch when category changes
+  useEffect(() => {
+    fetchData();
+  }, [selectedCategory]);
+
+  // Filter services based on search query
   const filteredServices = services.filter(service =>
     service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
     service.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  console.log('📊 Render state:', {
-    loading,
-    totalServices: services.length,
-    filteredServices: filteredServices.length,
-    searchQuery,
-    selectedCategory
-  });
 
   const formatPrice = (priceFrom: number, priceTo: number | null, unit: string) => {
     if (priceTo && priceTo !== priceFrom) {
@@ -179,13 +156,6 @@ const Services = () => {
       <Header />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center p-8 bg-red-100 border border-red-300 rounded mb-4">
-          <h2 className="text-2xl font-bold text-red-800">Services Component Test</h2>
-          <p className="text-red-600">If you can see this, the component is rendering!</p>
-          <p className="text-sm mt-2">Loading: {loading ? 'true' : 'false'}</p>
-          <p className="text-sm">Services count: {services.length}</p>
-          <p className="text-sm">Categories count: {categories.length}</p>
-        </div>
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Services in Windhoek</h1>
@@ -246,7 +216,7 @@ const Services = () => {
             {filteredServices.map((service) => (
               <Card 
                 key={service.id} 
-                className="service-card cursor-pointer hover-scale"
+                className="cursor-pointer hover:shadow-lg transition-shadow duration-200"
                 onClick={() => navigate(`/services/${service.id}`)}
               >
                 <div className="h-48 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
