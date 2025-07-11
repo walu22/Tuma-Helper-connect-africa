@@ -11,6 +11,7 @@ import ServiceDetail from "./pages/ServiceDetail";
 import Bookings from "./pages/Bookings";
 import BookingDetail from "./pages/BookingDetail";
 import KYCVerification from "./pages/KYCVerification";
+import BecomeProvider from "./pages/BecomeProvider";
 import ProviderDashboard from "./pages/ProviderDashboard";
 import ProviderProfile from "./pages/ProviderProfile";
 import TrainingCenter from "./pages/TrainingCenter";
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/bookings/:id" element={<BookingDetail />} />
+            <Route path="/become-provider" element={<BecomeProvider />} />
             <Route path="/kyc-verification" element={<KYCVerification />} />
             <Route path="/provider/dashboard" element={<ProviderDashboard />} />
             <Route path="/provider/profile" element={<ProviderProfile />} />
