@@ -74,9 +74,13 @@ const Services = () => {
         .order('name');
 
       console.log('🟢 Categories result:', categoriesData?.length, 'Error:', categoriesError);
-      if (categoriesError) throw categoriesError;
+      if (categoriesError) {
+        console.error('❌ Categories error:', categoriesError);
+        throw categoriesError;
+      }
       if (categoriesData) {
         setCategories(categoriesData);
+        console.log('✅ Categories set:', categoriesData.length);
       }
 
       // Fetch services with category and provider info
