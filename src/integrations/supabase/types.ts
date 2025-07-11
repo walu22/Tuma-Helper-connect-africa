@@ -198,6 +198,171 @@ export type Database = {
         }
         Relationships: []
       }
+      provider_availability: {
+        Row: {
+          created_at: string
+          day_of_week: number
+          end_time: string
+          id: string
+          is_available: boolean | null
+          provider_id: string
+          start_time: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          day_of_week: number
+          end_time: string
+          id?: string
+          is_available?: boolean | null
+          provider_id: string
+          start_time: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          day_of_week?: number
+          end_time?: string
+          id?: string
+          is_available?: boolean | null
+          provider_id?: string
+          start_time?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_availability_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      provider_disputes: {
+        Row: {
+          admin_notes: string | null
+          booking_id: string
+          created_at: string
+          description: string
+          dispute_type: string
+          evidence_urls: string[] | null
+          id: string
+          initiated_by: string
+          resolution: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          booking_id: string
+          created_at?: string
+          description: string
+          dispute_type: string
+          evidence_urls?: string[] | null
+          id?: string
+          initiated_by: string
+          resolution?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          booking_id?: string
+          created_at?: string
+          description?: string
+          dispute_type?: string
+          evidence_urls?: string[] | null
+          id?: string
+          initiated_by?: string
+          resolution?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_disputes_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "provider_disputes_initiated_by_fkey"
+            columns: ["initiated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "provider_disputes_resolved_by_fkey"
+            columns: ["resolved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      provider_earnings: {
+        Row: {
+          booking_id: string
+          created_at: string
+          gross_amount: number
+          id: string
+          net_amount: number
+          payment_status: string | null
+          payout_date: string | null
+          platform_fee: number
+          provider_id: string
+          updated_at: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          gross_amount: number
+          id?: string
+          net_amount: number
+          payment_status?: string | null
+          payout_date?: string | null
+          platform_fee?: number
+          provider_id: string
+          updated_at?: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          gross_amount?: number
+          id?: string
+          net_amount?: number
+          payment_status?: string | null
+          payout_date?: string | null
+          platform_fee?: number
+          provider_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_earnings_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "provider_earnings_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       provider_profiles: {
         Row: {
           bank_account_number: string | null
@@ -270,6 +435,162 @@ export type Database = {
             foreignKeyName: "provider_profiles_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      provider_reviews: {
+        Row: {
+          admin_response: string | null
+          booking_id: string
+          created_at: string
+          customer_id: string
+          id: string
+          is_verified: boolean | null
+          provider_id: string
+          rating: number
+          review_text: string | null
+          updated_at: string
+        }
+        Insert: {
+          admin_response?: string | null
+          booking_id: string
+          created_at?: string
+          customer_id: string
+          id?: string
+          is_verified?: boolean | null
+          provider_id: string
+          rating: number
+          review_text?: string | null
+          updated_at?: string
+        }
+        Update: {
+          admin_response?: string | null
+          booking_id?: string
+          created_at?: string
+          customer_id?: string
+          id?: string
+          is_verified?: boolean | null
+          provider_id?: string
+          rating?: number
+          review_text?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_reviews_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "provider_reviews_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "provider_reviews_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      provider_skills: {
+        Row: {
+          certification_url: string | null
+          created_at: string
+          id: string
+          proficiency_level: string
+          provider_id: string
+          skill_category: string
+          skill_name: string
+          updated_at: string
+          verified_by_admin: boolean | null
+        }
+        Insert: {
+          certification_url?: string | null
+          created_at?: string
+          id?: string
+          proficiency_level: string
+          provider_id: string
+          skill_category: string
+          skill_name: string
+          updated_at?: string
+          verified_by_admin?: boolean | null
+        }
+        Update: {
+          certification_url?: string | null
+          created_at?: string
+          id?: string
+          proficiency_level?: string
+          provider_id?: string
+          skill_category?: string
+          skill_name?: string
+          updated_at?: string
+          verified_by_admin?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_skills_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      provider_training_progress: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          module_id: string
+          progress_percentage: number | null
+          provider_id: string
+          score: number | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          module_id: string
+          progress_percentage?: number | null
+          provider_id: string
+          score?: number | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          module_id?: string
+          progress_percentage?: number | null
+          provider_id?: string
+          score?: number | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_training_progress_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "training_modules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "provider_training_progress_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
           },
@@ -399,6 +720,45 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      training_modules: {
+        Row: {
+          category: string
+          content_url: string | null
+          created_at: string
+          description: string
+          difficulty_level: string
+          duration_minutes: number | null
+          id: string
+          is_mandatory: boolean | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          content_url?: string | null
+          created_at?: string
+          description: string
+          difficulty_level: string
+          duration_minutes?: number | null
+          id?: string
+          is_mandatory?: boolean | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          content_url?: string | null
+          created_at?: string
+          description?: string
+          difficulty_level?: string
+          duration_minutes?: number | null
+          id?: string
+          is_mandatory?: boolean | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {

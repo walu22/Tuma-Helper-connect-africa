@@ -11,6 +11,9 @@ import ServiceDetail from "./pages/ServiceDetail";
 import Bookings from "./pages/Bookings";
 import BookingDetail from "./pages/BookingDetail";
 import KYCVerification from "./pages/KYCVerification";
+import ProviderDashboard from "./pages/ProviderDashboard";
+import ProviderProfile from "./pages/ProviderProfile";
+import TrainingCenter from "./pages/TrainingCenter";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -29,6 +32,10 @@ const App = () => (
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/bookings/:id" element={<BookingDetail />} />
+            <Route path="/kyc-verification" element={<KYCVerification />} />
+            <Route path="/provider/dashboard" element={<ProviderDashboard />} />
+            <Route path="/provider/profile" element={<ProviderProfile />} />
+            <Route path="/provider/training" element={<TrainingCenter />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
