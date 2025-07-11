@@ -63,7 +63,7 @@ const Features = () => {
         {/* Features Section */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-            Why Choose Dial a Service?
+            Why Choose Tuma Helper?
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             We're committed to connecting you with the best service providers in Namibia. 
@@ -101,7 +101,7 @@ const Features = () => {
               Trusted by Thousands
             </h3>
             <p className="text-white/90 text-lg max-w-2xl mx-auto">
-              Join the growing community of satisfied customers who trust Dial a Service for all their needs.
+              Join the growing community of satisfied customers who trust Tuma Helper for all their needs.
             </p>
           </div>
           

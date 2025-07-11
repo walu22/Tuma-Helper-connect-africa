@@ -24,7 +24,7 @@ const CallToAction = () => {
                 Ready to Get Started?
               </h2>
               <p className="text-xl mb-8 text-white/90 leading-relaxed">
-                Join thousands of satisfied customers who trust Dial a Service for all their home and business needs. Get started in just a few clicks.
+                Join thousands of satisfied customers who trust Tuma Helper for all their home and business needs. Get started in just a few clicks.
               </p>
 
               {/* Benefits */}
