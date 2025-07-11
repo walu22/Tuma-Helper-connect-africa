@@ -41,6 +41,45 @@ export type Database = {
         }
         Relationships: []
       }
+      api_integrations: {
+        Row: {
+          api_key_hash: string
+          created_at: string | null
+          id: string
+          integration_name: string
+          is_active: boolean | null
+          last_used: string | null
+          partner_company: string
+          permissions: Json
+          rate_limit: number | null
+          webhook_url: string | null
+        }
+        Insert: {
+          api_key_hash: string
+          created_at?: string | null
+          id?: string
+          integration_name: string
+          is_active?: boolean | null
+          last_used?: string | null
+          partner_company: string
+          permissions: Json
+          rate_limit?: number | null
+          webhook_url?: string | null
+        }
+        Update: {
+          api_key_hash?: string
+          created_at?: string | null
+          id?: string
+          integration_name?: string
+          is_active?: boolean | null
+          last_used?: string | null
+          partner_company?: string
+          permissions?: Json
+          rate_limit?: number | null
+          webhook_url?: string | null
+        }
+        Relationships: []
+      }
       booking_status_history: {
         Row: {
           booking_id: string
@@ -90,6 +129,7 @@ export type Database = {
         Row: {
           booking_date: string
           booking_time: string
+          city_id: string | null
           created_at: string
           customer_address: string
           customer_id: string
@@ -108,6 +148,7 @@ export type Database = {
         Insert: {
           booking_date: string
           booking_time: string
+          city_id?: string | null
           created_at?: string
           customer_address: string
           customer_id: string
@@ -126,6 +167,7 @@ export type Database = {
         Update: {
           booking_date?: string
           booking_time?: string
+          city_id?: string | null
           created_at?: string
           customer_address?: string
           customer_id?: string
@@ -143,6 +185,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "bookings_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "bookings_customer_id_fkey"
             columns: ["customer_id"]
             isOneToOne: false
@@ -159,6 +208,104 @@ export type Database = {
           {
             foreignKeyName: "fk_bookings_provider"
             columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      cities: {
+        Row: {
+          country: string
+          created_at: string | null
+          currency: string | null
+          id: string
+          is_active: boolean | null
+          language_codes: string[] | null
+          latitude: number | null
+          longitude: number | null
+          name: string
+          region: string | null
+          timezone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          country?: string
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          is_active?: boolean | null
+          language_codes?: string[] | null
+          latitude?: number | null
+          longitude?: number | null
+          name: string
+          region?: string | null
+          timezone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          country?: string
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          is_active?: boolean | null
+          language_codes?: string[] | null
+          latitude?: number | null
+          longitude?: number | null
+          name?: string
+          region?: string | null
+          timezone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      corporate_accounts: {
+        Row: {
+          billing_address: Json | null
+          company_name: string
+          company_registration: string | null
+          created_at: string | null
+          credit_limit: number | null
+          employee_count: number | null
+          id: string
+          industry: string | null
+          is_active: boolean | null
+          payment_terms: string | null
+          primary_contact_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          billing_address?: Json | null
+          company_name: string
+          company_registration?: string | null
+          created_at?: string | null
+          credit_limit?: number | null
+          employee_count?: number | null
+          id?: string
+          industry?: string | null
+          is_active?: boolean | null
+          payment_terms?: string | null
+          primary_contact_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          billing_address?: Json | null
+          company_name?: string
+          company_registration?: string | null
+          created_at?: string | null
+          credit_limit?: number | null
+          employee_count?: number | null
+          id?: string
+          industry?: string | null
+          is_active?: boolean | null
+          payment_terms?: string | null
+          primary_contact_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "corporate_accounts_primary_contact_id_fkey"
+            columns: ["primary_contact_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
@@ -185,6 +332,56 @@ export type Database = {
           provider_id?: string
         }
         Relationships: []
+      }
+      enterprise_packages: {
+        Row: {
+          auto_renewal: boolean | null
+          contract_duration: number | null
+          corporate_account_id: string | null
+          created_at: string | null
+          discount_rate: number | null
+          id: string
+          is_active: boolean | null
+          monthly_credit: number | null
+          package_name: string
+          service_types: string[]
+          terms_conditions: Json | null
+        }
+        Insert: {
+          auto_renewal?: boolean | null
+          contract_duration?: number | null
+          corporate_account_id?: string | null
+          created_at?: string | null
+          discount_rate?: number | null
+          id?: string
+          is_active?: boolean | null
+          monthly_credit?: number | null
+          package_name: string
+          service_types: string[]
+          terms_conditions?: Json | null
+        }
+        Update: {
+          auto_renewal?: boolean | null
+          contract_duration?: number | null
+          corporate_account_id?: string | null
+          created_at?: string | null
+          discount_rate?: number | null
+          id?: string
+          is_active?: boolean | null
+          monthly_credit?: number | null
+          package_name?: string
+          service_types?: string[]
+          terms_conditions?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enterprise_packages_corporate_account_id_fkey"
+            columns: ["corporate_account_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       error_logs: {
         Row: {
@@ -248,6 +445,154 @@ export type Database = {
           report_type?: string
         }
         Relationships: []
+      }
+      franchises: {
+        Row: {
+          city_id: string | null
+          contract_end: string | null
+          contract_start: string | null
+          created_at: string | null
+          franchise_fee: number | null
+          franchise_name: string
+          franchisee_id: string | null
+          id: string
+          is_active: boolean | null
+          marketing_fee_rate: number | null
+          performance_metrics: Json | null
+          royalty_rate: number | null
+          territory_bounds: Json | null
+        }
+        Insert: {
+          city_id?: string | null
+          contract_end?: string | null
+          contract_start?: string | null
+          created_at?: string | null
+          franchise_fee?: number | null
+          franchise_name: string
+          franchisee_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          marketing_fee_rate?: number | null
+          performance_metrics?: Json | null
+          royalty_rate?: number | null
+          territory_bounds?: Json | null
+        }
+        Update: {
+          city_id?: string | null
+          contract_end?: string | null
+          contract_start?: string | null
+          created_at?: string | null
+          franchise_fee?: number | null
+          franchise_name?: string
+          franchisee_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          marketing_fee_rate?: number | null
+          performance_metrics?: Json | null
+          royalty_rate?: number | null
+          territory_bounds?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "franchises_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "franchises_franchisee_id_fkey"
+            columns: ["franchisee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      local_partnerships: {
+        Row: {
+          city_id: string | null
+          contact_info: Json | null
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          partner_name: string
+          partner_type: string
+          partnership_terms: Json | null
+          revenue_share: number | null
+        }
+        Insert: {
+          city_id?: string | null
+          contact_info?: Json | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          partner_name: string
+          partner_type: string
+          partnership_terms?: Json | null
+          revenue_share?: number | null
+        }
+        Update: {
+          city_id?: string | null
+          contact_info?: Json | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          partner_name?: string
+          partner_type?: string
+          partnership_terms?: Json | null
+          revenue_share?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "local_partnerships_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      local_payment_methods: {
+        Row: {
+          city_id: string | null
+          configuration: Json | null
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          method_name: string
+          method_type: string
+          provider: string | null
+        }
+        Insert: {
+          city_id?: string | null
+          configuration?: Json | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          method_name: string
+          method_type: string
+          provider?: string | null
+        }
+        Update: {
+          city_id?: string | null
+          configuration?: Json | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          method_name?: string
+          method_type?: string
+          provider?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "local_payment_methods_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       loyalty_program: {
         Row: {
@@ -407,9 +752,11 @@ export type Database = {
       }
       profiles: {
         Row: {
+          account_type: string | null
           address: string | null
           avatar_url: string | null
           city: string | null
+          corporate_account_id: string | null
           country: string | null
           created_at: string
           date_of_birth: string | null
@@ -426,9 +773,11 @@ export type Database = {
           user_type: string | null
         }
         Insert: {
+          account_type?: string | null
           address?: string | null
           avatar_url?: string | null
           city?: string | null
+          corporate_account_id?: string | null
           country?: string | null
           created_at?: string
           date_of_birth?: string | null
@@ -445,9 +794,11 @@ export type Database = {
           user_type?: string | null
         }
         Update: {
+          account_type?: string | null
           address?: string | null
           avatar_url?: string | null
           city?: string | null
+          corporate_account_id?: string | null
           country?: string | null
           created_at?: string
           date_of_birth?: string | null
@@ -463,7 +814,15 @@ export type Database = {
           user_id?: string
           user_type?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_corporate_account_id_fkey"
+            columns: ["corporate_account_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       promotional_campaigns: {
         Row: {
@@ -692,6 +1051,7 @@ export type Database = {
           portfolio_urls: string[] | null
           rating: number | null
           service_areas: string[] | null
+          service_cities: string[] | null
           tax_number: string | null
           total_jobs_completed: number | null
           updated_at: string
@@ -714,6 +1074,7 @@ export type Database = {
           portfolio_urls?: string[] | null
           rating?: number | null
           service_areas?: string[] | null
+          service_cities?: string[] | null
           tax_number?: string | null
           total_jobs_completed?: number | null
           updated_at?: string
@@ -736,6 +1097,7 @@ export type Database = {
           portfolio_urls?: string[] | null
           rating?: number | null
           service_areas?: string[] | null
+          service_cities?: string[] | null
           tax_number?: string | null
           total_jobs_completed?: number | null
           updated_at?: string
@@ -923,6 +1285,56 @@ export type Database = {
           },
         ]
       }
+      regional_campaigns: {
+        Row: {
+          budget_amount: number | null
+          campaign_name: string
+          campaign_type: string
+          city_id: string | null
+          created_at: string | null
+          end_date: string | null
+          id: string
+          is_active: boolean | null
+          metrics: Json | null
+          start_date: string | null
+          target_audience: Json | null
+        }
+        Insert: {
+          budget_amount?: number | null
+          campaign_name: string
+          campaign_type: string
+          city_id?: string | null
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          metrics?: Json | null
+          start_date?: string | null
+          target_audience?: Json | null
+        }
+        Update: {
+          budget_amount?: number | null
+          campaign_name?: string
+          campaign_type?: string
+          city_id?: string | null
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          metrics?: Json | null
+          start_date?: string | null
+          target_audience?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "regional_campaigns_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       search_history: {
         Row: {
           clicked_service_id: string | null
@@ -1054,6 +1466,7 @@ export type Database = {
       services: {
         Row: {
           category_id: string
+          city_id: string | null
           created_at: string
           description: string
           id: string
@@ -1070,6 +1483,7 @@ export type Database = {
         }
         Insert: {
           category_id: string
+          city_id?: string | null
           created_at?: string
           description: string
           id?: string
@@ -1086,6 +1500,7 @@ export type Database = {
         }
         Update: {
           category_id?: string
+          city_id?: string | null
           created_at?: string
           description?: string
           id?: string
@@ -1106,6 +1521,13 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "service_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "services_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
             referencedColumns: ["id"]
           },
           {
@@ -1225,6 +1647,45 @@ export type Database = {
           is_mandatory?: boolean | null
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      white_label_configs: {
+        Row: {
+          billing_model: string | null
+          branding: Json
+          client_name: string
+          created_at: string | null
+          custom_terms: Json | null
+          domain: string | null
+          features_enabled: Json | null
+          id: string
+          is_active: boolean | null
+          revenue_share_rate: number | null
+        }
+        Insert: {
+          billing_model?: string | null
+          branding: Json
+          client_name: string
+          created_at?: string | null
+          custom_terms?: Json | null
+          domain?: string | null
+          features_enabled?: Json | null
+          id?: string
+          is_active?: boolean | null
+          revenue_share_rate?: number | null
+        }
+        Update: {
+          billing_model?: string | null
+          branding?: Json
+          client_name?: string
+          created_at?: string | null
+          custom_terms?: Json | null
+          domain?: string | null
+          features_enabled?: Json | null
+          id?: string
+          is_active?: boolean | null
+          revenue_share_rate?: number | null
         }
         Relationships: []
       }

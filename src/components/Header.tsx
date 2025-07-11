@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Menu, X, MapPin, User, LogOut } from "lucide-react";
+import { Search, Menu, X, MapPin, User, LogOut, Building2, Store, Key } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -10,11 +10,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { CitySelector } from "@/components/CitySelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedCityId, setSelectedCityId] = useState<string>('');
   const navigate = useNavigate();
   const { user, signOut, loading } = useAuth();
+  const { t } = useLanguage();
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -34,25 +39,26 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <Button variant="ghost" onClick={() => navigate("/services")}>
-              Services
+              {t('nav.services')}
             </Button>
             <Button variant="ghost" onClick={() => navigate("/how-it-works")}>
-              How it Works
+              {t('nav.how_it_works')}
             </Button>
             <Button variant="ghost" onClick={() => navigate("/become-provider")}>
               Become a Provider
             </Button>
             <Button variant="ghost" onClick={() => navigate("/help")}>
-              Help
+              {t('nav.help')}
             </Button>
           </nav>
 
-          {/* Location & Auth */}
+          {/* Location, Language & Auth */}
           <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-              <MapPin className="w-4 h-4" />
-              <span>Windhoek, Namibia</span>
-            </div>
+            <CitySelector 
+              selectedCityId={selectedCityId} 
+              onCityChange={setSelectedCityId}
+            />
+            <LanguageSelector />
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -67,6 +73,27 @@ const Header = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/bookings")}>
                     My Bookings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/favorites")}>
+                    Favorites
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/messages")}>
+                    Messages
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/corporate-dashboard")}>
+                    <Building2 className="w-4 h-4 mr-2" />
+                    Corporate Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/franchise-dashboard")}>
+                    <Store className="w-4 h-4 mr-2" />
+                    Franchise Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/api-management")}>
+                    <Key className="w-4 h-4 mr-2" />
+                    API Management
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/admin/dashboard")}>
+                    Admin Dashboard
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={signOut} className="text-destructive">
                     <LogOut className="w-4 h-4 mr-2" />
