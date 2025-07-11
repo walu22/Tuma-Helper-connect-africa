@@ -140,33 +140,140 @@ export type Database = {
       }
       profiles: {
         Row: {
+          address: string | null
+          avatar_url: string | null
+          city: string | null
+          country: string | null
           created_at: string
+          date_of_birth: string | null
           display_name: string | null
+          email: string | null
+          full_name: string | null
           id: string
+          is_verified: boolean | null
+          kyc_status: string | null
           phone: string | null
+          role: Database["public"]["Enums"]["user_role"] | null
           updated_at: string
           user_id: string
           user_type: string | null
         }
         Insert: {
+          address?: string | null
+          avatar_url?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string
+          date_of_birth?: string | null
           display_name?: string | null
+          email?: string | null
+          full_name?: string | null
           id?: string
+          is_verified?: boolean | null
+          kyc_status?: string | null
           phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"] | null
           updated_at?: string
           user_id: string
           user_type?: string | null
         }
         Update: {
+          address?: string | null
+          avatar_url?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string
+          date_of_birth?: string | null
           display_name?: string | null
+          email?: string | null
+          full_name?: string | null
           id?: string
+          is_verified?: boolean | null
+          kyc_status?: string | null
           phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"] | null
           updated_at?: string
           user_id?: string
           user_type?: string | null
         }
         Relationships: []
+      }
+      provider_profiles: {
+        Row: {
+          bank_account_number: string | null
+          bank_name: string | null
+          bio: string | null
+          business_license_url: string | null
+          business_name: string | null
+          business_registration_number: string | null
+          created_at: string
+          hourly_rate: number | null
+          id: string
+          id_document_url: string | null
+          insurance_certificate_url: string | null
+          is_available: boolean | null
+          portfolio_urls: string[] | null
+          rating: number | null
+          service_areas: string[] | null
+          tax_number: string | null
+          total_jobs_completed: number | null
+          updated_at: string
+          user_id: string
+          years_of_experience: number | null
+        }
+        Insert: {
+          bank_account_number?: string | null
+          bank_name?: string | null
+          bio?: string | null
+          business_license_url?: string | null
+          business_name?: string | null
+          business_registration_number?: string | null
+          created_at?: string
+          hourly_rate?: number | null
+          id?: string
+          id_document_url?: string | null
+          insurance_certificate_url?: string | null
+          is_available?: boolean | null
+          portfolio_urls?: string[] | null
+          rating?: number | null
+          service_areas?: string[] | null
+          tax_number?: string | null
+          total_jobs_completed?: number | null
+          updated_at?: string
+          user_id: string
+          years_of_experience?: number | null
+        }
+        Update: {
+          bank_account_number?: string | null
+          bank_name?: string | null
+          bio?: string | null
+          business_license_url?: string | null
+          business_name?: string | null
+          business_registration_number?: string | null
+          created_at?: string
+          hourly_rate?: number | null
+          id?: string
+          id_document_url?: string | null
+          insurance_certificate_url?: string | null
+          is_available?: boolean | null
+          portfolio_urls?: string[] | null
+          rating?: number | null
+          service_areas?: string[] | null
+          tax_number?: string | null
+          total_jobs_completed?: number | null
+          updated_at?: string
+          user_id?: string
+          years_of_experience?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       service_categories: {
         Row: {
@@ -307,6 +414,7 @@ export type Database = {
         | "in_progress"
         | "completed"
         | "cancelled"
+      user_role: "customer" | "provider" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -441,6 +549,7 @@ export const Constants = {
         "completed",
         "cancelled",
       ],
+      user_role: ["customer", "provider", "admin"],
     },
   },
 } as const

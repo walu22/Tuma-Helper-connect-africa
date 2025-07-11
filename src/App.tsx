@@ -10,6 +10,7 @@ import Services from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
 import Bookings from "./pages/Bookings";
 import BookingDetail from "./pages/BookingDetail";
+import KYCVerification from "./pages/KYCVerification";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
