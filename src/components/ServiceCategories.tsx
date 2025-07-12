@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { 
   Home, 
   Wrench, 
@@ -60,6 +61,7 @@ const colorMap: { [key: string]: string } = {
 
 const ServiceCategories = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -104,7 +106,7 @@ const ServiceCategories = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-              Browse Our Services
+              {t('services.browse')}
             </h2>
             <div className="h-6 bg-muted animate-pulse rounded w-96 mx-auto"></div>
           </div>
@@ -132,10 +134,10 @@ const ServiceCategories = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-            Browse Our Services
+            {t('services.browse')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover trusted professionals for every service you need. All providers are verified and rated by our community.
+            {t('services.browse_desc')}
           </p>
         </div>
 
@@ -165,11 +167,11 @@ const ServiceCategories = () => {
                   <div className="flex items-center justify-between text-xs md:text-sm">
                     <div className="flex items-center space-x-1 text-muted-foreground">
                       <Users className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>{category.serviceCount || 0} services</span>
+                      <span>{category.serviceCount || 0} {t('services.text')}</span>
                     </div>
                     <div className="flex items-center space-x-1 text-muted-foreground">
                       <Shield className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>Verified</span>
+                      <span>{t('services.verified')}</span>
                     </div>
                   </div>
                   
@@ -183,7 +185,7 @@ const ServiceCategories = () => {
                     size="sm" 
                     className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors text-xs md:text-sm h-8 md:h-9"
                   >
-                    View Services
+                    {t('services.view')}
                     <ArrowRight className="w-3 h-3 md:w-4 md:h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </CardContent>
@@ -198,7 +200,7 @@ const ServiceCategories = () => {
             className="btn-hero"
             onClick={() => navigate("/services")}
           >
-            View All Services
+            {t('services.view_all')}
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>

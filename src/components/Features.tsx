@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { 
   Shield, 
   Clock, 
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 
 const Features = () => {
+  const { t } = useLanguage();
   const features = [
     {
       icon: Shield,
@@ -63,11 +65,10 @@ const Features = () => {
         {/* Features Section */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-            Why Choose Tuma Helper?
+            {t('features.why_choose')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            We're committed to connecting you with the best service providers in Namibia. 
-            Here's what makes us different.
+            {t('features.why_choose_desc')}
           </p>
         </div>
 
@@ -98,10 +99,10 @@ const Features = () => {
         <div className="bg-gradient-to-r from-primary to-accent rounded-3xl p-8 md:p-16 text-white">
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-bold mb-4">
-              Trusted by Thousands
+              {t('features.trusted_by_thousands')}
             </h3>
             <p className="text-white/90 text-lg max-w-2xl mx-auto">
-              Join the growing community of satisfied customers who trust Tuma Helper for all their needs.
+              {t('features.trusted_desc')}
             </p>
           </div>
           

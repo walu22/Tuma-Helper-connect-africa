@@ -5,6 +5,7 @@ import { Search, MapPin, Star, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,6 +14,7 @@ const Hero = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (user) {
@@ -69,30 +71,26 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto text-center">
           {/* Hero Title */}
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 leading-tight px-4">
-            One Tap,{" "}
-            <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-              Every Service
-            </span>
+            {t('hero.title')}
           </h1>
           
           <p className="text-lg sm:text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed px-4">
-            Connect with verified local service providers in Windhoek and across Namibia. 
-            From plumbing to house cleaning, we've got you covered.
+            {t('hero.subtitle')}
           </p>
 
           {/* Trust Indicators */}
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mb-12 text-white/80 px-4">
             <div className="flex items-center space-x-2">
               <Star className="w-4 h-4 md:w-5 md:h-5 fill-current" />
-              <span className="font-semibold text-sm md:text-base">4.8/5 Rating</span>
+              <span className="font-semibold text-sm md:text-base">{t('hero.rating')}</span>
             </div>
             <div className="hidden md:block w-px h-6 bg-white/30"></div>
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-sm md:text-base">500+ Providers</span>
+              <span className="font-semibold text-sm md:text-base">{t('hero.providers')}</span>
             </div>
             <div className="hidden md:block w-px h-6 bg-white/30"></div>
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-sm md:text-base">10k+ Customers</span>
+              <span className="font-semibold text-sm md:text-base">{t('hero.customers')}</span>
             </div>
           </div>
 
@@ -103,7 +101,7 @@ const Hero = () => {
                 <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="What service do you need?"
+                  placeholder={t('hero.search_placeholder')}
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -155,14 +153,14 @@ const Hero = () => {
                 className="w-full h-12 md:h-14 text-base md:text-lg font-semibold bg-accent hover:bg-accent/90 text-white border-0 touch-manipulation"
               >
                 <Search className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-                Find Services Now
+                {t('hero.find_services')}
               </Button>
             </div>
           </div>
 
           {/* Popular Searches */}
           <div className="mt-8 px-4">
-            <p className="text-white/70 mb-4 text-sm md:text-base">Popular searches:</p>
+            <p className="text-white/70 mb-4 text-sm md:text-base">{t('hero.popular_searches')}</p>
             <div className="flex flex-wrap justify-center gap-2 md:gap-3">
               {["Plumber", "House Cleaning", "Electrician", "Gardener", "Car Wash", "Beauty Services"].map((service) => (
                 <button
