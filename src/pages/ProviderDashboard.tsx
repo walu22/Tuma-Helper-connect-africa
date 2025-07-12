@@ -20,6 +20,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ServiceManagement from '@/components/ServiceManagement';
+import ProviderBookingManagement from '@/components/ProviderBookingManagement';
 import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -294,8 +296,9 @@ const ProviderDashboard = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="services">Services</TabsTrigger>
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
             <TabsTrigger value="earnings">Earnings</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
@@ -376,18 +379,12 @@ const ProviderDashboard = () => {
             </div>
           </TabsContent>
 
+          <TabsContent value="services">
+            <ServiceManagement />
+          </TabsContent>
+
           <TabsContent value="bookings">
-            <Card>
-              <CardHeader>
-                <CardTitle>All Bookings</CardTitle>
-                <CardDescription>Manage your service bookings and requests</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button onClick={() => navigate('/bookings')}>
-                  Go to Bookings Page
-                </Button>
-              </CardContent>
-            </Card>
+            <ProviderBookingManagement />
           </TabsContent>
 
           <TabsContent value="earnings">
