@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, MapPin, Star, Phone, Mail, Calendar, Check } from 'lucide-react';
+import { ArrowLeft, MapPin, Star, Phone, Mail, Calendar, Check, Clock, Shield, Award, Users, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
@@ -33,7 +34,20 @@ interface ServiceDetail {
     display_name: string | null;
     phone: string | null;
     user_id: string;
+    avatar_url: string | null;
   };
+  service_images: Array<{
+    id: string;
+    image_url: string;
+    is_primary: boolean;
+  }>;
+  provider_profiles: {
+    business_name: string | null;
+    bio: string | null;
+    years_of_experience: number | null;
+    rating: number | null;
+    total_jobs_completed: number | null;
+  } | null;
 }
 
 const ServiceDetail = () => {
@@ -58,7 +72,8 @@ const ServiceDetail = () => {
         .select(`
           *,
           service_categories (name, icon),
-          profiles (display_name, phone, user_id)
+          profiles (display_name, phone, user_id, avatar_url),
+          service_images (id, image_url, is_primary)
         `)
         .eq('id', id)
         .eq('is_available', true)
@@ -66,7 +81,17 @@ const ServiceDetail = () => {
 
       if (error) throw error;
       
-      setService(data);
+      // Fetch provider profile separately
+      const { data: providerProfile } = await supabase
+        .from('provider_profiles')
+        .select('business_name, bio, years_of_experience, rating, total_jobs_completed')
+        .eq('user_id', data.provider_id)
+        .single();
+      
+      setService({
+        ...data,
+        provider_profiles: providerProfile
+      });
     } catch (error: any) {
       toast({
         title: "Service not found",
@@ -170,8 +195,36 @@ const ServiceDetail = () => {
         </Button>
 
         {/* Service Image/Hero */}
-        <div className="h-64 md:h-80 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center mb-8">
-          <div className="text-8xl opacity-30">🛠️</div>
+        <div className="h-64 md:h-80 rounded-lg overflow-hidden mb-8 relative">
+          {service.service_images && service.service_images.length > 0 ? (
+            <img 
+              src={service.service_images.find(img => img.is_primary)?.image_url || service.service_images[0].image_url}
+              alt={service.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+              <div className="text-8xl opacity-30">🛠️</div>
+            </div>
+          )}
+          
+          {/* Verified Badge */}
+          <div className="absolute top-4 left-4">
+            <Badge className="bg-green-500 text-white border-0">
+              <Shield className="w-3 h-3 mr-1" />
+              Verified Provider
+            </Badge>
+          </div>
+          
+          {/* Available Badge */}
+          {service.is_available && (
+            <div className="absolute top-4 right-4">
+              <Badge className="bg-blue-500 text-white border-0">
+                <Clock className="w-3 h-3 mr-1" />
+                Available Now
+              </Badge>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -228,6 +281,54 @@ const ServiceDetail = () => {
                   <span>Local provider</span>
                 </div>
               </div>
+            </div>
+
+            {/* Provider Information */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">About the Provider</h2>
+              <Card className="p-6">
+                <div className="flex items-start gap-4 mb-4">
+                  <Avatar className="w-16 h-16">
+                    <AvatarImage src={service.profiles.avatar_url || ''} />
+                    <AvatarFallback className="text-lg">
+                      {service.profiles.display_name?.charAt(0) || service.provider_profiles?.business_name?.charAt(0) || 'P'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold">
+                      {service.provider_profiles?.business_name || service.profiles.display_name || 'Service Provider'}
+                    </h3>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
+                      {service.provider_profiles?.years_of_experience && (
+                        <div className="flex items-center gap-1">
+                          <Award className="w-4 h-4" />
+                          <span>{service.provider_profiles.years_of_experience} years experience</span>
+                        </div>
+                      )}
+                      {service.provider_profiles?.total_jobs_completed && (
+                        <div className="flex items-center gap-1">
+                          <Users className="w-4 h-4" />
+                          <span>{service.provider_profiles.total_jobs_completed} jobs completed</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {service.provider_profiles?.rating && (
+                    <div className="text-right">
+                      <div className="flex items-center gap-1 text-sm">
+                        <Star className="w-4 h-4 fill-current text-yellow-400" />
+                        <span className="font-medium">{service.provider_profiles.rating.toFixed(1)}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Provider Rating</p>
+                    </div>
+                  )}
+                </div>
+                {service.provider_profiles?.bio && (
+                  <p className="text-muted-foreground leading-relaxed">
+                    {service.provider_profiles.bio}
+                  </p>
+                )}
+              </Card>
             </div>
           </div>
 
