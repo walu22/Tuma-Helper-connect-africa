@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -10,10 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
 // Initialize Stripe with your publishable key
-const stripePromise = loadStripe(process.env.NODE_ENV === 'production' 
-  ? 'pk_live_...' // Replace with your live publishable key
-  : 'pk_test_...' // Replace with your test publishable key
-);
+const stripePromise = loadStripe('pk_test_51Rk6yIR4iCoK3aMBaoUfzVCdA54P6pLBXnWoXcV3BYG1ojORHOqvU6ksiIumdXs647khOBEb8LwIiDQx6mntMMgn00NIFuQkHf');
 
 interface PaymentFormProps {
   bookingId: string;
@@ -144,7 +141,7 @@ const PaymentForm = (props: PaymentFormProps) => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  useState(() => {
+  useEffect(() => {
     const createPaymentIntent = async () => {
       try {
         const { data, error } = await supabase.functions.invoke('create-payment-intent', {
@@ -158,6 +155,7 @@ const PaymentForm = (props: PaymentFormProps) => {
 
         setClientSecret(data.clientSecret);
       } catch (error: any) {
+        console.error('Payment initialization error:', error);
         toast({
           title: "Payment initialization failed",
           description: error.message,
@@ -169,7 +167,7 @@ const PaymentForm = (props: PaymentFormProps) => {
     };
 
     createPaymentIntent();
-  });
+  }, [props.bookingId, props.amount]);
 
   if (loading) {
     return (
@@ -199,6 +197,9 @@ const PaymentForm = (props: PaymentFormProps) => {
     clientSecret,
     appearance: {
       theme: 'stripe' as const,
+      variables: {
+        colorPrimary: 'hsl(var(--primary))',
+      },
     },
   };
 

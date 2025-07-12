@@ -19,13 +19,13 @@ serve(async (req) => {
       apiVersion: "2023-10-16",
     });
 
-    // Create Supabase client
+    // Create Supabase client for user authentication
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_ANON_KEY") ?? ""
     );
 
-    // Get user from request
+    // Get the authorization header and extract the user
     const authHeader = req.headers.get("Authorization")!;
     const token = authHeader.replace("Bearer ", "");
     const { data } = await supabaseClient.auth.getUser(token);
@@ -39,10 +39,10 @@ serve(async (req) => {
     const { bookingId, amount } = await req.json();
 
     if (!bookingId || !amount) {
-      throw new Error("Missing required parameters");
+      throw new Error("Missing booking ID or amount");
     }
 
-    // Verify booking exists and belongs to user
+    // Verify the booking exists and belongs to the user
     const { data: booking, error: bookingError } = await supabaseClient
       .from('bookings')
       .select('*')
@@ -54,16 +54,40 @@ serve(async (req) => {
       throw new Error("Booking not found or access denied");
     }
 
+    // Convert amount to cents for Stripe (NAD cents)
+    const amountInCents = Math.round(amount * 100);
+
+    // Check if customer exists in Stripe
+    const customers = await stripe.customers.list({
+      email: user.email,
+      limit: 1,
+    });
+
+    let customerId;
+    if (customers.data.length > 0) {
+      customerId = customers.data[0].id;
+    } else {
+      // Create a new customer
+      const customer = await stripe.customers.create({
+        email: user.email,
+        metadata: {
+          userId: user.id,
+        },
+      });
+      customerId = customer.id;
+    }
+
     // Create payment intent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // Convert to cents
-      currency: "usd", // or NAD if supported
-      automatic_payment_methods: {
-        enabled: true,
-      },
+      amount: amountInCents,
+      currency: "nad", // Namibian Dollar
+      customer: customerId,
       metadata: {
         bookingId: bookingId,
         userId: user.id,
+      },
+      automatic_payment_methods: {
+        enabled: true,
       },
     });
 
@@ -77,7 +101,7 @@ serve(async (req) => {
         status: 200,
       }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating payment intent:", error);
     return new Response(
       JSON.stringify({ error: error.message }),
