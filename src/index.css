@@ -157,7 +157,7 @@
   }
   
   .service-card:active {
-    @apply scale-98 shadow-[var(--shadow-soft)];
+    @apply scale-95 shadow-[var(--shadow-soft)];
   }
   
   /* Glass effect for overlays */
