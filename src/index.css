@@ -127,19 +127,61 @@
   /* Hero button variant */
   .btn-hero {
     @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground;
-    @apply shadow-[var(--shadow-medium)] hover:shadow-[var(--shadow-strong)];
-    @apply transition-[var(--transition-smooth)] hover:scale-105;
+    @apply shadow-[var(--shadow-medium)] transition-[var(--transition-smooth)];
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+  
+  /* Touch-friendly hover states */
+  @media (hover: hover) {
+    .btn-hero:hover {
+      @apply shadow-[var(--shadow-strong)] scale-105;
+    }
+  }
+  
+  /* Active states for touch devices */
+  .btn-hero:active {
+    @apply scale-95 shadow-[var(--shadow-soft)];
   }
   
   /* Service card styling */
   .service-card {
     @apply bg-gradient-to-br from-card to-muted/20;
-    @apply shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)];
-    @apply transition-[var(--transition-smooth)] hover:-translate-y-1;
+    @apply shadow-[var(--shadow-soft)] transition-[var(--transition-smooth)];
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+  
+  @media (hover: hover) {
+    .service-card:hover {
+      @apply shadow-[var(--shadow-medium)] -translate-y-1;
+    }
+  }
+  
+  .service-card:active {
+    @apply scale-98 shadow-[var(--shadow-soft)];
   }
   
   /* Glass effect for overlays */
   .glass-effect {
     @apply bg-white/10 backdrop-blur-md border border-white/20;
   }
+  
+  /* Touch-friendly interactive elements */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+  
+  /* Skeleton loading animation */
+  .skeleton {
+    @apply animate-pulse bg-muted rounded;
+  }
+  
+  /* Responsive text utilities */
+  .text-responsive-xs { @apply text-xs sm:text-sm; }
+  .text-responsive-sm { @apply text-sm sm:text-base; }
+  .text-responsive-base { @apply text-base sm:text-lg; }
+  .text-responsive-lg { @apply text-lg sm:text-xl; }
+  .text-responsive-xl { @apply text-xl sm:text-2xl; }
+  .text-responsive-2xl { @apply text-2xl sm:text-3xl; }
+  .text-responsive-3xl { @apply text-3xl sm:text-4xl; }
+  .text-responsive-4xl { @apply text-4xl sm:text-5xl; }
 }
