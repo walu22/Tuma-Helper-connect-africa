@@ -10,6 +10,7 @@ import { Eye, EyeOff, ArrowLeft, Chrome, Facebook } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { toast } from '@/hooks/use-toast';
 
 export default function Auth() {
   const { signIn, signUp, signInWithGoogle, signInWithFacebook, resetPassword, user, loading } = useAuth();
@@ -52,7 +53,17 @@ export default function Auth() {
     
     const { error } = await signIn(signInData.email, signInData.password);
     
-    if (!error) {
+    if (error) {
+      toast({
+        title: "Sign In Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Welcome back!",
+        description: "You have successfully signed in.",
+      });
       navigate('/');
     }
     
@@ -63,12 +74,29 @@ export default function Auth() {
     e.preventDefault();
     
     if (signUpData.password !== signUpData.confirmPassword) {
-      alert('Passwords do not match');
+      toast({
+        title: "Password Mismatch",
+        description: "Passwords do not match. Please try again.",
+        variant: "destructive",
+      });
       return;
     }
 
     if (signUpData.password.length < 6) {
-      alert('Password must be at least 6 characters');
+      toast({
+        title: "Password Too Short",
+        description: "Password must be at least 6 characters long.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!signUpData.fullName.trim()) {
+      toast({
+        title: "Missing Information",
+        description: "Please enter your full name.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -81,8 +109,28 @@ export default function Auth() {
       city: signUpData.city,
     });
     
-    if (!error) {
+    if (error) {
+      toast({
+        title: "Sign Up Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Account Created!",
+        description: "Please check your email to confirm your account, then sign in.",
+      });
       setActiveTab('signin');
+      // Clear form
+      setSignUpData({
+        email: '',
+        password: '',
+        confirmPassword: '',
+        fullName: '',
+        phone: '',
+        role: 'customer',
+        city: 'Windhoek',
+      });
     }
     
     setIsLoading(false);
@@ -90,11 +138,31 @@ export default function Auth() {
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!resetEmail.trim()) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsLoading(true);
     
     const { error } = await resetPassword(resetEmail);
     
-    if (!error) {
+    if (error) {
+      toast({
+        title: "Reset Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Reset Link Sent",
+        description: "Check your email for a password reset link.",
+      });
       setShowForgotPassword(false);
       setResetEmail('');
     }
@@ -104,13 +172,31 @@ export default function Auth() {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
-    await signInWithGoogle();
+    const { error } = await signInWithGoogle();
+    
+    if (error) {
+      toast({
+        title: "Google Sign In Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+    
     setIsLoading(false);
   };
 
   const handleFacebookSignIn = async () => {
     setIsLoading(true);
-    await signInWithFacebook();
+    const { error } = await signInWithFacebook();
+    
+    if (error) {
+      toast({
+        title: "Facebook Sign In Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+    
     setIsLoading(false);
   };
 
