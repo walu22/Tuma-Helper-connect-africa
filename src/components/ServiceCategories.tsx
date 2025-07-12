@@ -139,41 +139,41 @@ const ServiceCategories = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {categories.map((category) => {
             const IconComponent = iconMap[category.icon] || Home;
             const colorClass = colorMap[category.name] || 'from-gray-500 to-gray-600';
             return (
               <Card 
                 key={category.id} 
-                className="service-card group cursor-pointer hover:scale-105 transition-all duration-300"
+                className="service-card group cursor-pointer hover:scale-105 transition-all duration-300 touch-manipulation"
                 onClick={() => navigate(`/services?category=${category.id}`)}
               >
-                <CardHeader className="pb-4">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${colorClass} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className="w-8 h-8 text-white" />
+                <CardHeader className="pb-3 md:pb-4">
+                  <div className={`w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-r ${colorClass} flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-white" />
                   </div>
-                  <CardTitle className="text-xl font-bold text-foreground">
+                  <CardTitle className="text-lg md:text-xl font-bold text-foreground">
                     {category.name}
                   </CardTitle>
-                  <CardDescription className="text-muted-foreground">
+                  <CardDescription className="text-sm md:text-base text-muted-foreground line-clamp-2">
                     {category.description}
                   </CardDescription>
                 </CardHeader>
                 
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between text-sm">
+                <CardContent className="space-y-3 md:space-y-4">
+                  <div className="flex items-center justify-between text-xs md:text-sm">
                     <div className="flex items-center space-x-1 text-muted-foreground">
-                      <Users className="w-4 h-4" />
+                      <Users className="w-3 h-3 md:w-4 md:h-4" />
                       <span>{category.serviceCount || 0} services</span>
                     </div>
                     <div className="flex items-center space-x-1 text-muted-foreground">
-                      <Shield className="w-4 h-4" />
+                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
                       <span>Verified</span>
                     </div>
                   </div>
                   
-                  <div className="text-sm text-muted-foreground min-h-[60px] flex items-center">
+                  <div className="text-xs md:text-sm text-muted-foreground min-h-[40px] md:min-h-[60px] flex items-center line-clamp-3">
                     Professional {category.name.toLowerCase()} services available in Windhoek. 
                     All providers are background-checked and rated by our community.
                   </div>
@@ -181,10 +181,10 @@ const ServiceCategories = () => {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors"
+                    className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors text-xs md:text-sm h-8 md:h-9"
                   >
                     View Services
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3 h-3 md:w-4 md:h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </CardContent>
               </Card>

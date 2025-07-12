@@ -68,42 +68,42 @@ const Hero = () => {
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Hero Title */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 leading-tight px-4">
             One Tap,{" "}
             <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               Every Service
             </span>
           </h1>
           
-          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed px-4">
             Connect with verified local service providers in Windhoek and across Namibia. 
             From plumbing to house cleaning, we've got you covered.
           </p>
 
           {/* Trust Indicators */}
-          <div className="flex items-center justify-center space-x-8 mb-12 text-white/80">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mb-12 text-white/80 px-4">
             <div className="flex items-center space-x-2">
-              <Star className="w-5 h-5 fill-current" />
-              <span className="font-semibold">4.8/5 Average Rating</span>
+              <Star className="w-4 h-4 md:w-5 md:h-5 fill-current" />
+              <span className="font-semibold text-sm md:text-base">4.8/5 Rating</span>
             </div>
             <div className="hidden md:block w-px h-6 bg-white/30"></div>
             <div className="flex items-center space-x-2">
-              <span className="font-semibold">500+ Verified Providers</span>
+              <span className="font-semibold text-sm md:text-base">500+ Providers</span>
             </div>
             <div className="hidden md:block w-px h-6 bg-white/30"></div>
             <div className="flex items-center space-x-2">
-              <span className="font-semibold">10,000+ Happy Customers</span>
+              <span className="font-semibold text-sm md:text-base">10k+ Customers</span>
             </div>
           </div>
 
           {/* Search Bar */}
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 max-w-2xl mx-auto border border-white/20">
-            <div className="space-y-4">
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 md:p-6 max-w-2xl mx-4 md:mx-auto border border-white/20">
+            <div className="space-y-3 md:space-y-4">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="What service do you need? (e.g., plumber, house cleaning)"
+                  placeholder="What service do you need?"
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -111,7 +111,7 @@ const Hero = () => {
                   }}
                   onFocus={() => setShowSuggestions(searchQuery.length > 0 && searchSuggestions.length > 0)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                  className="pl-12 h-14 text-lg bg-white/90 border-white/30 focus:bg-white text-gray-900 placeholder:text-gray-600"
+                  className="pl-10 md:pl-12 h-12 md:h-14 text-base md:text-lg bg-white/90 border-white/30 focus:bg-white text-gray-900 placeholder:text-gray-600"
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                 />
                 
@@ -140,35 +140,35 @@ const Hero = () => {
               </div>
               
               <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <MapPin className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground" />
                 <Input
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="pl-12 h-14 text-lg bg-white/90 border-white/30 focus:bg-white text-gray-900 placeholder:text-gray-600"
+                  className="pl-10 md:pl-12 h-12 md:h-14 text-base md:text-lg bg-white/90 border-white/30 focus:bg-white text-gray-900 placeholder:text-gray-600"
                 />
               </div>
               
               <Button 
                 onClick={handleSearch}
                 size="lg"
-                className="w-full h-14 text-lg font-semibold bg-accent hover:bg-accent/90 text-white border-0"
+                className="w-full h-12 md:h-14 text-base md:text-lg font-semibold bg-accent hover:bg-accent/90 text-white border-0 touch-manipulation"
               >
-                <Search className="w-5 h-5 mr-2" />
+                <Search className="w-4 h-4 md:w-5 md:h-5 mr-2" />
                 Find Services Now
               </Button>
             </div>
           </div>
 
           {/* Popular Searches */}
-          <div className="mt-8">
-            <p className="text-white/70 mb-4">Popular searches:</p>
-            <div className="flex flex-wrap justify-center gap-3">
+          <div className="mt-8 px-4">
+            <p className="text-white/70 mb-4 text-sm md:text-base">Popular searches:</p>
+            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
               {["Plumber", "House Cleaning", "Electrician", "Gardener", "Car Wash", "Beauty Services"].map((service) => (
                 <button
                   key={service}
                   onClick={() => navigate(`/services?search=${encodeURIComponent(service)}`)}
-                  className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105"
+                  className="px-3 md:px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full text-xs md:text-sm font-medium transition-all duration-300 hover:scale-105 touch-manipulation"
                 >
                   {service}
                 </button>

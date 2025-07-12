@@ -122,8 +122,9 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 rounded-lg hover:bg-muted/50 transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -131,51 +132,130 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
-            <div className="flex flex-col space-y-4">
-              <Button variant="ghost" className="justify-start" onClick={() => navigate("/services")}>
-                Services
+          <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-t shadow-lg z-50">
+            <div className="flex flex-col px-4 py-6 space-y-4">
+              <Button 
+                variant="ghost" 
+                className="justify-start py-3 px-3 rounded-lg hover:bg-muted/50" 
+                onClick={() => {
+                  navigate("/services");
+                  setIsMenuOpen(false);
+                }}
+              >
+                {t('nav.services')}
               </Button>
-              <Button variant="ghost" className="justify-start" onClick={() => navigate("/how-it-works")}>
-                How it Works
+              <Button 
+                variant="ghost" 
+                className="justify-start py-3 px-3 rounded-lg hover:bg-muted/50" 
+                onClick={() => {
+                  navigate("/how-it-works");
+                  setIsMenuOpen(false);
+                }}
+              >
+                {t('nav.how_it_works')}
               </Button>
-              <Button variant="ghost" className="justify-start" onClick={() => navigate("/become-provider")}>
+              <Button 
+                variant="ghost" 
+                className="justify-start py-3 px-3 rounded-lg hover:bg-muted/50" 
+                onClick={() => {
+                  navigate("/become-provider");
+                  setIsMenuOpen(false);
+                }}
+              >
                 Become a Provider
               </Button>
-              <Button variant="ghost" className="justify-start" onClick={() => navigate("/help")}>
-                Help
+              <Button 
+                variant="ghost" 
+                className="justify-start py-3 px-3 rounded-lg hover:bg-muted/50" 
+                onClick={() => {
+                  navigate("/help");
+                  setIsMenuOpen(false);
+                }}
+              >
+                {t('nav.help')}
               </Button>
-              <div className="flex items-center space-x-1 text-sm text-muted-foreground px-4">
-                <MapPin className="w-4 h-4" />
-                <span>Windhoek, Namibia</span>
-              </div>
-              {user ? (
-                <div className="px-4 space-y-2">
-                  <div className="text-sm text-muted-foreground">
-                    Signed in as {user.email}
+              
+              <div className="pt-4 border-t border-border/50 space-y-4">
+                <div className="grid grid-cols-1 gap-3">
+                  <CitySelector 
+                    selectedCityId={selectedCityId} 
+                    onCityChange={setSelectedCityId}
+                  />
+                  <LanguageSelector />
+                </div>
+                
+                {user ? (
+                  <div className="space-y-3">
+                    <div className="text-sm text-muted-foreground px-3 py-2 bg-muted/30 rounded-lg">
+                      Signed in as {user.email}
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      className="w-full justify-start py-3"
+                      onClick={() => {
+                        navigate("/profile");
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      Profile
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="w-full justify-start py-3"
+                      onClick={() => {
+                        navigate("/bookings");
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      My Bookings
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="w-full justify-start py-3"
+                      onClick={() => {
+                        navigate("/favorites");
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      Favorites
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start py-3 text-red-600 hover:text-red-700 hover:bg-red-50/50"
+                      onClick={() => {
+                        signOut();
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </Button>
                   </div>
-                  <Button variant="outline" className="w-full justify-start" onClick={() => navigate("/profile")}>
-                    <User className="w-4 h-4 mr-2" />
-                    Profile
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start" onClick={() => navigate("/bookings")}>
-                    My Bookings
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start text-destructive" onClick={signOut}>
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Sign Out
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex space-x-2 px-4">
-                  <Button variant="outline" className="flex-1" onClick={() => navigate("/auth")}>
-                    Sign In
-                  </Button>
-                  <Button className="btn-hero flex-1" onClick={() => navigate("/auth")}>
-                    Sign Up
-                  </Button>
-                </div>
-              )}
+                ) : (
+                  <div className="space-y-3">
+                    <Button 
+                      variant="outline" 
+                      className="w-full py-3"
+                      onClick={() => {
+                        navigate("/auth");
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                    <Button 
+                      className="btn-hero w-full py-3"
+                      onClick={() => {
+                        navigate("/auth");
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      Sign Up
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
