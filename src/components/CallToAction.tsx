@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Smartphone, Star, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const CallToAction = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <section className="py-20 bg-gradient-to-r from-primary via-primary-glow to-accent text-white relative overflow-hidden">
@@ -21,25 +23,25 @@ const CallToAction = () => {
             {/* Left Side - Content */}
             <div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                Ready to Get Started?
+                {t('cta.ready_to_start')}
               </h2>
               <p className="text-xl mb-8 text-white/90 leading-relaxed">
-                Join thousands of satisfied customers who trust Tuma Helper for all their home and business needs. Get started in just a few clicks.
+                {t('cta.ready_to_start_desc')}
               </p>
 
               {/* Benefits */}
               <div className="space-y-4 mb-8">
                 <div className="flex items-center space-x-3">
                   <Shield className="w-6 h-6 text-white" />
-                  <span className="text-white/90">100% Verified Providers</span>
+                  <span className="text-white/90">100% {t('services.verified')} {t('hero.providers').replace('500+ ', '')}</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Star className="w-6 h-6 text-white" />
-                  <span className="text-white/90">Quality Guaranteed</span>
+                  <span className="text-white/90">{t('cta.quality_guaranteed')}</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Smartphone className="w-6 h-6 text-white" />
-                  <span className="text-white/90">Easy Mobile Booking</span>
+                  <span className="text-white/90">{t('cta.easy_mobile_booking')}</span>
                 </div>
               </div>
 
@@ -50,7 +52,7 @@ const CallToAction = () => {
                   className="bg-white text-primary hover:bg-white/90 font-semibold"
                   onClick={() => navigate("/register")}
                 >
-                  Get Started Today
+                  {t('cta.get_started_today')}
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
                 <Button 
@@ -59,34 +61,34 @@ const CallToAction = () => {
                   className="border-white text-white hover:bg-white/10"
                   onClick={() => navigate("/services")}
                 >
-                  Browse Services
+                  {t('cta.browse_services')}
                 </Button>
               </div>
             </div>
 
             {/* Right Side - Provider CTA */}
             <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-              <h3 className="text-2xl font-bold mb-4">Are You a Service Provider?</h3>
+              <h3 className="text-2xl font-bold mb-4">{t('cta.provider_question')}</h3>
               <p className="text-white/90 mb-6 leading-relaxed">
-                Join our platform and grow your business. Connect with customers in your area and take your service business to the next level.
+                {t('cta.provider_desc')}
               </p>
               
               <div className="space-y-3 mb-6">
                 <div className="flex items-center space-x-2 text-sm text-white/80">
                   <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-                  <span>Flexible working hours</span>
+                  <span>{t('cta.flexible_hours')}</span>
                 </div>
                 <div className="flex items-center space-x-2 text-sm text-white/80">
                   <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-                  <span>Competitive earnings</span>
+                  <span>{t('cta.competitive_earnings')}</span>
                 </div>
                 <div className="flex items-center space-x-2 text-sm text-white/80">
                   <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-                  <span>Marketing support</span>
+                  <span>{t('cta.marketing_support')}</span>
                 </div>
                 <div className="flex items-center space-x-2 text-sm text-white/80">
                   <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-                  <span>Training provided</span>
+                  <span>{t('cta.training_provided')}</span>
                 </div>
               </div>
 
@@ -94,7 +96,7 @@ const CallToAction = () => {
                 className="w-full bg-accent hover:bg-accent/90 text-white font-semibold"
                 onClick={() => navigate("/become-provider")}
               >
-                Become a Provider
+                {t('cta.become_provider')}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>

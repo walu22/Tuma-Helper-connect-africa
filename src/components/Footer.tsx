@@ -10,9 +10,11 @@ import {
   ArrowRight
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const footerLinks = {
     services: [
@@ -51,18 +53,18 @@ const Footer = () => {
       <div className="border-b border-white/10">
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-3xl font-bold mb-4">Stay Updated</h3>
+            <h3 className="text-3xl font-bold mb-4">{t('footer.stay_updated')}</h3>
             <p className="text-white/80 mb-8 text-lg">
-              Get the latest updates on new services, special offers, and tips for your home.
+              {t('footer.stay_updated_desc')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <Input
                 type="email"
-                placeholder="Enter your email address"
+                placeholder={t('footer.email_placeholder')}
                 className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/60"
               />
               <Button className="bg-primary hover:bg-primary-glow">
-                Subscribe
+                {t('footer.subscribe')}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
@@ -81,11 +83,11 @@ const Footer = () => {
               </div>
               <div>
                 <h1 className="text-xl font-bold">Tuma Helper</h1>
-                <p className="text-sm text-white/70">One tap, every service</p>
+                <p className="text-sm text-white/70">{t('footer.tagline')}</p>
               </div>
             </div>
             <p className="text-white/80 mb-6 leading-relaxed">
-              Connecting Namibians with trusted service providers. Making home services accessible, reliable, and affordable for everyone.
+              {t('footer.description')}
             </p>
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-white/80">
@@ -178,7 +180,7 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-white/80">
-              © 2024 Tuma Helper. All rights reserved.
+              {t('footer.copyright')}
             </div>
             <div className="flex space-x-6">
               <button className="text-white/80 hover:text-white transition-colors">

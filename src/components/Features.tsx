@@ -16,47 +16,47 @@ const Features = () => {
   const features = [
     {
       icon: Shield,
-      title: "Verified Providers",
-      description: "All service providers undergo thorough background checks and verification processes",
+      title: t('features.verified_providers'),
+      description: t('features.verified_providers_desc'),
       color: "from-blue-500 to-blue-600"
     },
     {
       icon: Clock,
-      title: "Real-time Booking",
-      description: "Instant booking with real-time availability. Schedule services that fit your timeline",
+      title: t('features.real_time_booking'),
+      description: t('features.real_time_booking_desc'),
       color: "from-green-500 to-green-600"
     },
     {
       icon: CreditCard,
-      title: "Secure Payments",
-      description: "Safe and secure payment processing with multiple payment options available",
+      title: t('features.secure_payments'),
+      description: t('features.secure_payments_desc'),
       color: "from-purple-500 to-purple-600"
     },
     {
       icon: Star,
-      title: "Quality Assurance",
-      description: "Rate and review services to maintain high quality standards across the platform",
+      title: t('features.quality_assurance'),
+      description: t('features.quality_assurance_desc'),
       color: "from-yellow-500 to-yellow-600"
     },
     {
       icon: Smartphone,
-      title: "Easy to Use",
-      description: "Simple and intuitive interface designed for everyone to use effortlessly",
+      title: t('features.easy_to_use'),
+      description: t('features.easy_to_use_desc'),
       color: "from-pink-500 to-pink-600"
     },
     {
       icon: Users,
-      title: "Community Driven",
-      description: "Built by locals, for locals. Supporting the Namibian service community",
+      title: t('features.community_driven'),
+      description: t('features.community_driven_desc'),
       color: "from-teal-500 to-teal-600"
     }
   ];
 
   const stats = [
-    { number: "10,000+", label: "Happy Customers" },
-    { number: "500+", label: "Verified Providers" },
-    { number: "50,000+", label: "Services Completed" },
-    { number: "4.8/5", label: "Average Rating" }
+    { number: "10,000+", label: t('features.happy_customers') },
+    { number: "500+", label: t('hero.providers').replace('500+ ', '') },
+    { number: "50,000+", label: t('features.services_completed') },
+    { number: "4.8/5", label: t('features.average_rating') }
   ];
 
   return (
