@@ -194,25 +194,27 @@ const Services = () => {
     }
   };
 
-  // Initial load and URL param handling
+  // Initial load only
   useEffect(() => {
     const searchParam = searchParams.get('search');
-    const locationParam = searchParams.get('location');
     const categoryParam = searchParams.get('category');
     
     if (searchParam) {
       setSearchQuery(searchParam);
     }
-    if (categoryParam && categoryParam !== selectedCategory) {
+    if (categoryParam) {
       setSelectedCategory(categoryParam);
-    } else {
+    }
+    
+    fetchData();
+  }, []); // Only run once on mount
+
+  // Refetch when category or sort changes (but not on initial load)
+  useEffect(() => {
+    // Skip if this is the initial load
+    if (categories.length > 0) {
       fetchData();
     }
-  }, [searchParams]);
-
-  // Refetch when category or sort changes
-  useEffect(() => {
-    fetchData();
   }, [selectedCategory, sortBy]);
 
   // Filter services based on search query
