@@ -182,9 +182,10 @@ const Services = () => {
       }
     } catch (error: any) {
       console.error('Error fetching data:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
       toast({
         title: "Error loading services",
-        description: error.message,
+        description: error.message || 'Failed to load services',
         variant: "destructive",
       });
     } finally {

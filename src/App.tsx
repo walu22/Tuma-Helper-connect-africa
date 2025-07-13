@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import Services from "./pages/Services";
+import ServicesTest from "./pages/ServicesTest";
 import ServiceDetail from "./pages/ServiceDetail";
 import Bookings from "./pages/Bookings";
 import BookingDetail from "./pages/BookingDetail";
@@ -45,6 +46,7 @@ const App = () => (
               <Route path="/profile" element={<Profile />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
               <Route path="/help" element={<Help />} />
+              <Route path="/services-test" element={<ServicesTest />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/:id" element={<ServiceDetail />} />
               <Route path="/bookings" element={<Bookings />} />
