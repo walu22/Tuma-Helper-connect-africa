@@ -135,9 +135,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signUp = async (email: string, password: string, userData: any) => {
+    console.log('Starting signup process:', { email, userData });
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -146,13 +147,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     });
 
+    console.log('Signup response:', { data, error });
+
     if (error) {
+      console.error('Signup error:', error);
       toast({
         title: "Sign Up Failed",
         description: error.message,
         variant: "destructive",
       });
     } else {
+      console.log('Signup successful, user:', data.user);
       toast({
         title: "Success!",
         description: "Please check your email to verify your account.",
