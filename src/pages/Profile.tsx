@@ -13,7 +13,7 @@ import Header from '@/components/Header';
 import { User, Mail, Phone, MapPin, Calendar, Shield, Briefcase } from 'lucide-react';
 
 const Profile = () => {
-  const { user, profile, updateProfile, loading, isAdmin, isProvider } = useAuth();
+  const { user, profile, updateProfile, loading, isAdmin, isProvider, isCorporate } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -288,6 +288,15 @@ const Profile = () => {
                       onClick={() => navigate('/provider/dashboard')}
                     >
                       📊 Provider Dashboard
+                    </Button>
+                  )}
+                  {isCorporate && (
+                    <Button 
+                      variant="outline" 
+                      className="w-full justify-start"
+                      onClick={() => navigate('/corporate-dashboard')}
+                    >
+                      🏢 Corporate Dashboard
                     </Button>
                   )}
                   {isAdmin && (

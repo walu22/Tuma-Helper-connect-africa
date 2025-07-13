@@ -18,6 +18,7 @@ interface Profile {
   country?: string;
   is_verified?: boolean;
   kyc_status?: 'pending' | 'submitted' | 'approved' | 'rejected';
+  corporate_account_id?: string;
   created_at?: string;
   updated_at?: string;
 }
@@ -38,6 +39,7 @@ interface AuthContextType {
   isAdmin: boolean;
   isProvider: boolean;
   isCustomer: boolean;
+  isCorporate: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -79,6 +81,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         country: data.country,
         is_verified: data.is_verified,
         kyc_status: data.kyc_status as 'pending' | 'submitted' | 'approved' | 'rejected',
+        corporate_account_id: data.corporate_account_id,
         created_at: data.created_at,
         updated_at: data.updated_at,
       };
@@ -287,6 +290,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const isAdmin = profile?.role === 'admin';
   const isProvider = profile?.role === 'provider';
   const isCustomer = profile?.role === 'customer';
+  const isCorporate = Boolean(profile?.corporate_account_id);
 
   const value = {
     user,
@@ -304,6 +308,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     isAdmin,
     isProvider,
     isCustomer,
+    isCorporate,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
