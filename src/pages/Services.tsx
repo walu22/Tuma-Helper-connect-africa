@@ -138,17 +138,32 @@ const Services = () => {
       if (categoriesError) throw categoriesError;
       setCategories(categoriesData || []);
 
+      // First try the simplest possible query to test RLS
+      console.log('Testing basic services query...');
+      const { data: basicTest, error: basicError } = await supabase
+        .from('services')
+        .select('id, title, description')
+        .eq('is_available', true)
+        .limit(3);
+      
+      console.log('Basic test result:', { basicTest, basicError });
+
+      if (basicError) {
+        console.error('Basic services query failed:', basicError);
+        throw basicError;
+      }
+
       // Build services query - simplified to avoid RLS issues
       console.log('Building services query...');
       const { data: servicesData, error: servicesError } = await supabase
         .from('services')
         .select(`
           *,
-          service_categories!inner (
+          service_categories (
             name,
             icon
           ),
-          profiles!inner (
+          profiles (
             display_name,
             avatar_url
           )
