@@ -34,7 +34,7 @@ interface Service {
     display_name: string | null;
     avatar_url: string | null;
   };
-  service_images: Array<{
+  service_images?: Array<{
     id: string;
     image_url: string;
     is_primary: boolean;
@@ -138,38 +138,24 @@ const Services = () => {
       if (categoriesError) throw categoriesError;
       setCategories(categoriesData || []);
 
-      // Build services query
-      let query = supabase
+      // Build services query - simplified to avoid RLS issues
+      console.log('Building services query...');
+      const { data: servicesData, error: servicesError } = await supabase
         .from('services')
         .select(`
           *,
-          service_categories (name, icon),
-          profiles (display_name, avatar_url),
-          service_images (id, image_url, is_primary)
+          service_categories!inner (
+            name,
+            icon
+          ),
+          profiles!inner (
+            display_name,
+            avatar_url
+          )
         `)
-        .eq('is_available', true);
-
-      // Apply sorting
-      switch (sortBy) {
-        case 'rating':
-          query = query.order('rating', { ascending: false });
-          break;
-        case 'price_low':
-          query = query.order('price_from', { ascending: true });
-          break;
-        case 'price_high':
-          query = query.order('price_from', { ascending: false });
-          break;
-        default:
-          query = query.order('created_at', { ascending: false });
-      }
-
-      // Apply category filter
-      if (selectedCategory && selectedCategory !== 'all') {
-        query = query.eq('category_id', selectedCategory);
-      }
-
-      const { data: servicesData, error: servicesError } = await query;
+        .eq('is_available', true)
+        .order('created_at', { ascending: false })
+        .limit(20);
       console.log('Services response:', { servicesData, servicesError, queryLength: servicesData?.length });
       if (servicesError) throw servicesError;
 
