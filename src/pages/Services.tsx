@@ -126,6 +126,7 @@ const Services = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
+      console.log('Fetching services data...');
 
       // Fetch categories
       const { data: categoriesData, error: categoriesError } = await supabase
@@ -133,6 +134,7 @@ const Services = () => {
         .select('*')
         .order('name');
 
+      console.log('Categories response:', { categoriesData, categoriesError });
       if (categoriesError) throw categoriesError;
       setCategories(categoriesData || []);
 
@@ -168,9 +170,11 @@ const Services = () => {
       }
 
       const { data: servicesData, error: servicesError } = await query;
+      console.log('Services response:', { servicesData, servicesError, queryLength: servicesData?.length });
       if (servicesError) throw servicesError;
 
       setServices(servicesData || []);
+      console.log('Services set to state:', servicesData?.length || 0, 'services');
       
       // Fetch favorites for logged-in users
       if (user) {
