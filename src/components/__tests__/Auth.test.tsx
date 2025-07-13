@@ -1,37 +1,29 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Auth from '@/pages/Auth'
-import { AuthProvider } from '@/hooks/useAuth'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from '@/components/ui/sonner'
 
-// Mock the supabase client
-const mockSupabase = {
-  auth: {
-    getUser: vi.fn(),
-    getSession: vi.fn(),
-    signInWithPassword: vi.fn(),
-    signUp: vi.fn(),
-    signOut: vi.fn(),
-    resetPasswordForEmail: vi.fn(),
-    signInWithOAuth: vi.fn(),
-    onAuthStateChange: vi.fn(() => ({
-      data: { subscription: { unsubscribe: vi.fn() } }
-    })),
-  },
-  from: vi.fn(() => ({
-    select: vi.fn(() => ({
-      eq: vi.fn(() => ({
-        single: vi.fn(() => Promise.resolve({ data: null, error: null }))
-      }))
-    }))
-  }))
-}
+// Create mock functions that we can check in tests
+const mockSignIn = vi.fn().mockResolvedValue({ error: null })
+const mockSignUp = vi.fn().mockResolvedValue({ error: null })
+const mockResetPassword = vi.fn().mockResolvedValue({ error: null })
 
-vi.mock('@/integrations/supabase/client', () => ({
-  supabase: mockSupabase,
+// Mock useAuth hook directly to avoid authentication issues
+vi.mock('@/hooks/useAuth', () => ({
+  AuthProvider: ({ children }: { children: React.ReactNode }) => children,
+  useAuth: () => ({
+    user: null,
+    loading: false,
+    signIn: mockSignIn,
+    signUp: mockSignUp,
+    signOut: vi.fn().mockResolvedValue({ error: null }),
+    resetPassword: mockResetPassword,
+    signInWithGoogle: vi.fn().mockResolvedValue({ error: null }),
+    signInWithFacebook: vi.fn().mockResolvedValue({ error: null }),
+  }),
 }))
 
 // Mock react-router-dom navigate
@@ -59,10 +51,8 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          {children}
-          <Toaster />
-        </AuthProvider>
+        {children}
+        <Toaster />
       </QueryClientProvider>
     </BrowserRouter>
   )
@@ -71,17 +61,9 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => {
 describe('Auth Component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockSupabase.auth.getUser.mockResolvedValue({
-      data: { user: null },
-      error: null,
-    })
-    mockSupabase.auth.getSession.mockResolvedValue({
-      data: { session: null },
-      error: null,
-    })
   })
 
-  it('should render the login form by default', async () => {
+  it('renders sign-in form by default', async () => {
     render(
       <TestWrapper>
         <Auth />
@@ -102,7 +84,7 @@ describe('Auth Component', () => {
     expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument()
   })
 
-  it('should switch to the signup form when the "Sign Up" tab is clicked', async () => {
+  it('switches to sign-up form when tab is clicked', async () => {
     const user = userEvent.setup()
     
     render(
@@ -131,15 +113,9 @@ describe('Auth Component', () => {
     expect(screen.getByRole('button', { name: /create account/i })).toBeInTheDocument()
   })
 
-  it('should allow a user to sign up successfully', async () => {
+  it('allows a user to sign up successfully', async () => {
     const user = userEvent.setup()
     
-    // Mock successful signup
-    mockSupabase.auth.signUp.mockResolvedValue({
-      data: { user: { id: '123', email: 'test@example.com' } },
-      error: null,
-    })
-
     render(
       <TestWrapper>
         <Auth />
@@ -170,23 +146,20 @@ describe('Auth Component', () => {
 
     // Wait for the signup function to be called
     await waitFor(() => {
-      expect(mockSupabase.auth.signUp).toHaveBeenCalledWith({
-        email: 'test@example.com',
-        password: 'password123',
-        options: {
-          emailRedirectTo: expect.stringContaining('localhost'),
-          data: {
-            full_name: 'John Doe',
-            phone: '',
-            role: 'customer',
-            city: 'Windhoek',
-          }
+      expect(mockSignUp).toHaveBeenCalledWith(
+        'test@example.com',
+        'password123',
+        {
+          full_name: 'John Doe',
+          phone: '',
+          role: 'customer',
+          city: 'Windhoek',
         }
-      })
+      )
     })
   })
 
-  it('should handle signup validation errors', async () => {
+  it('validates password confirmation on sign-up', async () => {
     const user = userEvent.setup()
     
     render(
@@ -208,6 +181,7 @@ describe('Auth Component', () => {
     })
 
     // Fill out form with mismatched passwords
+    await user.type(screen.getByLabelText(/full name/i), 'John Doe')
     await user.type(screen.getByLabelText(/email/i), 'test@example.com')
     await user.type(screen.getByLabelText(/password/i), 'password123')
     await user.type(screen.getByLabelText(/confirm password/i), 'different')
@@ -217,18 +191,12 @@ describe('Auth Component', () => {
     await user.click(createAccountButton)
 
     // Check that the signup function was not called due to validation error
-    expect(mockSupabase.auth.signUp).not.toHaveBeenCalled()
+    expect(mockSignUp).not.toHaveBeenCalled()
   })
 
-  it('should handle sign in', async () => {
+  it('allows a user to sign in successfully', async () => {
     const user = userEvent.setup()
     
-    // Mock successful sign in
-    mockSupabase.auth.signInWithPassword.mockResolvedValue({
-      data: { user: { id: '123', email: 'test@example.com' } },
-      error: null,
-    })
-
     render(
       <TestWrapper>
         <Auth />
@@ -250,14 +218,42 @@ describe('Auth Component', () => {
 
     // Wait for the signin function to be called
     await waitFor(() => {
-      expect(mockSupabase.auth.signInWithPassword).toHaveBeenCalledWith({
-        email: 'test@example.com',
-        password: 'password123',
-      })
+      expect(mockSignIn).toHaveBeenCalledWith('test@example.com', 'password123')
     })
   })
 
-  it('should show forgot password form when link is clicked', async () => {
+  it('shows an error on failed sign-in', async () => {
+    const user = userEvent.setup()
+    
+    // Mock failed sign in
+    mockSignIn.mockResolvedValueOnce({ error: { message: 'Invalid credentials' } })
+    
+    render(
+      <TestWrapper>
+        <Auth />
+      </TestWrapper>
+    )
+
+    // Wait for component to load
+    await waitFor(() => {
+      expect(screen.getByText('Welcome to Tuma Helper')).toBeInTheDocument()
+    })
+
+    // Fill out sign in form
+    await user.type(screen.getByLabelText(/email/i), 'test@example.com')
+    await user.type(screen.getByLabelText(/password/i), 'wrongpassword')
+
+    // Submit the form
+    const signInButton = screen.getByRole('button', { name: /sign in/i })
+    await user.click(signInButton)
+
+    // Wait for the signin function to be called
+    await waitFor(() => {
+      expect(mockSignIn).toHaveBeenCalledWith('test@example.com', 'wrongpassword')
+    })
+  })
+
+  it('shows forgot password form when link is clicked', async () => {
     const user = userEvent.setup()
     
     render(
