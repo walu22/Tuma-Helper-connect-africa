@@ -179,25 +179,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    console.log('Starting sign in process for:', email);
+    
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      console.log('Sign in result:', { error });
 
-    if (error) {
+      if (error) {
+        console.error('Sign in error:', error);
+        toast({
+          title: "Sign In Failed",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        console.log('Sign in successful');
+        toast({
+          title: "Welcome back!",
+          description: "You have successfully signed in.",
+        });
+      }
+
+      return { error };
+    } catch (err) {
+      console.error('Sign in exception:', err);
       toast({
         title: "Sign In Failed",
-        description: error.message,
+        description: "An unexpected error occurred during sign in.",
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in.",
-      });
+      return { error: err };
     }
-
-    return { error };
   };
 
   const signInWithGoogle = async () => {
