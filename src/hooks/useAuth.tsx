@@ -62,9 +62,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       console.log('Profile fetch result:', { data, error });
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error fetching profile:', error);
-        return null;
+      if (error) {
+        console.error('Error fetching profile:', error.message, error.code, error);
+        if (error.code !== 'PGRST116') {
+          return null;
+        }
       }
 
       if (!data) {
