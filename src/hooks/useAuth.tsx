@@ -52,18 +52,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProfile = async (userId: string): Promise<Profile | null> => {
     try {
+      console.log('Fetching profile for user ID:', userId);
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('user_id', userId)
         .single();
 
+      console.log('Profile fetch result:', { data, error });
+
       if (error && error.code !== 'PGRST116') {
         console.error('Error fetching profile:', error);
         return null;
       }
 
-      if (!data) return null;
+      if (!data) {
+        console.log('No profile data found for user:', userId);
+        return null;
+      }
 
       // Transform the data to match our Profile interface
       const profile: Profile = {
@@ -86,6 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         updated_at: data.updated_at,
       };
 
+      console.log('Successfully created profile object:', profile);
       return profile;
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -104,14 +111,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state change:', { event, user: session?.user?.id, email: session?.user?.email });
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
+          console.log('User logged in, fetching profile...');
           // Fetch user profile
           const profileData = await fetchProfile(session.user.id);
+          console.log('Profile data received:', profileData);
           setProfile(profileData);
         } else {
+          console.log('No user session, clearing profile');
           setProfile(null);
         }
         
