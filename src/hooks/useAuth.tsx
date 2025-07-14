@@ -34,6 +34,7 @@ interface AuthContextType {
   signInWithFacebook: () => Promise<{ error: any }>;
   signOut: () => Promise<{ error: any }>;
   resetPassword: (email: string) => Promise<{ error: any }>;
+  resendConfirmation: (email: string) => Promise<{ error: any }>;
   updateProfile: (updates: Partial<Profile>) => Promise<{ error: any }>;
   refreshProfile: () => Promise<void>;
   isAdmin: boolean;
@@ -197,18 +198,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         });
         
         let errorMessage = error.message;
+        let title = "Sign In Failed";
         
         // Handle specific error cases
         if (error.message.includes('Invalid login credentials')) {
           errorMessage = "Incorrect email or password. Please check your credentials.";
-        } else if (error.message.includes('Email not confirmed')) {
-          errorMessage = "Please check your email and click the confirmation link before signing in.";
+        } else if (error.message.includes('Email not confirmed') || error.message.includes('signup_disabled')) {
+          title = "Email Confirmation Required";
+          errorMessage = "Please check your email and click the confirmation link before signing in. Check your spam folder if you don't see it.";
         } else if (error.message.includes('Too many requests')) {
           errorMessage = "Too many login attempts. Please wait a moment and try again.";
+        } else if (error.message.includes('User not found')) {
+          errorMessage = "No account found with this email. Please sign up first.";
         }
         
         toast({
-          title: "Sign In Failed",
+          title,
           description: errorMessage,
           variant: "destructive",
         });
@@ -333,6 +338,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return { error };
   };
 
+  const resendConfirmation = async (email: string) => {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email: email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/`
+      }
+    });
+
+    if (error) {
+      toast({
+        title: "Resend Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Confirmation Email Sent",
+        description: "Please check your email (including spam folder) for the confirmation link.",
+      });
+    }
+
+    return { error };
+  };
+
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) return { error: new Error('No user logged in') };
 
@@ -374,6 +404,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signInWithFacebook,
     signOut,
     resetPassword,
+    resendConfirmation,
     updateProfile,
     refreshProfile,
     isAdmin,

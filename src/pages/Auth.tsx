@@ -13,12 +13,14 @@ import { useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
 
 export default function Auth() {
-  const { signIn, signUp, signInWithGoogle, signInWithFacebook, resetPassword, user, loading } = useAuth();
+  const { signIn, signUp, signInWithGoogle, signInWithFacebook, resetPassword, resendConfirmation, user, loading } = useAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('signin');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showResendConfirmation, setShowResendConfirmation] = useState(false);
+  const [pendingConfirmationEmail, setPendingConfirmationEmail] = useState('');
 
   // Sign In Form State
   const [signInData, setSignInData] = useState({
@@ -51,9 +53,18 @@ export default function Auth() {
     e.preventDefault();
     setIsLoading(true);
     
+    // Reset resend confirmation state
+    setShowResendConfirmation(false);
+    
     const { error } = await signIn(signInData.email, signInData.password);
     
     if (error) {
+      // Check if it's an email confirmation error
+      if (error.message && (error.message.includes('Email not confirmed') || error.message.includes('signup_disabled'))) {
+        setShowResendConfirmation(true);
+        setPendingConfirmationEmail(signInData.email);
+      }
+      
       toast({
         title: "Sign In Failed",
         description: error.message,
@@ -118,9 +129,12 @@ export default function Auth() {
     } else {
       toast({
         title: "Account Created!",
-        description: "Please check your email to confirm your account, then sign in.",
+        description: "Please check your email to confirm your account before signing in. Check your spam folder if you don't see it.",
       });
       setActiveTab('signin');
+      // Show resend confirmation option for new signups
+      setShowResendConfirmation(true);
+      setPendingConfirmationEmail(signUpData.email);
       // Clear form
       setSignUpData({
         email: '',
@@ -195,6 +209,29 @@ export default function Auth() {
         description: error.message,
         variant: "destructive",
       });
+    }
+    
+    setIsLoading(false);
+  };
+
+  const handleResendConfirmation = async () => {
+    if (!pendingConfirmationEmail) return;
+    
+    setIsLoading(true);
+    const { error } = await resendConfirmation(pendingConfirmationEmail);
+    
+    if (error) {
+      toast({
+        title: "Resend Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Confirmation Email Sent",
+        description: "Please check your email (including spam folder) for the confirmation link.",
+      });
+      setShowResendConfirmation(false);
     }
     
     setIsLoading(false);
@@ -291,6 +328,27 @@ export default function Auth() {
                         {isLoading ? 'Signing In...' : 'Sign In'}
                       </Button>
                     </form>
+
+                    {/* Email Confirmation Help */}
+                    {showResendConfirmation && (
+                      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
+                        <div className="text-sm text-blue-800">
+                          <p className="font-medium">Email confirmation required</p>
+                          <p>Please check your email ({pendingConfirmationEmail}) and click the confirmation link.</p>
+                          <p className="text-xs mt-1">Don't see the email? Check your spam folder.</p>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={handleResendConfirmation}
+                          disabled={isLoading}
+                          className="w-full"
+                        >
+                          {isLoading ? 'Sending...' : 'Resend Confirmation Email'}
+                        </Button>
+                      </div>
+                    )}
 
                     <div className="relative">
                       <div className="absolute inset-0 flex items-center">
