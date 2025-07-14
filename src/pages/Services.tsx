@@ -166,6 +166,11 @@ const Services = () => {
           profiles (
             display_name,
             avatar_url
+          ),
+          service_images (
+            id,
+            image_url,
+            is_primary
           )
         `)
         .eq('is_available', true)
