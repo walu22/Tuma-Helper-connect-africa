@@ -182,22 +182,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('Starting sign in process for:', email);
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       
-      console.log('Sign in result:', { error });
+      console.log('Sign in result:', { data, error });
 
       if (error) {
-        console.error('Sign in error:', error);
+        console.error('Sign in error details:', {
+          message: error.message,
+          status: error.status,
+          name: error.name
+        });
+        
+        let errorMessage = error.message;
+        
+        // Handle specific error cases
+        if (error.message.includes('Invalid login credentials')) {
+          errorMessage = "Incorrect email or password. Please check your credentials.";
+        } else if (error.message.includes('Email not confirmed')) {
+          errorMessage = "Please check your email and click the confirmation link before signing in.";
+        } else if (error.message.includes('Too many requests')) {
+          errorMessage = "Too many login attempts. Please wait a moment and try again.";
+        }
+        
         toast({
           title: "Sign In Failed",
-          description: error.message,
+          description: errorMessage,
           variant: "destructive",
         });
       } else {
-        console.log('Sign in successful');
+        console.log('Sign in successful, user data:', data);
         toast({
           title: "Welcome back!",
           description: "You have successfully signed in.",
