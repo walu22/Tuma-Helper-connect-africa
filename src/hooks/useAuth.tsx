@@ -180,15 +180,42 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
-    console.log('Starting sign in process for:', email);
+    console.log('=== SIGN IN DEBUG ===');
+    console.log('Email:', email);
+    console.log('Password length:', password?.length);
+    console.log('Email format valid:', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    console.log('Password exists:', !!password);
+    
+    // Validate inputs before sending to Supabase
+    if (!email || !password) {
+      const error = new Error('Email and password are required');
+      toast({
+        title: "Sign In Failed",
+        description: "Please enter both email and password.",
+        variant: "destructive",
+      });
+      return { error };
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      const error = new Error('Invalid email format');
+      toast({
+        title: "Sign In Failed",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return { error };
+    }
     
     try {
+      console.log('Making Supabase auth request...');
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: email.trim().toLowerCase(),
+        password: password,
       });
       
-      console.log('Sign in result:', { data, error });
+      console.log('Supabase response data:', data);
+      console.log('Supabase response error:', error);
 
       if (error) {
         console.error('Sign in error details:', {
@@ -228,6 +255,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return { error };
     } catch (err) {
       console.error('Sign in exception:', err);
+      console.error('Exception details:', {
+        name: err?.name,
+        message: err?.message,
+        stack: err?.stack
+      });
       toast({
         title: "Sign In Failed",
         description: "An unexpected error occurred during sign in.",
