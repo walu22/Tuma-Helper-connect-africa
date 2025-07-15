@@ -1,8 +1,9 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ServiceCategories from "@/components/ServiceCategories";
+import FeaturedServices from "@/components/FeaturedServices";
 import Features from "@/components/Features";
-import CallToAction from "@/components/CallToAction";
+import ImprovedCallToAction from "@/components/ImprovedCallToAction";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -11,8 +12,9 @@ const Index = () => {
       <Header />
       <Hero />
       <ServiceCategories />
+      <FeaturedServices />
       <Features />
-      <CallToAction />
+      <ImprovedCallToAction />
       <Footer />
     </div>
   );

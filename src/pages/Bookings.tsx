@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Clock, MapPin, User, Filter, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, MapPin, User, Filter, CheckCircle, XCircle, AlertCircle, Eye, Phone, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -131,14 +131,53 @@ const Bookings = () => {
     return bookings.filter(booking => booking.status === statusFilter);
   };
 
+  const handleQuickAction = async (bookingId: string, action: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    try {
+      let newStatus: 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
+      switch (action) {
+        case 'confirm':
+          newStatus = 'confirmed';
+          break;
+        case 'complete':
+          newStatus = 'completed';
+          break;
+        case 'cancel':
+          newStatus = 'cancelled';
+          break;
+        default:
+          return;
+      }
+
+      const { error } = await supabase
+        .from('bookings')
+        .update({ status: newStatus })
+        .eq('id', bookingId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Booking updated",
+        description: `Booking has been ${action}ed successfully`,
+      });
+
+      // Refresh bookings
+      fetchBookings();
+    } catch (error: any) {
+      toast({
+        title: "Error updating booking",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const BookingCard = ({ booking, isProvider = false }: { booking: Booking; isProvider?: boolean }) => {
     const StatusIcon = statusConfig[booking.status as keyof typeof statusConfig]?.icon || AlertCircle;
     
     return (
-      <Card 
-        className="cursor-pointer hover-scale service-card"
-        onClick={() => navigate(`/bookings/${booking.id}`)}
-      >
+      <Card className="hover-scale service-card overflow-hidden">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -182,6 +221,59 @@ const Bookings = () => {
             <div className="text-lg font-semibold text-primary">
               N${booking.total_amount}
             </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="flex gap-2 pt-2 border-t">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => navigate(`/bookings/${booking.id}`)}
+              className="flex-1"
+            >
+              <Eye className="w-3 h-3 mr-1" />
+              View Details
+            </Button>
+            
+            {isProvider && booking.status === 'pending' && (
+              <Button 
+                size="sm"
+                onClick={(e) => handleQuickAction(booking.id, 'confirm', e)}
+                className="flex-1"
+              >
+                <CheckCircle className="w-3 h-3 mr-1" />
+                Confirm
+              </Button>
+            )}
+            
+            {isProvider && booking.status === 'confirmed' && (
+              <Button 
+                size="sm"
+                onClick={(e) => handleQuickAction(booking.id, 'complete', e)}
+                className="flex-1"
+              >
+                <CheckCircle className="w-3 h-3 mr-1" />
+                Complete
+              </Button>
+            )}
+            
+            {!isProvider && (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toast({
+                    title: "Contact feature coming soon!",
+                    description: "Direct messaging is under development.",
+                  });
+                }}
+                className="flex-1"
+              >
+                <MessageSquare className="w-3 h-3 mr-1" />
+                Message
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>

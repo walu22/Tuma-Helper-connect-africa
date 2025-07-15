@@ -13,6 +13,7 @@ import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BookingForm from '@/components/BookingForm';
+import EnhancedReviewSystem from '@/components/EnhancedReviewSystem';
 
 interface ServiceDetail {
   id: string;
@@ -329,6 +330,11 @@ const ServiceDetail = () => {
                   </p>
                 )}
               </Card>
+            </div>
+
+            {/* Reviews Section */}
+            <div className="mb-8">
+              <EnhancedReviewSystem providerId={service.profiles.user_id} />
             </div>
           </div>
 
