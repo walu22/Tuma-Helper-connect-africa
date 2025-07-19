@@ -87,16 +87,16 @@ const ImprovedCallToAction = () => {
             {/* Benefits */}
             <Card className="bg-primary-foreground/10 backdrop-blur-sm border-primary-foreground/20">
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-6 text-primary-foreground">
+                <h3 className="text-2xl font-bold mb-6 text-foreground">
                   {activeTab === 'customer' ? 'Why Choose LocalServe?' : 'Why Join as a Provider?'}
                 </h3>
                 <div className="space-y-4">
                   {(activeTab === 'customer' ? customerBenefits : providerBenefits).map((benefit, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-primary-foreground/20 rounded-full flex items-center justify-center">
-                        <benefit.icon className="w-5 h-5 text-primary-foreground" />
+                      <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                        <benefit.icon className="w-5 h-5 text-primary" />
                       </div>
-                      <span className="text-primary-foreground/90">{benefit.text}</span>
+                      <span className="text-muted-foreground">{benefit.text}</span>
                     </div>
                   ))}
                 </div>
@@ -106,34 +106,34 @@ const ImprovedCallToAction = () => {
             {/* Stats */}
             <Card className="bg-primary-foreground/10 backdrop-blur-sm border-primary-foreground/20">
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-6 text-primary-foreground">
+                <h3 className="text-2xl font-bold mb-6 text-foreground">
                   Join Our Community
                 </h3>
                 <div className="grid grid-cols-2 gap-6">
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-primary-foreground mb-2">1,000+</div>
-                    <div className="text-primary-foreground/80 text-sm">Active Providers</div>
+                    <div className="text-3xl font-bold text-foreground mb-2">1,000+</div>
+                    <div className="text-muted-foreground text-sm">Active Providers</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-primary-foreground mb-2">5,000+</div>
-                    <div className="text-primary-foreground/80 text-sm">Happy Customers</div>
+                    <div className="text-3xl font-bold text-foreground mb-2">5,000+</div>
+                    <div className="text-muted-foreground text-sm">Happy Customers</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-primary-foreground mb-2">4.8</div>
-                    <div className="text-primary-foreground/80 text-sm">Average Rating</div>
+                    <div className="text-3xl font-bold text-foreground mb-2">4.8</div>
+                    <div className="text-muted-foreground text-sm">Average Rating</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-primary-foreground mb-2">24/7</div>
-                    <div className="text-primary-foreground/80 text-sm">Support Available</div>
+                    <div className="text-3xl font-bold text-foreground mb-2">24/7</div>
+                    <div className="text-muted-foreground text-sm">Support Available</div>
                   </div>
                 </div>
                 
-                <div className="mt-6 p-4 bg-primary-foreground/10 rounded-lg">
+                <div className="mt-6 p-4 bg-primary/10 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
-                    <Shield className="w-4 h-4 text-primary-foreground" />
-                    <span className="text-primary-foreground font-medium">100% Secure</span>
+                    <Shield className="w-4 h-4 text-primary" />
+                    <span className="text-primary font-medium">100% Secure</span>
                   </div>
-                  <p className="text-primary-foreground/80 text-sm">
+                  <p className="text-muted-foreground text-sm">
                     All payments are processed securely and your data is protected
                   </p>
                 </div>
