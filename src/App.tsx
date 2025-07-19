@@ -23,6 +23,16 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdvancedAnalytics from "./pages/AdvancedAnalytics";
 import HowItWorks from "./pages/HowItWorks";
 import Help from "./pages/Help";
+import About from "./pages/About";
+import Safety from "./pages/Safety";
+import Contact from "./pages/Contact";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import Careers from "./pages/Careers";
+import Blog from "./pages/Blog";
+import Press from "./pages/Press";
+import ProviderResources from "./pages/ProviderResources";
+import ProviderLogin from "./pages/ProviderLogin";
 import { AuthProvider } from "./hooks/useAuth";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import Header from "./components/Header";
@@ -46,6 +56,17 @@ const App = () => (
               <Route path="/profile" element={<Profile />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
               <Route path="/help" element={<Help />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/safety" element={<Safety />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/press" element={<Press />} />
+              <Route path="/provider-resources" element={<ProviderResources />} />
+              <Route path="/provider-login" element={<ProviderLogin />} />
+              <Route path="/training" element={<TrainingCenter />} />
               <Route path="/services-test" element={<ServicesTest />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/:id" element={<ServiceDetail />} />
