@@ -157,7 +157,7 @@ const ImprovedCallToAction = () => {
                 variant="outline"
                 size="lg"
                 onClick={() => navigate('/how-it-works')}
-                className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 px-8 py-4 text-lg font-semibold backdrop-blur-sm"
+                className="border-foreground text-foreground hover:bg-muted px-8 py-4 text-lg font-semibold"
               >
                 Learn How It Works
               </Button>
