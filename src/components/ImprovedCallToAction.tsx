@@ -35,17 +35,17 @@ const ImprovedCallToAction = () => {
 
   return (
     <section className="py-16 bg-primary text-primary-foreground relative overflow-hidden">
-      {/* Simple Background Elements */}
+      {/* Enhanced Background Elements */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-10 left-10 w-24 h-24 bg-primary-foreground rounded-full blur-2xl"></div>
-        <div className="absolute bottom-10 right-10 w-32 h-32 bg-primary-foreground rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-primary-foreground rounded-full blur-xl"></div>
+        <div className="absolute top-10 left-10 w-24 h-24 bg-primary-foreground rounded-full blur-2xl animate-pulse-slow"></div>
+        <div className="absolute bottom-10 right-10 w-32 h-32 bg-primary-foreground rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-primary-foreground rounded-full blur-xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 animate-fade-in">
             <div className="inline-block mb-3">
               <Badge className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30 px-3 py-1 text-xs font-medium">
                 <Star className="w-3 h-3 mr-1" />
@@ -53,10 +53,10 @@ const ImprovedCallToAction = () => {
               </Badge>
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight text-primary-foreground">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight text-primary-foreground tracking-tight">
               Ready to Get Started?
             </h2>
-            <p className="text-lg md:text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto font-medium">
               Join thousands of satisfied customers and trusted service providers
             </p>
             
@@ -92,23 +92,23 @@ const ImprovedCallToAction = () => {
           </div>
 
           {/* Content Cards */}
-          <div className="grid lg:grid-cols-2 gap-6 mb-10">
+          <div className="grid lg:grid-cols-2 gap-6 mb-10 animate-fade-in" style={{ animationDelay: '200ms' }}>
             {/* Benefits Card */}
-            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] animate-fade-in-left">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-8 h-8 bg-primary-foreground/20 rounded-lg flex items-center justify-center">
                     {activeTab === 'customer' ? <CheckCircle className="w-4 h-4 text-primary-foreground" /> : <Users className="w-4 h-4 text-primary-foreground" />}
                   </div>
-                  <h3 className="text-xl font-bold text-primary-foreground">
+                  <h3 className="text-xl font-bold text-primary-foreground tracking-tight">
                     {activeTab === 'customer' ? 'Why Choose Us?' : 'Why Join as a Provider?'}
                   </h3>
                 </div>
                 
                 <div className="space-y-3">
                   {(activeTab === 'customer' ? customerBenefits : providerBenefits).map((benefit, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-accent/30 rounded-lg flex items-center justify-center shrink-0">
+                    <div key={index} className="flex items-center gap-3 group-hover:translate-x-1 transition-transform duration-300" style={{ transitionDelay: `${index * 50}ms` }}>
+                      <div className="w-8 h-8 bg-accent/30 rounded-lg flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                         <benefit.icon className="w-4 h-4 text-primary-foreground" />
                       </div>
                       <span className="text-primary-foreground/90 text-sm font-medium">{benefit.text}</span>
@@ -119,33 +119,33 @@ const ImprovedCallToAction = () => {
             </Card>
 
             {/* Stats Card */}
-            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] animate-fade-in-right">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-8 h-8 bg-primary-foreground/20 rounded-lg flex items-center justify-center">
                     <Star className="w-4 h-4 text-primary-foreground" />
                   </div>
-                  <h3 className="text-xl font-bold text-primary-foreground">
+                  <h3 className="text-xl font-bold text-primary-foreground tracking-tight">
                     Join Our Community
                   </h3>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-primary-foreground mb-1">1,000+</div>
-                    <div className="text-primary-foreground/80 text-xs">Active Providers</div>
+                  <div className="text-center group-hover:scale-105 transition-transform duration-300">
+                    <div className="text-2xl font-bold text-primary-foreground mb-1 font-mono">1,000+</div>
+                    <div className="text-primary-foreground/80 text-xs font-medium">Active Providers</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-primary-foreground mb-1">5,000+</div>
-                    <div className="text-primary-foreground/80 text-xs">Happy Customers</div>
+                  <div className="text-center group-hover:scale-105 transition-transform duration-300" style={{ transitionDelay: '50ms' }}>
+                    <div className="text-2xl font-bold text-primary-foreground mb-1 font-mono">5,000+</div>
+                    <div className="text-primary-foreground/80 text-xs font-medium">Happy Customers</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-primary-foreground mb-1">4.8</div>
-                    <div className="text-primary-foreground/80 text-xs">Average Rating</div>
+                  <div className="text-center group-hover:scale-105 transition-transform duration-300" style={{ transitionDelay: '100ms' }}>
+                    <div className="text-2xl font-bold text-primary-foreground mb-1 font-mono">4.8</div>
+                    <div className="text-primary-foreground/80 text-xs font-medium">Average Rating</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-primary-foreground mb-1">24/7</div>
-                    <div className="text-primary-foreground/80 text-xs">Support Available</div>
+                  <div className="text-center group-hover:scale-105 transition-transform duration-300" style={{ transitionDelay: '150ms' }}>
+                    <div className="text-2xl font-bold text-primary-foreground mb-1 font-mono">24/7</div>
+                    <div className="text-primary-foreground/80 text-xs font-medium">Support Available</div>
                   </div>
                 </div>
                 
@@ -163,22 +163,22 @@ const ImprovedCallToAction = () => {
           </div>
 
           {/* CTA Section */}
-          <div className="text-center">
+          <div className="text-center animate-scale-in" style={{ animationDelay: '400ms' }}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
               <Button 
                 size="lg"
                 onClick={handleGetStarted}
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8 py-3 text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                className="group bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8 py-3 text-lg font-bold rounded-xl shadow-xl hover:shadow-glow transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 {activeTab === 'customer' ? 'Find Services Now' : 'Start Earning Today'}
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
               
               <Button 
                 variant="outline"
                 size="lg"
                 onClick={() => navigate('/how-it-works')}
-                className="border-2 border-primary-foreground bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20 px-8 py-3 text-lg font-bold rounded-xl backdrop-blur-sm transition-all duration-300"
+                className="border-2 border-primary-foreground bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20 px-8 py-3 text-lg font-bold rounded-xl backdrop-blur-sm transition-all duration-300 hover:scale-105"
               >
                 Learn How It Works
               </Button>
@@ -192,7 +192,7 @@ const ImprovedCallToAction = () => {
               ].map((badge, index) => (
                 <Badge 
                   key={index}
-                  className="bg-primary-foreground/25 text-primary-foreground border-primary-foreground/40 px-4 py-2 text-xs font-semibold rounded-full hover:bg-primary-foreground/35 transition-all duration-300 backdrop-blur-sm"
+                  className="bg-primary-foreground/25 text-primary-foreground border-primary-foreground/40 px-4 py-2 text-xs font-semibold rounded-full hover:bg-primary-foreground/35 transition-all duration-300 backdrop-blur-sm hover:scale-105"
                 >
                   <badge.icon className="w-3 h-3 mr-1" />
                   {badge.text}

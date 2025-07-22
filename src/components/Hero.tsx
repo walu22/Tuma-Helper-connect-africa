@@ -157,21 +157,21 @@ const Hero = () => {
               </Button>
             </div>
           </div>
+        </div>
 
-          {/* Popular Searches */}
-          <div className="mt-8 px-4">
-            <p className="text-white/70 mb-4 text-sm md:text-base">{t('hero.popular_searches')}</p>
-            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-              {["Plumber", "House Cleaning", "Electrician", "Gardener", "Car Wash", "Beauty Services"].map((service) => (
-                <button
-                  key={service}
-                  onClick={() => navigate(`/services?search=${encodeURIComponent(service)}`)}
-                  className="px-3 md:px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full text-xs md:text-sm font-medium transition-all duration-300 hover:scale-105 touch-manipulation"
-                >
-                  {service}
-                </button>
-              ))}
-            </div>
+        {/* Popular Searches */}
+        <div className="mt-8 px-4">
+          <p className="text-white/70 mb-4 text-sm md:text-base">{t('hero.popular_searches')}</p>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+            {["Plumber", "House Cleaning", "Electrician", "Gardener", "Car Wash", "Beauty Services"].map((service) => (
+              <button
+                key={service}
+                onClick={() => navigate(`/services?search=${encodeURIComponent(service)}`)}
+                className="px-3 md:px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full text-xs md:text-sm font-medium transition-all duration-300 hover:scale-105 touch-manipulation"
+              >
+                {service}
+              </button>
+            ))}
           </div>
         </div>
       </div>

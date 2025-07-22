@@ -48,6 +48,7 @@
     
     --shadow-soft: 0 4px 12px -4px hsl(221 83% 53% / 0.15);
     --shadow-medium: 0 8px 25px -8px hsl(221 83% 53% / 0.25);
+    --shadow-glow: 0 25px 50px -12px hsl(221 83% 53% / 0.4);
     --shadow-strong: 0 12px 40px -12px hsl(24 95% 53% / 0.35);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -184,4 +185,53 @@
   .text-responsive-2xl { @apply text-2xl sm:text-3xl; }
   .text-responsive-3xl { @apply text-3xl sm:text-4xl; }
   .text-responsive-4xl { @apply text-4xl sm:text-5xl; }
+}
+
+/* Enhanced Button Styles */
+@layer components {
+  .btn-hero {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 
+           shadow-lg hover:shadow-glow transition-all duration-300 
+           hover:scale-105 active:scale-95 font-semibold;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 
+           transition-all duration-300 hover:scale-105 active:scale-95;
+  }
+
+  .card-hover {
+    @apply hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+  }
+
+  .animate-on-scroll {
+    @apply opacity-0 translate-y-8 transition-all duration-700 ease-out;
+  }
+
+  .animate-on-scroll.in-view {
+    @apply opacity-100 translate-y-0;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.8);
 }
