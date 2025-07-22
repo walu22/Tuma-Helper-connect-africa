@@ -34,104 +34,91 @@ const ImprovedCallToAction = () => {
   };
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-16 relative overflow-hidden">
       {/* Enhanced Background with Multiple Layers */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-glow to-accent"></div>
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-foreground/5 to-transparent"></div>
       
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-primary-foreground rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-primary-foreground rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-primary-foreground rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-1/3 left-1/4 w-36 h-36 bg-primary-foreground rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
-      </div>
-
-      {/* Geometric Pattern Overlay */}
-      <div className="absolute inset-0 opacity-10">
-        <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-            </pattern>
-          </defs>
-          <rect width="100" height="100" fill="url(#grid)" />
-        </svg>
+      <div className="absolute inset-0 opacity-15">
+        <div className="absolute top-10 left-10 w-24 h-24 bg-primary-foreground rounded-full blur-2xl animate-pulse"></div>
+        <div className="absolute bottom-10 right-10 w-32 h-32 bg-primary-foreground rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-primary-foreground rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          {/* Enhanced Header */}
-          <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <Badge className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30 px-4 py-2 text-sm font-medium">
-                <Star className="w-4 h-4 mr-2" />
+        <div className="max-w-5xl mx-auto">
+          {/* Compact Header */}
+          <div className="text-center mb-12">
+            <div className="inline-block mb-3">
+              <Badge className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30 px-3 py-1 text-xs font-medium">
+                <Star className="w-3 h-3 mr-1" />
                 Join 5,000+ Happy Users
               </Badge>
             </div>
             
-            <h2 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-primary-foreground">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight text-primary-foreground">
               Ready to Get
               <span className="block bg-gradient-to-r from-primary-foreground via-accent-foreground to-primary-foreground bg-clip-text text-transparent">
                 Started?
               </span>
             </h2>
-            <p className="text-xl md:text-2xl text-primary-foreground/80 mb-10 max-w-3xl mx-auto leading-relaxed">
-              Join thousands of satisfied customers and trusted service providers in our growing community
+            <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
+              Join thousands of satisfied customers and trusted service providers
             </p>
             
-            {/* Enhanced Tab Selector */}
-            <div className="flex justify-center mb-12">
-              <div className="bg-primary-foreground/20 backdrop-blur-md rounded-2xl p-2 shadow-2xl border border-primary-foreground/20">
+            {/* Compact Tab Selector */}
+            <div className="flex justify-center mb-8">
+              <div className="bg-primary-foreground/20 backdrop-blur-md rounded-xl p-1 shadow-xl border border-primary-foreground/20">
                 <Button
                   variant={activeTab === 'customer' ? 'default' : 'ghost'}
                   onClick={() => setActiveTab('customer')}
-                  className={`px-8 py-4 rounded-xl transition-all duration-500 transform ${
+                  className={`px-6 py-2 rounded-lg transition-all duration-300 ${
                     activeTab === 'customer' 
-                      ? 'bg-primary-foreground text-primary shadow-xl scale-105' 
-                      : 'text-primary-foreground hover:bg-primary-foreground/20 hover:scale-102'
+                      ? 'bg-primary-foreground text-primary shadow-lg' 
+                      : 'text-primary-foreground hover:bg-primary-foreground/20'
                   }`}
                 >
-                  <Users className="w-5 h-5 mr-2" />
+                  <Users className="w-4 h-4 mr-2" />
                   I Need Services
                 </Button>
                 <Button
                   variant={activeTab === 'provider' ? 'default' : 'ghost'}
                   onClick={() => setActiveTab('provider')}
-                  className={`px-8 py-4 rounded-xl transition-all duration-500 transform ${
+                  className={`px-6 py-2 rounded-lg transition-all duration-300 ${
                     activeTab === 'provider' 
-                      ? 'bg-primary-foreground text-primary shadow-xl scale-105' 
-                      : 'text-primary-foreground hover:bg-primary-foreground/20 hover:scale-102'
+                      ? 'bg-primary-foreground text-primary shadow-lg' 
+                      : 'text-primary-foreground hover:bg-primary-foreground/20'
                   }`}
                 >
-                  <Shield className="w-5 h-5 mr-2" />
+                  <Shield className="w-4 h-4 mr-2" />
                   I Provide Services
                 </Button>
               </div>
             </div>
           </div>
 
-          {/* Enhanced Content Cards with Floating Effect */}
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+          {/* Compact Content Cards */}
+          <div className="grid lg:grid-cols-2 gap-6 mb-10">
             {/* Benefits Card */}
-            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 hover:scale-105">
-              <CardContent className="p-10">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-12 h-12 bg-gradient-to-r from-accent to-primary-glow rounded-xl flex items-center justify-center">
-                    {activeTab === 'customer' ? <CheckCircle className="w-6 h-6 text-primary-foreground" /> : <Users className="w-6 h-6 text-primary-foreground" />}
+            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 bg-gradient-to-r from-accent to-primary-glow rounded-lg flex items-center justify-center">
+                    {activeTab === 'customer' ? <CheckCircle className="w-4 h-4 text-primary-foreground" /> : <Users className="w-4 h-4 text-primary-foreground" />}
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-primary-foreground">
+                  <h3 className="text-xl font-bold text-primary-foreground">
                     {activeTab === 'customer' ? 'Why Choose Us?' : 'Why Join as a Provider?'}
                   </h3>
                 </div>
                 
-                <div className="space-y-6">
+                <div className="space-y-3">
                   {(activeTab === 'customer' ? customerBenefits : providerBenefits).map((benefit, index) => (
-                    <div key={index} className="flex items-center gap-4 group-hover:translate-x-2 transition-transform duration-300" style={{ transitionDelay: `${index * 100}ms` }}>
-                      <div className="w-12 h-12 bg-gradient-to-r from-primary/20 to-accent/20 rounded-xl flex items-center justify-center shrink-0">
-                        <benefit.icon className="w-6 h-6 text-primary-foreground" />
+                    <div key={index} className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center shrink-0">
+                        <benefit.icon className="w-4 h-4 text-primary-foreground" />
                       </div>
-                      <span className="text-primary-foreground/90 text-lg font-medium">{benefit.text}</span>
+                      <span className="text-primary-foreground/90 text-sm font-medium">{benefit.text}</span>
                     </div>
                   ))}
                 </div>
@@ -139,83 +126,82 @@ const ImprovedCallToAction = () => {
             </Card>
 
             {/* Stats Card */}
-            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 hover:scale-105">
-              <CardContent className="p-10">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-12 h-12 bg-gradient-to-r from-accent to-primary-glow rounded-xl flex items-center justify-center">
-                    <Star className="w-6 h-6 text-primary-foreground" />
+            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 bg-gradient-to-r from-accent to-primary-glow rounded-lg flex items-center justify-center">
+                    <Star className="w-4 h-4 text-primary-foreground" />
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-primary-foreground">
+                  <h3 className="text-xl font-bold text-primary-foreground">
                     Join Our Community
                   </h3>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-8 mb-8">
-                  <div className="text-center group-hover:scale-110 transition-transform duration-300">
-                    <div className="text-4xl md:text-5xl font-bold text-primary-foreground mb-3 bg-gradient-to-r from-primary-foreground to-accent-foreground bg-clip-text text-transparent">1,000+</div>
-                    <div className="text-primary-foreground/80 text-sm font-medium">Active Providers</div>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-primary-foreground mb-1">1,000+</div>
+                    <div className="text-primary-foreground/80 text-xs">Active Providers</div>
                   </div>
-                  <div className="text-center group-hover:scale-110 transition-transform duration-300" style={{ transitionDelay: '100ms' }}>
-                    <div className="text-4xl md:text-5xl font-bold text-primary-foreground mb-3 bg-gradient-to-r from-primary-foreground to-accent-foreground bg-clip-text text-transparent">5,000+</div>
-                    <div className="text-primary-foreground/80 text-sm font-medium">Happy Customers</div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-primary-foreground mb-1">5,000+</div>
+                    <div className="text-primary-foreground/80 text-xs">Happy Customers</div>
                   </div>
-                  <div className="text-center group-hover:scale-110 transition-transform duration-300" style={{ transitionDelay: '200ms' }}>
-                    <div className="text-4xl md:text-5xl font-bold text-primary-foreground mb-3 bg-gradient-to-r from-primary-foreground to-accent-foreground bg-clip-text text-transparent">4.8</div>
-                    <div className="text-primary-foreground/80 text-sm font-medium">Average Rating</div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-primary-foreground mb-1">4.8</div>
+                    <div className="text-primary-foreground/80 text-xs">Average Rating</div>
                   </div>
-                  <div className="text-center group-hover:scale-110 transition-transform duration-300" style={{ transitionDelay: '300ms' }}>
-                    <div className="text-4xl md:text-5xl font-bold text-primary-foreground mb-3 bg-gradient-to-r from-primary-foreground to-accent-foreground bg-clip-text text-transparent">24/7</div>
-                    <div className="text-primary-foreground/80 text-sm font-medium">Support Available</div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-primary-foreground mb-1">24/7</div>
+                    <div className="text-primary-foreground/80 text-xs">Support Available</div>
                   </div>
                 </div>
                 
-                <div className="p-6 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl border border-primary-foreground/20">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Shield className="w-6 h-6 text-primary-foreground" />
-                    <span className="text-primary-foreground font-bold text-lg">100% Secure & Trusted</span>
+                <div className="p-3 bg-gradient-to-r from-primary/20 to-accent/20 rounded-lg border border-primary-foreground/20">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Shield className="w-4 h-4 text-primary-foreground" />
+                    <span className="text-primary-foreground font-semibold text-sm">100% Secure</span>
                   </div>
-                  <p className="text-primary-foreground/80 leading-relaxed">
-                    All payments are processed securely and your data is protected with enterprise-grade security
+                  <p className="text-primary-foreground/80 text-xs leading-relaxed">
+                    All payments are processed securely and your data is protected
                   </p>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Enhanced CTA Section */}
+          {/* Compact CTA Section */}
           <div className="text-center">
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
               <Button 
                 size="lg"
                 onClick={handleGetStarted}
-                className="group bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-12 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-110 hover:-translate-y-1"
+                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8 py-3 text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
               >
                 {activeTab === 'customer' ? 'Find Services Now' : 'Start Earning Today'}
-                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
               
               <Button 
                 variant="outline"
                 size="lg"
                 onClick={() => navigate('/how-it-works')}
-                className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/20 px-12 py-6 text-xl font-bold rounded-2xl backdrop-blur-sm transition-all duration-500 hover:scale-105"
+                className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/20 px-8 py-3 text-lg font-bold rounded-xl backdrop-blur-sm transition-all duration-300"
               >
                 Learn How It Works
               </Button>
             </div>
             
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-3">
               {[
                 { icon: CheckCircle, text: "No Setup Fee" },
                 { icon: Clock, text: "Instant Approval" },
-                { icon: Shield, text: "24/7 Support" },
-                { icon: Star, text: "Money Back Guarantee" }
+                { icon: Shield, text: "24/7 Support" }
               ].map((badge, index) => (
                 <Badge 
                   key={index}
-                  className="bg-primary-foreground/25 text-primary-foreground border-primary-foreground/40 px-6 py-3 text-sm font-semibold rounded-full hover:bg-primary-foreground/35 transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+                  className="bg-primary-foreground/25 text-primary-foreground border-primary-foreground/40 px-4 py-2 text-xs font-semibold rounded-full hover:bg-primary-foreground/35 transition-all duration-300 backdrop-blur-sm"
                 >
-                  <badge.icon className="w-4 h-4 mr-2" />
+                  <badge.icon className="w-3 h-3 mr-1" />
                   {badge.text}
                 </Badge>
               ))}
