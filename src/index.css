@@ -6,48 +6,48 @@
 
 @layer base {
   :root {
-    /* Core brand colors - Modern African-inspired palette */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Corporate Blue & Gray - Professional & Trustworthy */
+    --background: 210 40% 98%;
+    --foreground: 215 25% 17%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 25% 17%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 25% 17%;
 
-    /* Primary - Vibrant orange representing African sunset */
-    --primary: 24 95% 53%;
+    /* Primary - Corporate Blue */
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 24 100% 65%;
+    --primary-glow: 221 83% 60%;
 
-    /* Secondary - Warm terracotta */
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Professional Gray */
+    --secondary: 215 25% 47%;
+    --secondary-foreground: 0 0% 100%;
 
-    /* Accent - Deep teal for trust and reliability */
-    --accent: 180 84% 40%;
+    /* Accent - Sky Blue */
+    --accent: 199 89% 48%;
     --accent-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 24 95% 53%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221 83% 53%;
 
     --radius: 0.75rem;
 
-    /* Custom design tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(24 95% 53%), hsl(24 100% 65%));
-    --gradient-hero: linear-gradient(135deg, hsl(24 95% 53%), hsl(180 84% 40%));
+    /* Corporate design tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(199 89% 48%));
+    --gradient-hero: linear-gradient(135deg, hsl(221 83% 53%), hsl(215 25% 47%));
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
     
-    --shadow-soft: 0 4px 12px -4px hsl(24 95% 53% / 0.15);
-    --shadow-medium: 0 8px 25px -8px hsl(24 95% 53% / 0.25);
+    --shadow-soft: 0 4px 12px -4px hsl(221 83% 53% / 0.15);
+    --shadow-medium: 0 8px 25px -8px hsl(221 83% 53% / 0.25);
     --shadow-strong: 0 12px 40px -12px hsl(24 95% 53% / 0.35);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

@@ -96,12 +96,12 @@ const Features = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="bg-blue-600 rounded-3xl p-8 md:p-16 text-white">
+        <div className="bg-primary rounded-3xl p-8 md:p-16 text-primary-foreground">
           <div className="text-center mb-12">
             <h3 className="text-3xl md:text-4xl font-bold mb-4">
               {t('features.trusted_by_thousands')}
             </h3>
-            <p className="text-white/90 text-lg max-w-2xl mx-auto">
+            <p className="text-primary-foreground/90 text-lg max-w-2xl mx-auto">
               {t('features.trusted_desc')}
             </p>
           </div>
@@ -109,8 +109,8 @@ const Features = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold mb-2 text-white">{stat.number}</div>
-                <div className="text-white/80 font-medium">{stat.label}</div>
+                <div className="text-3xl md:text-4xl font-bold mb-2 text-primary-foreground">{stat.number}</div>
+                <div className="text-primary-foreground/80 font-medium">{stat.label}</div>
               </div>
             ))}
           </div>

@@ -34,12 +34,12 @@ const ImprovedCallToAction = () => {
   };
 
   return (
-    <section className="py-16 bg-blue-600 text-white relative overflow-hidden">
+    <section className="py-16 bg-primary text-primary-foreground relative overflow-hidden">
       {/* Simple Background Elements */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-10 left-10 w-24 h-24 bg-white rounded-full blur-2xl"></div>
-        <div className="absolute bottom-10 right-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-white rounded-full blur-xl"></div>
+        <div className="absolute top-10 left-10 w-24 h-24 bg-primary-foreground rounded-full blur-2xl"></div>
+        <div className="absolute bottom-10 right-10 w-32 h-32 bg-primary-foreground rounded-full blur-3xl"></div>
+        <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-primary-foreground rounded-full blur-xl"></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -47,29 +47,29 @@ const ImprovedCallToAction = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="inline-block mb-3">
-              <Badge className="bg-white/20 text-white border-white/30 px-3 py-1 text-xs font-medium">
+              <Badge className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30 px-3 py-1 text-xs font-medium">
                 <Star className="w-3 h-3 mr-1" />
                 Join 5,000+ Happy Users
               </Badge>
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight text-white">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight text-primary-foreground">
               Ready to Get Started?
             </h2>
-            <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
               Join thousands of satisfied customers and trusted service providers
             </p>
             
             {/* Tab Selector */}
             <div className="flex justify-center mb-8">
-              <div className="bg-white/20 backdrop-blur-md rounded-xl p-1 shadow-xl border border-white/20">
+              <div className="bg-primary-foreground/20 backdrop-blur-md rounded-xl p-1 shadow-xl border border-primary-foreground/20">
                 <Button
                   variant={activeTab === 'customer' ? 'default' : 'ghost'}
                   onClick={() => setActiveTab('customer')}
                   className={`px-6 py-2 rounded-lg transition-all duration-300 ${
                     activeTab === 'customer' 
-                      ? 'bg-white text-blue-600 shadow-lg' 
-                      : 'text-white hover:bg-white/20'
+                      ? 'bg-primary-foreground text-primary shadow-lg' 
+                      : 'text-primary-foreground hover:bg-primary-foreground/20'
                   }`}
                 >
                   <Users className="w-4 h-4 mr-2" />
@@ -80,8 +80,8 @@ const ImprovedCallToAction = () => {
                   onClick={() => setActiveTab('provider')}
                   className={`px-6 py-2 rounded-lg transition-all duration-300 ${
                     activeTab === 'provider' 
-                      ? 'bg-white text-blue-600 shadow-lg' 
-                      : 'text-white hover:bg-white/20'
+                      ? 'bg-primary-foreground text-primary shadow-lg' 
+                      : 'text-primary-foreground hover:bg-primary-foreground/20'
                   }`}
                 >
                   <Shield className="w-4 h-4 mr-2" />
@@ -94,13 +94,13 @@ const ImprovedCallToAction = () => {
           {/* Content Cards */}
           <div className="grid lg:grid-cols-2 gap-6 mb-10">
             {/* Benefits Card */}
-            <Card className="group bg-white/15 backdrop-blur-md border-white/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                    {activeTab === 'customer' ? <CheckCircle className="w-4 h-4 text-white" /> : <Users className="w-4 h-4 text-white" />}
+                  <div className="w-8 h-8 bg-primary-foreground/20 rounded-lg flex items-center justify-center">
+                    {activeTab === 'customer' ? <CheckCircle className="w-4 h-4 text-primary-foreground" /> : <Users className="w-4 h-4 text-primary-foreground" />}
                   </div>
-                  <h3 className="text-xl font-bold text-white">
+                  <h3 className="text-xl font-bold text-primary-foreground">
                     {activeTab === 'customer' ? 'Why Choose Us?' : 'Why Join as a Provider?'}
                   </h3>
                 </div>
@@ -108,10 +108,10 @@ const ImprovedCallToAction = () => {
                 <div className="space-y-3">
                   {(activeTab === 'customer' ? customerBenefits : providerBenefits).map((benefit, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-500/30 rounded-lg flex items-center justify-center shrink-0">
-                        <benefit.icon className="w-4 h-4 text-white" />
+                      <div className="w-8 h-8 bg-accent/30 rounded-lg flex items-center justify-center shrink-0">
+                        <benefit.icon className="w-4 h-4 text-primary-foreground" />
                       </div>
-                      <span className="text-white/90 text-sm font-medium">{benefit.text}</span>
+                      <span className="text-primary-foreground/90 text-sm font-medium">{benefit.text}</span>
                     </div>
                   ))}
                 </div>
@@ -119,42 +119,42 @@ const ImprovedCallToAction = () => {
             </Card>
 
             {/* Stats Card */}
-            <Card className="group bg-white/15 backdrop-blur-md border-white/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <Card className="group bg-primary-foreground/15 backdrop-blur-md border-primary-foreground/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                    <Star className="w-4 h-4 text-white" />
+                  <div className="w-8 h-8 bg-primary-foreground/20 rounded-lg flex items-center justify-center">
+                    <Star className="w-4 h-4 text-primary-foreground" />
                   </div>
-                  <h3 className="text-xl font-bold text-white">
+                  <h3 className="text-xl font-bold text-primary-foreground">
                     Join Our Community
                   </h3>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-white mb-1">1,000+</div>
-                    <div className="text-white/80 text-xs">Active Providers</div>
+                    <div className="text-2xl font-bold text-primary-foreground mb-1">1,000+</div>
+                    <div className="text-primary-foreground/80 text-xs">Active Providers</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-white mb-1">5,000+</div>
-                    <div className="text-white/80 text-xs">Happy Customers</div>
+                    <div className="text-2xl font-bold text-primary-foreground mb-1">5,000+</div>
+                    <div className="text-primary-foreground/80 text-xs">Happy Customers</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-white mb-1">4.8</div>
-                    <div className="text-white/80 text-xs">Average Rating</div>
+                    <div className="text-2xl font-bold text-primary-foreground mb-1">4.8</div>
+                    <div className="text-primary-foreground/80 text-xs">Average Rating</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-white mb-1">24/7</div>
-                    <div className="text-white/80 text-xs">Support Available</div>
+                    <div className="text-2xl font-bold text-primary-foreground mb-1">24/7</div>
+                    <div className="text-primary-foreground/80 text-xs">Support Available</div>
                   </div>
                 </div>
                 
-                <div className="p-3 bg-blue-500/20 rounded-lg border border-white/20">
+                <div className="p-3 bg-secondary/20 rounded-lg border border-primary-foreground/20">
                   <div className="flex items-center gap-2 mb-1">
-                    <Shield className="w-4 h-4 text-white" />
-                    <span className="text-white font-semibold text-sm">100% Secure</span>
+                    <Shield className="w-4 h-4 text-primary-foreground" />
+                    <span className="text-primary-foreground font-semibold text-sm">100% Secure</span>
                   </div>
-                  <p className="text-white/80 text-xs leading-relaxed">
+                  <p className="text-primary-foreground/80 text-xs leading-relaxed">
                     All payments are processed securely and your data is protected
                   </p>
                 </div>
@@ -168,7 +168,7 @@ const ImprovedCallToAction = () => {
               <Button 
                 size="lg"
                 onClick={handleGetStarted}
-                className="bg-white text-blue-600 hover:bg-white/90 px-8 py-3 text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8 py-3 text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
               >
                 {activeTab === 'customer' ? 'Find Services Now' : 'Start Earning Today'}
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -178,7 +178,7 @@ const ImprovedCallToAction = () => {
                 variant="outline"
                 size="lg"
                 onClick={() => navigate('/how-it-works')}
-                className="border-2 border-white text-white hover:bg-white/20 px-8 py-3 text-lg font-bold rounded-xl backdrop-blur-sm transition-all duration-300"
+                className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/20 px-8 py-3 text-lg font-bold rounded-xl backdrop-blur-sm transition-all duration-300"
               >
                 Learn How It Works
               </Button>
@@ -192,7 +192,7 @@ const ImprovedCallToAction = () => {
               ].map((badge, index) => (
                 <Badge 
                   key={index}
-                  className="bg-white/25 text-white border-white/40 px-4 py-2 text-xs font-semibold rounded-full hover:bg-white/35 transition-all duration-300 backdrop-blur-sm"
+                  className="bg-primary-foreground/25 text-primary-foreground border-primary-foreground/40 px-4 py-2 text-xs font-semibold rounded-full hover:bg-primary-foreground/35 transition-all duration-300 backdrop-blur-sm"
                 >
                   <badge.icon className="w-3 h-3 mr-1" />
                   {badge.text}
