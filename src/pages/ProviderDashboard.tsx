@@ -15,8 +15,11 @@ const ProviderDashboard = () => {
       return;
     }
     fetchDashboardData();
+  }
+  )
 
   const fetchDashboardData = async () => {
+  }
   return (
     <div className="min-h-screen">
       <Header />
