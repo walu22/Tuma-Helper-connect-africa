@@ -359,30 +359,7 @@ const Services = () => {
                   <div className="h-3 bg-muted rounded w-1/2"></div>
                 </CardHeader>
                 <CardContent>
-                    <div className="flex gap-2">
-                      <Button 
-                        size="sm" 
-                        variant="outline"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleContactProvider(service);
-                        }}
-                        className="shrink-0"
-                      >
-                        Chat
-                      </Button>
-                      <Button 
-                        size="sm" 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleBookService(service);
-                        }}
-                        className="shrink-0"
-                      >
-                        Book
-                      </Button>
-                    </div>
-                  </div>
+                  <div className="h-3 bg-muted rounded w-1/2"></div>
                 </CardContent>
               </Card>
             ))}
