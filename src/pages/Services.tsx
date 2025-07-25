@@ -7,11 +7,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import AdvancedSearchFilters from '@/components/AdvancedSearchFilters';
+import MobileOptimizedBooking from '@/components/MobileOptimizedBooking';
+import RealTimeChatSystem from '@/components/RealTimeChatSystem';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Service {
   id: string;
@@ -53,13 +58,15 @@ const Services = () => {
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<string>('newest');
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showChatModal, setShowChatModal] = useState(false);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [searchFilters, setSearchFilters] = useState<any>({});
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
+  const isMobile = useIsMobile();
 
   // Fetch favorites for logged-in users
   const fetchFavorites = async () => {
@@ -204,30 +211,118 @@ const Services = () => {
     const searchParam = searchParams.get('search');
     const categoryParam = searchParams.get('category');
     
-    if (searchParam) {
-      setSearchQuery(searchParam);
-    }
-    if (categoryParam) {
-      setSelectedCategory(categoryParam);
-    }
+    const initialFilters = {
+      query: searchParam || '',
+      category: categoryParam || '',
+    };
+    setSearchFilters(initialFilters);
     
     fetchData();
   }, []); // Only run once on mount
 
-  // Refetch when category or sort changes (but not on initial load)
+  // Refetch when filters change
   useEffect(() => {
-    // Skip if this is the initial load
-    if (categories.length > 0) {
+    if (categories.length > 0 && Object.keys(searchFilters).length > 0) {
       fetchData();
     }
-  }, [selectedCategory, sortBy]);
+  }, [searchFilters]);
 
-  // Filter services based on search query
-  const filteredServices = services.filter(service =>
-    service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    service.location.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleSearch = (filters: any) => {
+    setSearchFilters(filters);
+    // Update URL params
+    const params = new URLSearchParams();
+    if (filters.query) params.set('search', filters.query);
+    if (filters.category) params.set('category', filters.category);
+    navigate(`/services?${params.toString()}`, { replace: true });
+  };
+
+  const handleFiltersChange = (filters: any) => {
+    setSearchFilters(filters);
+  };
+
+  const handleBookService = (service: Service) => {
+    if (!user) {
+      toast({
+        title: "Please sign in",
+        description: "You need to be signed in to book services",
+        variant: "destructive",
+      });
+      navigate('/auth');
+      return;
+    }
+    
+    setSelectedService(service);
+    setShowBookingModal(true);
+  };
+
+  const handleContactProvider = (service: Service) => {
+    if (!user) {
+      toast({
+        title: "Please sign in",
+        description: "You need to be signed in to contact providers",
+        variant: "destructive",
+      });
+      navigate('/auth');
+      return;
+    }
+    
+    setSelectedService(service);
+    setShowChatModal(true);
+  };
+
+  // Apply filters to services
+  const filteredServices = services.filter(service => {
+    // Text search
+    if (searchFilters.query) {
+      const query = searchFilters.query.toLowerCase();
+      const matchesText = 
+        service.title.toLowerCase().includes(query) ||
+        service.description.toLowerCase().includes(query) ||
+        service.location.toLowerCase().includes(query);
+      if (!matchesText) return false;
+    }
+
+    // Category filter
+    if (searchFilters.category && searchFilters.category !== 'all') {
+      if (service.category_id !== searchFilters.category) return false;
+    }
+
+    // Price range filter
+    if (searchFilters.priceRange) {
+      const [minPrice, maxPrice] = searchFilters.priceRange;
+      if (service.price_from < minPrice || service.price_from > maxPrice) return false;
+    }
+
+    // Rating filter
+    if (searchFilters.rating > 0) {
+      if (service.rating < searchFilters.rating) return false;
+    }
+
+    // Verified filter
+    if (searchFilters.verified) {
+      // Assume all services are verified for now
+    }
+
+    return true;
+  });
+
+  // Sort filtered services
+  const sortedServices = [...filteredServices].sort((a, b) => {
+    switch (searchFilters.sortBy) {
+      case 'rating':
+        return b.rating - a.rating;
+      case 'price_low':
+        return a.price_from - b.price_from;
+      case 'price_high':
+        return b.price_from - a.price_from;
+      case 'newest':
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      case 'popular':
+        return b.total_reviews - a.total_reviews;
+      default:
+        return 0; // relevance - would need more complex scoring
+    }
+  });
 
   const formatPrice = (priceFrom: number, priceTo: number | null, unit: string) => {
     if (priceTo && priceTo !== priceFrom) {
@@ -250,9 +345,29 @@ const Services = () => {
                   <div className="h-3 bg-muted rounded w-1/2"></div>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-muted rounded"></div>
-                    <div className="h-3 bg-muted rounded w-2/3"></div>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleContactProvider(service);
+                        }}
+                        className="shrink-0"
+                      >
+                        Chat
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBookService(service);
+                        }}
+                        className="shrink-0"
+                      >
+                        Book
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -274,50 +389,18 @@ const Services = () => {
           <p className="text-muted-foreground">Find trusted service providers near you</p>
         </div>
 
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                placeholder="Search services, locations..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full md:w-[200px]">
-                <SelectValue placeholder="All Categories" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-full md:w-[180px]">
-                <Filter className="w-4 h-4 mr-2" />
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Newest First</SelectItem>
-                <SelectItem value="rating">Highest Rated</SelectItem>
-                <SelectItem value="price_low">Price: Low to High</SelectItem>
-                <SelectItem value="price_high">Price: High to Low</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+        {/* Advanced Search Filters */}
+        <AdvancedSearchFilters
+          onSearch={handleSearch}
+          onFiltersChange={handleFiltersChange}
+          initialFilters={searchFilters}
+          className="mb-8"
+        />
 
         {/* Results Count */}
         <div className="mb-6 flex justify-between items-center">
           <p className="text-muted-foreground">
-            {filteredServices.length} service{filteredServices.length !== 1 ? 's' : ''} found
+            {sortedServices.length} service{sortedServices.length !== 1 ? 's' : ''} found
           </p>
           {user && (
             <p className="text-sm text-muted-foreground">
@@ -327,22 +410,21 @@ const Services = () => {
         </div>
 
         {/* Services Grid */}
-        {filteredServices.length === 0 ? (
+        {sortedServices.length === 0 ? (
           <div className="text-center py-12">
             <h3 className="text-lg font-semibold mb-2">No services found</h3>
             <p className="text-muted-foreground mb-4">
               Try adjusting your search or browse all categories
             </p>
             <Button onClick={() => {
-              setSearchQuery('');
-              setSelectedCategory('all');
+              setSearchFilters({ query: '', category: '' });
             }}>
               Clear Filters
             </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredServices.map((service) => {
+            {sortedServices.map((service) => {
               const primaryImage = service.service_images?.find(img => img.is_primary) || service.service_images?.[0];
               const isFavorited = favorites.has(service.provider_id);
               
@@ -350,7 +432,6 @@ const Services = () => {
                 <Card 
                   key={service.id} 
                   className="group cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden border-0 shadow-lg"
-                  onClick={() => navigate(`/services/${service.id}`)}
                 >
                   {/* Service Image with Favorite Button */}
                   <div className="relative h-48 overflow-hidden">
@@ -461,6 +542,37 @@ const Services = () => {
           </div>
         )}
       </div>
+
+      {/* Mobile Booking Modal */}
+      <Dialog open={showBookingModal} onOpenChange={setShowBookingModal}>
+        <DialogContent className={`${isMobile ? 'w-full h-full max-w-none m-0 rounded-none' : 'max-w-4xl'}`}>
+          {selectedService && (
+            <MobileOptimizedBooking
+              service={selectedService}
+              onClose={() => setShowBookingModal(false)}
+              onSuccess={() => {
+                setShowBookingModal(false);
+                navigate('/bookings');
+              }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Chat Modal */}
+      <Dialog open={showChatModal} onOpenChange={setShowChatModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Chat with Provider</DialogTitle>
+          </DialogHeader>
+          {selectedService && (
+            <RealTimeChatSystem
+              receiverId={selectedService.profiles.user_id}
+              onClose={() => setShowChatModal(false)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>

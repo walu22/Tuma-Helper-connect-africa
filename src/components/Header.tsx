@@ -13,6 +13,7 @@ import {
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { CitySelector } from "@/components/CitySelector";
 import { useLanguage } from "@/contexts/LanguageContext";
+import FloatingChatWidget from "@/components/FloatingChatWidget";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -260,6 +261,9 @@ const Header = () => {
           </div>
         )}
       </div>
+      
+      {/* Floating Chat Widget */}
+      <FloatingChatWidget />
     </header>
   );
 };
