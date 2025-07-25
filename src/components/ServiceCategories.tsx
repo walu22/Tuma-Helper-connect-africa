@@ -71,17 +71,35 @@ const ServiceCategories = () => {
 
   const fetchCategories = async () => {
     try {
-      // Fetch categories with service counts
-      const { data: categoriesData, error } = await supabase
-        .from('service_categories')
-        .select(`
-          id,
-          name,
-          description,
-          icon,
-          services (count)
-        `)
-        .order('name');
+      // Add retry logic for network issues
+      let retries = 3;
+      let categoriesData, error;
+      
+      while (retries > 0) {
+        try {
+          const result = await supabase
+            .from('service_categories')
+            .select(`
+              id,
+              name,
+              description,
+              icon,
+              services (count)
+            `)
+            .order('name');
+          
+          categoriesData = result.data;
+          error = result.error;
+          break;
+        } catch (networkError) {
+          retries--;
+          if (retries === 0) {
+            throw networkError;
+          }
+          // Wait before retrying
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
 
       if (error) throw error;
       
@@ -95,6 +113,15 @@ const ServiceCategories = () => {
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
+      // Provide fallback categories if fetch fails
+      setCategories([
+        { id: '1', name: 'Home Services', description: 'Professional home services', icon: 'home', serviceCount: 0 },
+        { id: '2', name: 'Beauty & Wellness', description: 'Beauty and wellness services', icon: 'scissors', serviceCount: 0 },
+        { id: '3', name: 'Automotive', description: 'Car and vehicle services', icon: 'car', serviceCount: 0 },
+        { id: '4', name: 'Tech Support', description: 'Technology and IT services', icon: 'laptop', serviceCount: 0 },
+        { id: '5', name: 'Delivery & Moving', description: 'Delivery and moving services', icon: 'truck', serviceCount: 0 },
+        { id: '6', name: 'Gardening', description: 'Garden and landscaping services', icon: 'flower', serviceCount: 0 }
+      ]);
     } finally {
       setLoading(false);
     }

@@ -52,22 +52,45 @@ const FeaturedServices = () => {
 
   const fetchFeaturedServices = async () => {
     try {
-      const { data, error } = await supabase
-        .from('services')
-        .select(`
-          *,
-          service_categories (name, icon),
-          profiles (display_name, avatar_url),
-          service_images (id, image_url, is_primary)
-        `)
-        .eq('is_available', true)
-        .order('rating', { ascending: false })
-        .limit(6);
+      // Add retry logic for network issues
+      let retries = 3;
+      let data, error;
+      
+      while (retries > 0) {
+        try {
+          const result = await supabase
+            .from('services')
+            .select(`
+              *,
+              service_categories (name, icon),
+              profiles (display_name, avatar_url),
+              service_images (id, image_url, is_primary)
+            `)
+            .eq('is_available', true)
+            .order('rating', { ascending: false })
+            .limit(6);
+          
+          data = result.data;
+          error = result.error;
+          break;
+        } catch (networkError) {
+          retries--;
+          if (retries === 0) {
+            throw networkError;
+          }
+          // Wait before retrying
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
 
       if (error) throw error;
       setServices(data || []);
     } catch (error: any) {
       console.error('Error fetching featured services:', error);
+      // Don't show error toast on initial load to avoid spamming user
+      if (services.length === 0) {
+        console.log('Failed to load featured services, but not showing error to user on initial load');
+      }
     } finally {
       setLoading(false);
     }
