@@ -437,7 +437,7 @@ const Services = () => {
                   <div className="relative h-48 overflow-hidden">
                     {primaryImage ? (
                       <img 
-                        src={primaryImage.image_url} 
+                        src={primaryImage.image_url || ''} 
                         alt={service.title || ''}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
