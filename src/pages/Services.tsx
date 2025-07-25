@@ -186,7 +186,21 @@ const Services = () => {
       console.log('Services response:', { servicesData, servicesError, queryLength: servicesData?.length });
       if (servicesError) throw servicesError;
 
-      setServices(servicesData || []);
+      // Transform services data to ensure all properties have fallback values
+      const transformedServices = (servicesData || []).map(service => ({
+        ...service,
+        title: service.title || 'Untitled Service',
+        description: service.description || 'No description available',
+        location: service.location || 'Location not specified',
+        price_unit: service.price_unit || 'per service',
+        rating: service.rating || 0,
+        total_reviews: service.total_reviews || 0,
+        service_categories: service.service_categories || { name: 'Uncategorized', icon: '' },
+        profiles: service.profiles || { display_name: 'Service Provider', avatar_url: null },
+        service_images: service.service_images || []
+      }));
+      
+      setServices(transformedServices);
       console.log('Services set to state:', servicesData?.length || 0, 'services');
       
       // Fetch favorites for logged-in users
