@@ -438,7 +438,7 @@ const Services = () => {
                     {primaryImage ? (
                       <img 
                         src={primaryImage.image_url} 
-                        alt={service.title}
+                        alt={service.title || ''}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
@@ -480,10 +480,10 @@ const Services = () => {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <CardTitle className="text-lg font-semibold line-clamp-1 group-hover:text-primary transition-colors">
-                          {service.title}
+                          {service.title || 'Untitled Service'}
                         </CardTitle>
                         <CardDescription className="line-clamp-2 mt-1 text-sm">
-                          {service.description}
+                          {service.description || 'No description available'}
                         </CardDescription>
                       </div>
                     </div>
@@ -518,7 +518,7 @@ const Services = () => {
                         </p>
                         <div className="flex items-center gap-1 text-xs text-muted-foreground">
                           <MapPin className="w-3 h-3" />
-                          <span>{service.location}</span>
+                          <span>{service.location || 'Location not specified'}</span>
                         </div>
                       </div>
                     </div>
