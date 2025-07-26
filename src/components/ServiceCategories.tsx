@@ -157,47 +157,52 @@ const ServiceCategories = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-b from-background to-muted/20">
+    <section className="py-24 bg-gradient-to-b from-background via-muted/10 to-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-            {t('services.browse')}
+        <div className="text-center mb-20 animate-fade-in">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gradient bg-gradient-to-r from-primary via-accent to-primary-glow bg-clip-text text-transparent">
+            Browse Services
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            {t('services.browse_desc')}
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Discover trusted professionals across various service categories
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {categories.map((category) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          {categories.map((category, index) => {
             const IconComponent = iconMap[category.icon] || Home;
             const colorClass = colorMap[category.name] || 'from-gray-500 to-gray-600';
             return (
               <Card 
                 key={category.id} 
-                className="service-card group cursor-pointer hover:scale-105 transition-all duration-300 touch-manipulation"
+                className="service-category-card animate-fade-in group overflow-hidden"
+                style={{ animationDelay: `${index * 0.1}s` }}
                 onClick={() => navigate(`/services?category=${category.id}`)}
               >
-                <CardHeader className="pb-3 md:pb-4">
-                  <div className={`w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-r ${colorClass} flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                <CardHeader className="pb-4 md:pb-6 relative">
+                  {/* Gradient Background Glow */}
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-r ${colorClass} opacity-5 rounded-full blur-3xl transform translate-x-8 -translate-y-8 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                  
+                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-3xl bg-gradient-to-r ${colorClass} flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-medium relative z-10`}>
+                    <IconComponent className="w-8 h-8 md:w-10 md:h-10 text-white" />
                   </div>
-                  <CardTitle className="text-lg md:text-xl font-bold text-foreground">
+                  
+                  <CardTitle className="text-xl md:text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
                     {category.name}
                   </CardTitle>
-                  <CardDescription className="text-sm md:text-base text-muted-foreground line-clamp-2">
+                  <CardDescription className="text-sm md:text-base text-muted-foreground line-clamp-2 leading-relaxed">
                     {category.description}
                   </CardDescription>
                 </CardHeader>
                 
-                <CardContent className="space-y-3 md:space-y-4">
-                  <div className="flex items-center justify-between text-xs md:text-sm">
-                    <div className="flex items-center space-x-1 text-muted-foreground">
-                      <Users className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>{category.serviceCount || 0} {t('services.text')}</span>
+                <CardContent className="space-y-4 md:space-y-5">
+                  <div className="flex items-center justify-between text-sm md:text-base">
+                    <div className="flex items-center space-x-2 text-muted-foreground bg-muted/30 rounded-full px-3 py-1">
+                      <Users className="w-4 h-4" />
+                      <span className="font-medium">{category.serviceCount || 0} services</span>
                     </div>
-                    <div className="flex items-center space-x-1 text-muted-foreground">
-                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
+                    <div className="flex items-center space-x-2 text-success bg-success-light rounded-full px-3 py-1">
+                      <Shield className="w-4 h-4" />
                       <span>{t('services.verified')}</span>
                     </div>
                   </div>

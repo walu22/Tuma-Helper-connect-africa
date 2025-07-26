@@ -193,17 +193,25 @@ const FeaturedServices = () => {
   }
 
   return (
-    <section className="py-16 bg-gradient-to-b from-background to-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Featured Services</h2>
-          <p className="text-muted-foreground text-lg">
-            Discover top-rated services from verified providers
+    <section className="py-24 bg-gradient-to-br from-muted/30 via-background to-muted/20 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-20 left-20 w-32 h-32 bg-primary rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-20 w-40 h-40 bg-accent rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-20 animate-fade-in">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gradient bg-gradient-to-r from-primary via-accent to-primary-glow bg-clip-text text-transparent">
+            Featured Services
+          </h2>
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Top-rated professionals ready to serve you with excellence
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {services.map((service) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mb-16">
+          {services.map((service, index) => {
             const primaryImage = service.service_images?.find(img => img.is_primary) || service.service_images?.[0];
             const isFavorited = favorites.has(service.provider_id);
             
