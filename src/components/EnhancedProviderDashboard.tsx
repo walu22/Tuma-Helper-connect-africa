@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { 
   DollarSign, 
   TrendingUp, 
+  TrendingDown,
   Calendar, 
   Star, 
   Clock, 

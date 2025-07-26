@@ -38,6 +38,7 @@ interface Service {
   profiles: {
     display_name: string | null;
     avatar_url: string | null;
+    user_id: string;
   };
   service_images?: Array<{
     id: string;
@@ -172,7 +173,8 @@ const Services = () => {
           ),
           profiles (
             display_name,
-            avatar_url
+            avatar_url,
+            user_id
           ),
           service_images (
             id,
@@ -196,7 +198,7 @@ const Services = () => {
         rating: service.rating || 0,
         total_reviews: service.total_reviews || 0,
         service_categories: service.service_categories || { name: 'Uncategorized', icon: '' },
-        profiles: service.profiles || { display_name: 'Service Provider', avatar_url: null },
+        profiles: service.profiles || { display_name: 'Service Provider', avatar_url: null, user_id: service.provider_id },
         service_images: service.service_images || []
       }));
       
@@ -330,7 +332,8 @@ const Services = () => {
       case 'price_high':
         return b.price_from - a.price_from;
       case 'newest':
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        // Since created_at doesn't exist, use id as a proxy for creation order
+        return b.id.localeCompare(a.id);
       case 'popular':
         return b.total_reviews - a.total_reviews;
       default:

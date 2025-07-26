@@ -26,7 +26,7 @@ interface Message {
   created_at: string;
   sender_profile?: {
     display_name: string;
-    avatar_url: string;
+    avatar_url: string | null;
   };
 }
 
@@ -131,7 +131,18 @@ const RealTimeChatSystem = ({ bookingId, receiverId, onClose, isMinimized = fals
       .order("created_at", { ascending: true });
 
     if (data) {
-      setMessages(data);
+      // Type assertion to handle message_type conversion and sender_profile
+      const typedMessages = data.map(msg => ({
+        ...msg,
+        message_type: (msg.message_type as 'text' | 'image' | 'file' | 'system') || 'text',
+        sender_profile: msg.sender_profile && typeof msg.sender_profile === 'object' && !Array.isArray(msg.sender_profile)
+          ? {
+              display_name: (msg.sender_profile as any)?.display_name || 'User',
+              avatar_url: (msg.sender_profile as any)?.avatar_url || null
+            }
+          : { display_name: 'User', avatar_url: null }
+      }));
+      setMessages(typedMessages);
       markMessagesAsRead();
     }
   };

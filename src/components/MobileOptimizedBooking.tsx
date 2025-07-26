@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Clock, MapPin, User, Phone, MessageSquare, CreditCard, ArrowRight, ArrowLeft, Check, Star, Shield } from 'lucide-react';
+import { Calendar, Clock, MapPin, User, Phone, MessageSquare, CreditCard, ArrowRight, ArrowLeft, Check, Star, Shield, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -140,9 +140,9 @@ const MobileOptimizedBooking = ({ service, onClose, onSuccess }: MobileOptimized
       case 1:
         return true; // Service details are pre-filled
       case 2:
-        return formData.booking_date && formData.booking_time;
+        return !!formData.booking_date && !!formData.booking_time;
       case 3:
-        return formData.customer_name && formData.customer_address;
+        return !!formData.customer_name && !!formData.customer_address;
       case 4:
         return selectedPaymentMethod !== '';
       default:
