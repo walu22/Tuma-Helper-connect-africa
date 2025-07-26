@@ -70,6 +70,15 @@ const RealTimeChatSystem = ({ bookingId, receiverId, onClose, isMinimized = fals
     scrollToBottom();
   }, [messages]);
 
+  // Cleanup effect for typing timeout
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
