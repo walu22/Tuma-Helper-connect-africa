@@ -264,12 +264,12 @@
 
   /* Service Category Cards */
   .service-category-card {
-    @apply card-modern p-6 text-center group cursor-pointer;
+    @apply card-modern p-6 text-center cursor-pointer;
     @apply hover:border-primary/50 hover:bg-gradient-to-br hover:from-primary/5 hover:to-accent/5;
   }
 
   .service-card-featured {
-    @apply card-floating p-6 group cursor-pointer;
+    @apply card-floating p-6 cursor-pointer;
     @apply hover:border-accent/50 hover:bg-gradient-to-br hover:from-accent/5 hover:to-primary/5;
   }
 
