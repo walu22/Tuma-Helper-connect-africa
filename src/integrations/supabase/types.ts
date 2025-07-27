@@ -331,6 +331,48 @@ export type Database = {
           },
         ]
       }
+      bulk_operations: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          error_log: string[] | null
+          failed_items: number | null
+          id: string
+          operation_data: Json
+          operation_type: string
+          processed_items: number | null
+          status: string
+          total_items: number
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          error_log?: string[] | null
+          failed_items?: number | null
+          id?: string
+          operation_data: Json
+          operation_type: string
+          processed_items?: number | null
+          status?: string
+          total_items: number
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          error_log?: string[] | null
+          failed_items?: number | null
+          id?: string
+          operation_data?: Json
+          operation_type?: string
+          processed_items?: number | null
+          status?: string
+          total_items?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       cities: {
         Row: {
           country: string
@@ -1746,6 +1788,42 @@ export type Database = {
         }
         Relationships: []
       }
+      service_availability_sync: {
+        Row: {
+          availability_changes: Json
+          error_message: string | null
+          id: string
+          provider_id: string
+          services_affected: string[]
+          sync_completed_at: string | null
+          sync_started_at: string
+          sync_status: string
+          sync_type: string
+        }
+        Insert: {
+          availability_changes: Json
+          error_message?: string | null
+          id?: string
+          provider_id: string
+          services_affected: string[]
+          sync_completed_at?: string | null
+          sync_started_at?: string
+          sync_status?: string
+          sync_type: string
+        }
+        Update: {
+          availability_changes?: Json
+          error_message?: string | null
+          id?: string
+          provider_id?: string
+          services_affected?: string[]
+          sync_completed_at?: string | null
+          sync_started_at?: string
+          sync_status?: string
+          sync_type?: string
+        }
+        Relationships: []
+      }
       service_categories: {
         Row: {
           created_at: string
@@ -1841,6 +1919,63 @@ export type Database = {
           provider_id?: string
           service_ids?: string[]
           updated_at?: string
+        }
+        Relationships: []
+      }
+      service_pricing_optimization: {
+        Row: {
+          competitor_data: Json | null
+          confidence_score: number
+          created_at: string
+          current_price_from: number
+          current_price_to: number | null
+          demand_score: number | null
+          expires_at: string
+          id: string
+          is_applied: boolean | null
+          market_analysis: Json | null
+          optimization_factors: Json
+          provider_id: string
+          seasonality_factor: number | null
+          service_id: string
+          suggested_price_from: number
+          suggested_price_to: number | null
+        }
+        Insert: {
+          competitor_data?: Json | null
+          confidence_score?: number
+          created_at?: string
+          current_price_from: number
+          current_price_to?: number | null
+          demand_score?: number | null
+          expires_at?: string
+          id?: string
+          is_applied?: boolean | null
+          market_analysis?: Json | null
+          optimization_factors: Json
+          provider_id: string
+          seasonality_factor?: number | null
+          service_id: string
+          suggested_price_from: number
+          suggested_price_to?: number | null
+        }
+        Update: {
+          competitor_data?: Json | null
+          confidence_score?: number
+          created_at?: string
+          current_price_from?: number
+          current_price_to?: number | null
+          demand_score?: number | null
+          expires_at?: string
+          id?: string
+          is_applied?: boolean | null
+          market_analysis?: Json | null
+          optimization_factors?: Json
+          provider_id?: string
+          seasonality_factor?: number | null
+          service_id?: string
+          suggested_price_from?: number
+          suggested_price_to?: number | null
         }
         Relationships: []
       }

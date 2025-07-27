@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import EnhancedServiceManagement from './EnhancedServiceManagement';
 import { 
   DollarSign, 
   TrendingUp, 
@@ -727,7 +728,7 @@ const EnhancedProviderDashboard = () => {
             </Button>
             <Button variant="outline" className="w-full justify-start" onClick={() => navigate('/services')}>
               <FileText className="w-4 h-4 mr-2" />
-              Manage Services
+              Enhanced Service Management
             </Button>
             <Button variant="outline" className="w-full justify-start" onClick={() => navigate('/bookings')}>
               <Calendar className="w-4 h-4 mr-2" />
