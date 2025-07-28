@@ -140,7 +140,7 @@ const BookingForm = ({ service, onClose }: BookingFormProps) => {
 
       setCreatedBookingId(data.id);
       setCurrentStep(2); // Move to payment step
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Booking failed",
         description: error.message,

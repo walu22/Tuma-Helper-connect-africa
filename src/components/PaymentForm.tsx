@@ -69,11 +69,11 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, onCancel }: PaymentFormPro
           navigate(`/bookings/${bookingId}`);
         }
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An error occurred");
       toast({
         title: "Payment failed",
-        description: err.message,
+        description: err instanceof Error ? err.message : "An error occurred",
         variant: "destructive",
       });
     } finally {

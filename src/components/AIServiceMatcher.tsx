@@ -23,13 +23,13 @@ interface Recommendation {
     };
   };
   recommendation_score: number;
-  reasoning: Record<string, any>;
+  reasoning: Record<string, unknown>;
 }
 
 interface UserPreference {
   id: string;
   preference_type: string;
-  preference_value: Record<string, any>;
+  preference_value: Record<string, unknown>;
   weight: number;
 }
 
@@ -89,7 +89,7 @@ export default function AIServiceMatcher() {
               provider: service.provider_profiles
             } : null
           };
-        }).filter(rec => rec.service) as any[];
+        }).filter(rec => rec.service) as ServiceRecommendation[];
 
         setRecommendations(combinedData);
       }
@@ -111,7 +111,7 @@ export default function AIServiceMatcher() {
       if (error) throw error;
       setPreferences(data?.map(p => ({
         ...p,
-        preference_value: p.preference_value as Record<string, any>
+        preference_value: p.preference_value as Record<string, unknown>
       })) || []);
     } catch (error) {
       console.error('Error loading preferences:', error);
@@ -181,7 +181,7 @@ export default function AIServiceMatcher() {
     }
   };
 
-  const updatePreference = async (type: string, value: any, weight: number = 1.0) => {
+  const updatePreference = async (type: string, value: unknown, weight: number = 1.0) => {
     try {
       const { error } = await supabase
         .from('user_preferences')

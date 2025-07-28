@@ -72,7 +72,7 @@ interface PricingOptimization {
   current_price_to: number | null;
   suggested_price_from: number;
   suggested_price_to: number | null;
-  optimization_factors: any;
+  optimization_factors: Record<string, unknown>;
   confidence_score: number;
   demand_score: number | null;
   seasonality_factor: number | null;
@@ -512,7 +512,7 @@ const EnhancedServiceManagement = () => {
   };
 
   // Form handling functions for service form dialog
-  const handleFormChange = (field: string, value: any) => {
+  const handleFormChange = (field: string, value: unknown) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 

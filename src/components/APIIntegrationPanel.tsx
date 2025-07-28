@@ -17,7 +17,7 @@ interface APIIntegration {
   id: string;
   integration_name: string;
   partner_company: string;
-  permissions: any;
+  permissions: Record<string, unknown>;
   rate_limit: number;
   webhook_url?: string;
   is_active: boolean;

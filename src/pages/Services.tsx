@@ -243,7 +243,7 @@ const Services = () => {
     }
   }, [searchFilters]);
 
-  const handleSearch = (filters: any) => {
+  const handleSearch = (filters: Record<string, unknown>) => {
     setSearchFilters(filters);
     // Update URL params
     const params = new URLSearchParams();
@@ -252,7 +252,7 @@ const Services = () => {
     navigate(`/services?${params.toString()}`, { replace: true });
   };
 
-  const handleFiltersChange = (filters: any) => {
+  const handleFiltersChange = (filters: Record<string, unknown>) => {
     setSearchFilters(filters);
   };
 

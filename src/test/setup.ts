@@ -4,10 +4,10 @@ import { cleanup } from '@testing-library/react'
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
-  constructor(cb: any) {
+  constructor(cb: ResizeObserverCallback) {
     this.cb = cb;
   }
-  cb: any;
+  cb: ResizeObserverCallback;
   observe() {}
   unobserve() {}
   disconnect() {}
@@ -26,7 +26,7 @@ class MockIntersectionObserver {
   takeRecords() { return [] }
 }
 
-global.IntersectionObserver = MockIntersectionObserver as any
+global.IntersectionObserver = MockIntersectionObserver as unknown as typeof IntersectionObserver
 
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {

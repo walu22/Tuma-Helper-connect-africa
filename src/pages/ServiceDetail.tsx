@@ -93,7 +93,7 @@ const ServiceDetail = () => {
         ...data,
         provider_profiles: providerProfile
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Service not found",
         description: "This service may have been removed or is no longer available.",

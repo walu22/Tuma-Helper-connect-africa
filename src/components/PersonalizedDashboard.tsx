@@ -27,7 +27,7 @@ interface PersonalizedWidget {
   id: string;
   type: 'recommendations' | 'favorites' | 'recent_bookings' | 'achievements' | 'trending';
   title: string;
-  data: any[];
+  data: Record<string, unknown>[];
   priority: number;
 }
 

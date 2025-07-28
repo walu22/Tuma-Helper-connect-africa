@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Heart, Star, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,7 +61,7 @@ export const FavoriteButton = ({ providerId, size = "default", showText = false 
     }
   }, [user, providerId]);
 
-  const checkFavoriteStatus = async () => {
+  const checkFavoriteStatus = useCallback(async () => {
     if (!user) return;
 
     const { data } = await supabase
@@ -72,7 +72,7 @@ export const FavoriteButton = ({ providerId, size = "default", showText = false 
       .single();
 
     setIsFavorite(!!data);
-  };
+  }, [user, providerId]);
 
   const toggleFavorite = async () => {
     if (!user) {
@@ -152,13 +152,7 @@ export const FavoritesList = ({ compact = false, limit }: FavoritesListProps) =>
   const [favorites, setFavorites] = useState<FavoriteProvider[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (user) {
-      fetchFavorites();
-    }
-  }, [user]);
-
-  const fetchFavorites = async () => {
+  const fetchFavorites = useCallback(async () => {
     if (!user) return;
 
     setIsLoading(true);
@@ -212,7 +206,13 @@ export const FavoritesList = ({ compact = false, limit }: FavoritesListProps) =>
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      fetchFavorites();
+    }
+  }, [user, fetchFavorites]);
 
   const removeFavorite = async (providerId: string) => {
     if (!user) return;

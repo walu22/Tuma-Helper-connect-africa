@@ -41,7 +41,7 @@ const AdvancedSearch = ({ onSearch, initialFilters }: AdvancedSearchProps) => {
     ...initialFilters
   });
 
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Record<string, unknown>[]>([]);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -88,7 +88,7 @@ const AdvancedSearch = ({ onSearch, initialFilters }: AdvancedSearchProps) => {
       .insert({
         user_id: user.id,
         search_query: searchFilters.query,
-        search_filters: searchFilters as any
+        search_filters: searchFilters as Record<string, unknown>
       });
   };
 
@@ -98,7 +98,7 @@ const AdvancedSearch = ({ onSearch, initialFilters }: AdvancedSearchProps) => {
     setShowSuggestions(false);
   };
 
-  const updateFilter = (key: keyof SearchFilters, value: any) => {
+  const updateFilter = (key: keyof SearchFilters, value: unknown) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 

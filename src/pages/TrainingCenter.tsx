@@ -112,10 +112,10 @@ const TrainingCenter = () => {
         totalHours: Math.round(totalHours / 60 * 10) / 10 // Convert to hours with 1 decimal
       });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error loading training data",
-        description: error.message,
+        description: error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",
       });
     } finally {

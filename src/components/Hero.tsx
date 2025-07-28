@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, Star, Clock } from "lucide-react";
@@ -20,9 +20,9 @@ const Hero = () => {
     if (user) {
       fetchSearchHistory();
     }
-  }, [user]);
+  }, [user, fetchSearchHistory]);
 
-  const fetchSearchHistory = async () => {
+  const fetchSearchHistory = useCallback(async () => {
     if (!user) return;
     
     const { data } = await supabase
@@ -36,7 +36,7 @@ const Hero = () => {
       const suggestions = [...new Set(data.map(item => item.search_query))];
       setSearchSuggestions(suggestions);
     }
-  };
+  }, [user]);
 
   const saveSearchHistory = async (query: string) => {
     if (!user || !query.trim()) return;
@@ -46,7 +46,7 @@ const Hero = () => {
       .insert({
         user_id: user.id,
         search_query: query,
-        search_filters: { query, location } as any
+        search_filters: { query, location } as Record<string, unknown>
       });
   };
 

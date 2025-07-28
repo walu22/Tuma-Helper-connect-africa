@@ -49,7 +49,7 @@ const useServices = () => {
         const { data, error } = await mockSupabase.from('services').select('*')
         if (error) throw error
         setServices(data || [])
-      } catch (err: any) {
+      } catch (err: unknown) {
         setError(err)
       } finally {
         setLoading(false)

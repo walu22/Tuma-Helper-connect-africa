@@ -22,15 +22,15 @@ interface Message {
   attachment_url?: string;
   is_read: boolean;
   created_at: string;
-  sender_profile?: any;
+  sender_profile?: Record<string, unknown>;
 }
 
 interface Conversation {
   booking_id: string;
-  other_user: any;
+  other_user: Record<string, unknown>;
   last_message: Message;
   unread_count: number;
-  booking_details: any;
+  booking_details: Record<string, unknown>;
 }
 
 interface MessageCenterProps {
