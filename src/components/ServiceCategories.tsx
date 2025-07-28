@@ -224,6 +224,48 @@ const ServiceCategories = () => {
               </Card>
             );
           })}
+          
+          {/* View All Services Card */}
+          <Card 
+            className="service-category-card animate-fade-in group overflow-hidden border-2 border-dashed border-primary/30 hover:border-primary/60 bg-gradient-to-br from-primary/5 to-accent/5"
+            style={{ animationDelay: `${categories.length * 0.1}s` }}
+            onClick={() => navigate("/services")}
+          >
+            <CardHeader className="pb-4 md:pb-6 relative text-center">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-3xl bg-gradient-to-r from-primary to-accent flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-medium mx-auto">
+                <ArrowRight className="w-8 h-8 md:w-10 md:h-10 text-white" />
+              </div>
+              
+              <CardTitle className="text-xl md:text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                View All Services
+              </CardTitle>
+              <CardDescription className="text-sm md:text-base text-muted-foreground line-clamp-2 leading-relaxed">
+                Browse all available services and categories
+              </CardDescription>
+            </CardHeader>
+            
+            <CardContent className="space-y-4 md:space-y-5">
+              <div className="flex items-center justify-center text-sm md:text-base">
+                <div className="flex items-center space-x-2 text-primary bg-primary/10 rounded-full px-3 py-1">
+                  <Users className="w-4 h-4" />
+                  <span className="font-medium">All Categories</span>
+                </div>
+              </div>
+              
+              <div className="text-xs md:text-sm text-muted-foreground min-h-[40px] md:min-h-[60px] flex items-center justify-center text-center line-clamp-3">
+                Explore our complete range of professional services across all categories in Windhoek.
+              </div>
+              
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="w-full bg-primary hover:bg-primary/90 text-white transition-colors text-xs md:text-sm h-8 md:h-9"
+              >
+                Browse All
+                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="text-center mt-16">
