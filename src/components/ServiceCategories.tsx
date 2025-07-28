@@ -31,7 +31,7 @@ interface ServiceCategory {
   serviceCount?: number;
 }
 
-const iconMap: { [key: string]: any } = {
+  const iconMap: { [key: string]: React.ComponentType } = {
   home: Home,
   car: Car,
   scissors: Scissors,

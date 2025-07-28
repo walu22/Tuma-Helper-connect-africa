@@ -63,8 +63,8 @@ const AdvancedSearchFilters = ({
     ...initialFilters
   });
 
-  const [categories, setCategories] = useState<any[]>([]);
-  const [cities, setCities] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Record<string, unknown>[]>([]);
+  const [cities, setCities] = useState<Record<string, unknown>[]>([]);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);

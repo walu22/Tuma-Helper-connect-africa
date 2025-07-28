@@ -99,7 +99,7 @@ export default function KYCVerification() {
       });
 
       navigate('/');
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Submission Failed",
         description: error.message,

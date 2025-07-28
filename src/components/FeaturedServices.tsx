@@ -84,7 +84,19 @@ const FeaturedServices = () => {
       }
 
       if (error) throw error;
-      setServices(data || []);
+      
+      // Remove duplicates based on title and provider_id to handle any database duplicates
+      const uniqueServices = data?.reduce((acc: FeaturedService[], current) => {
+        const isDuplicate = acc.some(service => 
+          service.title === current.title && service.provider_id === current.provider_id
+        );
+        if (!isDuplicate) {
+          acc.push(current);
+        }
+        return acc;
+      }, []) || [];
+      
+      setServices(uniqueServices);
     } catch (error: any) {
       console.error('Error fetching featured services:', error);
       // Don't show error toast on initial load to avoid spamming user

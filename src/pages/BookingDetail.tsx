@@ -80,7 +80,7 @@ const BookingDetail = () => {
 
         if (error) throw error;
         setBooking(data);
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('Error fetching booking:', error);
         toast({
           title: "Error loading booking",

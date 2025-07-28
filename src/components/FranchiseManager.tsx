@@ -17,7 +17,7 @@ interface Franchise {
   marketing_fee_rate: number;
   contract_start: string;
   contract_end: string;
-  performance_metrics: any;
+  performance_metrics: Record<string, unknown>;
   is_active: boolean;
   cities?: {
     name: string;

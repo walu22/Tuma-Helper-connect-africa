@@ -99,10 +99,10 @@ const Bookings = () => {
 
       setCustomerBookings(customerData || []);
       setProviderBookings(providerData || []);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error fetching bookings",
-        description: error.message,
+        description: error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",
       });
     } finally {
@@ -164,10 +164,10 @@ const Bookings = () => {
 
       // Refresh bookings
       fetchBookings();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error updating booking",
-        description: error.message,
+        description: error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",
       });
     }

@@ -30,7 +30,7 @@ interface SmartServiceRequest {
   service_type: string;
   priority: string;
   automated: boolean;
-  device_data: any;
+  device_data: Record<string, unknown>;
   status: string;
   created_at: string;
   device?: IoTDevice;

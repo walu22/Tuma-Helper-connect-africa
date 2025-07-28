@@ -214,9 +214,9 @@ const RevenueAnalytics = () => {
     }
   };
 
-  const generateTimeSeriesData = (earnings: any[], period: string): RevenueData[] => {
+  const generateTimeSeriesData = (earnings: Record<string, unknown>[], period: string): RevenueData[] => {
     const groupBy = period === '7days' ? 'day' : period === '30days' ? 'day' : 'month';
-    const grouped = earnings.reduce((acc: any, earning) => {
+    const grouped = earnings.reduce((acc: Record<string, { revenue: number; bookings: number }>, earning) => {
       const date = new Date(earning.created_at);
       let key: string;
       

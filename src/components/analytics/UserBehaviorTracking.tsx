@@ -197,8 +197,8 @@ const UserBehaviorTracking = () => {
     }
   };
 
-  const generateSearchTrends = (searchHistory: any[]) => {
-    const dailySearches = searchHistory.reduce((acc: any, search) => {
+  const generateSearchTrends = (searchHistory: Record<string, unknown>[]) => {
+    const dailySearches = searchHistory.reduce((acc: Record<string, number>, search) => {
       const date = new Date(search.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       acc[date] = (acc[date] || 0) + 1;
       return acc;

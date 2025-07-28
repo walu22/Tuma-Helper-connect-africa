@@ -224,7 +224,7 @@ const MobileOptimizedBooking = ({ service, onClose, onSuccess }: MobileOptimized
 
       onSuccess?.();
       onClose?.();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Booking failed",
         description: error.message,

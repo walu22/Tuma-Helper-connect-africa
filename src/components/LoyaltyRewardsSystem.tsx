@@ -16,11 +16,11 @@ interface Achievement {
   category: string;
   icon?: string;
   points_reward: number;
-  requirements: any;
+  requirements: Record<string, unknown>;
   rarity: string;
   is_active: boolean;
   earned?: boolean;
-  progress?: any;
+  progress?: Record<string, unknown>;
 }
 
 interface LeaderboardEntry {
@@ -28,7 +28,7 @@ interface LeaderboardEntry {
   user_id: string;
   score: number;
   rank?: number;
-  metadata: any;
+  metadata: Record<string, unknown>;
   user?: {
     display_name?: string;
     avatar_url?: string;

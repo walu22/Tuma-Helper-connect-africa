@@ -33,8 +33,8 @@ interface Review {
   };
   is_verified: boolean;
   created_at: string;
-  customer_profile?: any;
-  provider_profile?: any;
+  customer_profile?: Record<string, unknown>;
+  provider_profile?: Record<string, unknown>;
 }
 
 interface ReviewFormData {
