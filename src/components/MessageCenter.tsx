@@ -111,10 +111,10 @@ const MessageCenter = ({ selectedBookingId, onBack }: MessageCenterProps) => {
 
         conversationsData.push({
           booking_id: booking.id,
-          other_user: otherUser,
-          last_message: lastMessage?.[0],
+          other_user: otherUser as any,
+          last_message: lastMessage?.[0] as any,
           unread_count: unreadCount || 0,
-          booking_details: booking
+          booking_details: booking as any
         });
       }
 
@@ -133,7 +133,7 @@ const MessageCenter = ({ selectedBookingId, onBack }: MessageCenterProps) => {
       .order("created_at", { ascending: true });
 
     if (data) {
-      setMessages(data);
+      setMessages(data as any);
     }
   };
 
@@ -156,16 +156,16 @@ const MessageCenter = ({ selectedBookingId, onBack }: MessageCenterProps) => {
     const conversation = conversations.find(c => c.booking_id === selectedConversation);
     if (!conversation) return;
 
-    const receiverId = user.id === conversation.booking_details.customer_id 
-      ? conversation.booking_details.provider_id 
-      : conversation.booking_details.customer_id;
+    const receiverId = user.id === (conversation.booking_details as any)?.customer_id 
+      ? (conversation.booking_details as any)?.provider_id 
+      : (conversation.booking_details as any)?.customer_id;
 
     const { error } = await supabase
       .from("messages")
       .insert({
         booking_id: selectedConversation,
         sender_id: user.id,
-        receiver_id: receiverId,
+        receiver_id: receiverId as string,
         message_text: newMessage,
         message_type: "text"
       });
@@ -238,15 +238,15 @@ const MessageCenter = ({ selectedBookingId, onBack }: MessageCenterProps) => {
             >
               <div className="flex items-center space-x-3">
                 <Avatar>
-                  <AvatarImage src={conversation.other_user?.avatar_url} />
+                  <AvatarImage src={(conversation.other_user as any)?.avatar_url} />
                   <AvatarFallback>
-                    {conversation.other_user?.full_name?.charAt(0) || "U"}
+                    {(conversation.other_user as any)?.full_name?.charAt(0) || "U"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <p className="font-medium text-sm truncate">
-                      {conversation.other_user?.full_name || "Unknown User"}
+                      {(conversation.other_user as any)?.full_name || "Unknown User"}
                     </p>
                     {conversation.unread_count > 0 && (
                       <Badge variant="default" className="text-xs">
@@ -255,7 +255,7 @@ const MessageCenter = ({ selectedBookingId, onBack }: MessageCenterProps) => {
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground truncate">
-                    {conversation.booking_details.services?.title}
+                    {(conversation.booking_details as any)?.services?.title || 'Service'}
                   </p>
                   {conversation.last_message && (
                     <p className="text-xs text-muted-foreground truncate mt-1">
@@ -292,17 +292,17 @@ const MessageCenter = ({ selectedBookingId, onBack }: MessageCenterProps) => {
                   return (
                     <>
                       <Avatar>
-                        <AvatarImage src={conversation?.other_user?.avatar_url} />
+                        <AvatarImage src={(conversation?.other_user as any)?.avatar_url} />
                         <AvatarFallback>
-                          {conversation?.other_user?.full_name?.charAt(0) || "U"}
+                          {(conversation?.other_user as any)?.full_name?.charAt(0) || "U"}
                         </AvatarFallback>
                       </Avatar>
                       <div>
                         <p className="font-medium">
-                          {conversation?.other_user?.full_name || "Unknown User"}
+                          {(conversation?.other_user as any)?.full_name || "Unknown User"}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          {conversation?.booking_details.services?.title}
+                          {(conversation?.booking_details as any)?.services?.title || 'Service'}
                         </p>
                       </div>
                     </>

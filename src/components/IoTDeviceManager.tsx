@@ -99,7 +99,7 @@ export default function IoTDeviceManager() {
         };
       }) || [];
       
-      setServiceRequests(requestsWithDevices);
+      setServiceRequests(requestsWithDevices as any);
     } catch (error) {
       console.error('Error loading service requests:', error);
     }

@@ -56,7 +56,7 @@ export const FranchiseManager = () => {
         throw error;
       }
 
-      setFranchise(data);
+      setFranchise(data as any);
     } catch (error) {
       console.error('Error fetching franchise data:', error);
       toast({
@@ -200,11 +200,11 @@ export const FranchiseManager = () => {
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>Current: N${performanceData.monthly_revenue || 0}</span>
-                    <span>Target: N${performanceData.monthly_target || 50000}</span>
+                    <span>Current: N${(performanceData as any)?.monthly_revenue || 0}</span>
+                    <span>Target: N${(performanceData as any)?.monthly_target || 50000}</span>
                   </div>
                   <Progress 
-                    value={(performanceData.monthly_revenue || 0) / (performanceData.monthly_target || 50000) * 100} 
+                    value={((performanceData as any)?.monthly_revenue || 0) / ((performanceData as any)?.monthly_target || 50000) * 100} 
                   />
                 </div>
               </CardContent>
@@ -217,10 +217,10 @@ export const FranchiseManager = () => {
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>Rating: {performanceData.customer_rating || 4.5}/5</span>
-                    <span>Reviews: {performanceData.total_reviews || 0}</span>
+                    <span>Rating: {(performanceData as any)?.customer_rating || 4.5}/5</span>
+                    <span>Reviews: {(performanceData as any)?.total_reviews || 0}</span>
                   </div>
-                  <Progress value={(performanceData.customer_rating || 4.5) / 5 * 100} />
+                  <Progress value={((performanceData as any)?.customer_rating || 4.5) / 5 * 100} />
                 </div>
               </CardContent>
             </Card>

@@ -97,7 +97,7 @@ export default function LoyaltyRewardsSystem() {
         };
       }) || [];
 
-      setAchievements(achievementsWithProgress);
+      setAchievements(achievementsWithProgress as any);
     } catch (error) {
       console.error('Error loading achievements:', error);
       toast.error('Failed to load achievements');
@@ -146,7 +146,7 @@ export default function LoyaltyRewardsSystem() {
         })
       );
 
-      setLeaderboards(leaderboardsWithEntries);
+      setLeaderboards(leaderboardsWithEntries as any);
     } catch (error) {
       console.error('Error loading leaderboards:', error);
       toast.error('Failed to load leaderboards');
