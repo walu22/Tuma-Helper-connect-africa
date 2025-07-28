@@ -258,8 +258,8 @@ const Services = () => {
     setSearchFilters(filters);
     // Update URL params
     const params = new URLSearchParams();
-    if (filters.query) params.set('search', filters.query);
-    if (filters.category) params.set('category', filters.category);
+    if (filters.query) params.set('search', filters.query as string);
+    if (filters.category) params.set('category', filters.category as string);
     navigate(`/services?${params.toString()}`, { replace: true });
   };
 
@@ -396,8 +396,8 @@ const Services = () => {
 
         {/* Advanced Search Filters */}
         <AdvancedSearchFilters
-          onSearch={handleSearch}
-          onFiltersChange={handleFiltersChange}
+          onSearch={handleSearch as any}
+          onFiltersChange={handleFiltersChange as any}
           initialFilters={searchFilters}
           className="mb-8"
         />

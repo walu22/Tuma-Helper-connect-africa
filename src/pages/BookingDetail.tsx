@@ -84,7 +84,7 @@ const BookingDetail = () => {
         console.error('Error fetching booking:', error);
         toast({
           title: "Error loading booking",
-          description: error.message,
+          description: (error as any)?.message || "An error occurred",
           variant: "destructive",
         });
         navigate('/bookings');

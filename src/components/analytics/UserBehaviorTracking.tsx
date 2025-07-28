@@ -199,7 +199,7 @@ const UserBehaviorTracking = () => {
 
   const generateSearchTrends = (searchHistory: Record<string, unknown>[]) => {
     const dailySearches = searchHistory.reduce((acc: Record<string, number>, search) => {
-      const date = new Date(search.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const date = new Date((search as any).created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       acc[date] = (acc[date] || 0) + 1;
       return acc;
     }, {});

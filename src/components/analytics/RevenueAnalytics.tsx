@@ -216,8 +216,8 @@ const RevenueAnalytics = () => {
 
   const generateTimeSeriesData = (earnings: Record<string, unknown>[], period: string): RevenueData[] => {
     const groupBy = period === '7days' ? 'day' : period === '30days' ? 'day' : 'month';
-    const grouped = earnings.reduce((acc: Record<string, { revenue: number; bookings: number }>, earning) => {
-      const date = new Date(earning.created_at);
+    const grouped = earnings.reduce((acc: Record<string, { revenue: number; bookings: number; transactions: number; platformFees: number }>, earning) => {
+      const date = new Date((earning as any).created_at);
       let key: string;
       
       if (groupBy === 'day') {
@@ -227,12 +227,12 @@ const RevenueAnalytics = () => {
       }
       
       if (!acc[key]) {
-        acc[key] = { revenue: 0, transactions: 0, platformFees: 0 };
+        acc[key] = { revenue: 0, bookings: 0, transactions: 0, platformFees: 0 };
       }
       
-      acc[key].revenue += Number(earning.gross_amount);
+      acc[key].revenue += Number((earning as any).gross_amount);
       acc[key].transactions += 1;
-      acc[key].platformFees += Number(earning.platform_fee);
+      acc[key].platformFees += Number((earning as any).platform_fee);
       
       return acc;
     }, {});

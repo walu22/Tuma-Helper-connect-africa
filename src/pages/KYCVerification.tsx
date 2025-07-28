@@ -102,7 +102,7 @@ export default function KYCVerification() {
     } catch (error: unknown) {
       toast({
         title: "Submission Failed",
-        description: error.message,
+        description: (error as any)?.message || "An error occurred",
         variant: "destructive",
       });
     } finally {
