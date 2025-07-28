@@ -143,7 +143,7 @@ const BookingForm = ({ service, onClose }: BookingFormProps) => {
     } catch (error: unknown) {
       toast({
         title: "Booking failed",
-        description: error.message,
+        description: (error as any)?.message || "An error occurred",
         variant: "destructive",
       });
     } finally {

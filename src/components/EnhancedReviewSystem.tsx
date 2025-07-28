@@ -349,15 +349,15 @@ const EnhancedReviewSystem = ({
             <CardContent className="pt-6">
               <div className="flex items-start space-x-4">
                 <Avatar>
-                  <AvatarImage src={review.customer_profile?.avatar_url} />
+                  <AvatarImage src={review.customer_profile?.avatar_url as string} />
                   <AvatarFallback>
-                    {review.customer_profile?.full_name?.charAt(0) || "U"}
+                    {(review.customer_profile?.full_name as string)?.charAt(0) || "U"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
                     <div>
-                      <p className="font-medium">{review.customer_profile?.full_name || "Anonymous"}</p>
+                      <p className="font-medium">{(review.customer_profile?.full_name as string) || "Anonymous"}</p>
                       <div className="flex items-center space-x-2">
                         {renderStars(review.rating)}
                         {review.is_verified && (

@@ -285,8 +285,8 @@ const AdvancedSearchFilters = ({
                 </SelectTrigger>
                 <SelectContent>
                   {cities.map((city) => (
-                    <SelectItem key={city.id} value={`${city.name}, ${city.region}`}>
-                      {city.name}, {city.region}
+                    <SelectItem key={city.id as string} value={`${city.name as string}, ${city.region as string}`}>
+                      {city.name as string}, {city.region as string}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -325,8 +325,8 @@ const AdvancedSearchFilters = ({
                       <SelectContent>
                         <SelectItem value="">All categories</SelectItem>
                         {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
+                          <SelectItem key={category.id as string} value={category.id as string}>
+                            {category.name as string}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -555,7 +555,7 @@ const AdvancedSearchFilters = ({
         <div className="flex flex-wrap gap-2">
           {filters.category && (
             <Badge variant="secondary" className="flex items-center gap-1">
-              Category: {categories.find(c => c.id === filters.category)?.name}
+              Category: {(categories.find(c => c.id === filters.category)?.name as string) || 'Unknown'}
               <button
                 onClick={() => updateFilter("category", "")}
                 className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
