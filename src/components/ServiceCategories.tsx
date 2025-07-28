@@ -229,7 +229,7 @@ const ServiceCategories = () => {
         <div className="text-center mt-16">
           <Button 
             size="lg" 
-            className="btn-hero"
+            className="btn-hero text-white font-semibold"
             onClick={() => navigate("/services")}
           >
             {t('services.view_all')}
