@@ -89,7 +89,7 @@ export default function AIServiceMatcher() {
               provider: service.provider_profiles
             } : null
           };
-        }).filter(rec => rec.service) as ServiceRecommendation[];
+        }).filter(rec => rec.service) as Recommendation[];
 
         setRecommendations(combinedData);
       }
@@ -188,7 +188,7 @@ export default function AIServiceMatcher() {
         .upsert({
           user_id: user?.id,
           preference_type: type,
-          preference_value: value,
+          preference_value: value as any,
           weight
         });
 
