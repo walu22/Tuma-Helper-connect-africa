@@ -70,26 +70,38 @@ export default function AIServiceMatcher() {
             price_from,
             rating,
             location,
-            provider_profiles!inner (
-              business_name,
-              rating
-            )
+            provider_id
           `)
           .in('id', serviceIds);
 
         if (servicesError) throw servicesError;
 
-        // Combine recommendations with service data
+        // Get provider information separately
+        const providerIds = servicesData?.map(s => s.provider_id) || [];
+        const { data: providersData } = await supabase
+          .from('provider_profiles')
+          .select('user_id, business_name, rating')
+          .in('user_id', providerIds);
+
+        // Combine recommendations with service and provider data
         const combinedData = recommendationsData.map(rec => {
           const service = servicesData?.find(s => s.id === rec.service_id);
+          const provider = providersData?.find(p => p.user_id === service?.provider_id);
+          
           return {
             ...rec,
             service: service ? {
               ...service,
-              provider: service.provider_profiles
+              provider: provider ? {
+                business_name: provider.business_name || 'Unknown Provider',
+                rating: provider.rating || 0
+              } : {
+                business_name: 'Unknown Provider',
+                rating: 0
+              }
             } : null
           };
-        }).filter(rec => rec.service) as Recommendation[];
+        }).filter(rec => rec.service) as any[];
 
         setRecommendations(combinedData);
       }
