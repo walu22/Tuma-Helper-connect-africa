@@ -16,12 +16,6 @@ const Hero = () => {
   const { user } = useAuth();
   const { t } = useLanguage();
 
-  useEffect(() => {
-    if (user) {
-      fetchSearchHistory();
-    }
-  }, [user, fetchSearchHistory]);
-
   const fetchSearchHistory = useCallback(async () => {
     if (!user) return;
     
@@ -37,6 +31,12 @@ const Hero = () => {
       setSearchSuggestions(suggestions);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      fetchSearchHistory();
+    }
+  }, [user, fetchSearchHistory]);
 
   const saveSearchHistory = async (query: string) => {
     if (!user || !query.trim()) return;
