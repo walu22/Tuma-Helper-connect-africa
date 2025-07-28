@@ -32,16 +32,5 @@ SET
   service_areas = ARRAY['Windhoek Central', 'Klein Windhoek', 'Ludwigsdorf', 'Olympia', 'Pioneers Park']
 WHERE user_id = '6967cfd4-c459-4a20-a312-afdabb44389f';
 
--- Add more diverse services to demonstrate the platform
-INSERT INTO services (provider_id, category_id, title, description, price_from, price_to, price_unit, location, rating, total_reviews, is_available) VALUES
--- Home Services
-('6967cfd4-c459-4a20-a312-afdabb44389f', 'c38fc7e7-04dc-4f34-aafb-136a8b97c5d7', 'Deep House Cleaning', 'Complete house cleaning service including bathrooms, kitchen, bedrooms, and living areas. Using eco-friendly products.', 300, 600, 'per visit', 'Windhoek', 4.7, 45, true),
-('6967cfd4-c459-4a20-a312-afdabb44389f', 'c38fc7e7-04dc-4f34-aafb-136a8b97c5d7', 'Plumbing Repairs', 'Professional plumbing services for leaks, installations, and maintenance. Licensed and insured plumber.', 200, 500, 'per job', 'Windhoek', 4.8, 32, true),
-
--- Tech Support
-('6967cfd4-c459-4a20-a312-afdabb44389f', 'a56a1269-3330-46c8-9462-331499bcf1b1', 'Computer Repair & Setup', 'Hardware and software troubleshooting, virus removal, data recovery, and new computer setup services.', 150, 400, 'per service', 'Windhoek', 4.5, 28, true),
-('6967cfd4-c459-4a20-a312-afdabb44389f', 'a56a1269-3330-46c8-9462-331499bcf1b1', 'WiFi Network Setup', 'Professional WiFi network installation and optimization for homes and small businesses.', 250, 350, 'per setup', 'Windhoek', 4.6, 15, true),
-
--- Tutoring
-('6967cfd4-c459-4a20-a312-afdabb44389f', 'bb25603b-4722-44d4-9c1d-83dbcca4515e', 'Mathematics Tutoring', 'High school and university level mathematics tutoring. Personalized learning approach with proven results.', 120, 180, 'per hour', 'Windhoek', 4.9, 67, true),
-('6967cfd4-c459-4a20-a312-afdabb44389f', 'bb25603b-4722-44d4-9c1d-83dbcca4515e', 'English Language Tutoring', 'English language instruction for all levels. Grammar, conversation, and exam preparation.', 100, 150, 'per hour', 'Windhoek', 4.7, 43, true);
+-- Note: Services already inserted in previous migration (20250712154904-b078a802-93ec-4b4c-a733-0f8bc474ca0d.sql)
+-- Removed duplicate INSERT statements to prevent duplicate services

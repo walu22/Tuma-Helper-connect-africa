@@ -202,7 +202,18 @@ const Services = () => {
         service_images: service.service_images || []
       }));
       
-      setServices(transformedServices);
+      // Remove duplicates based on title and provider_id to handle any database duplicates
+      const uniqueServices = transformedServices.reduce((acc: Service[], current) => {
+        const isDuplicate = acc.some(service => 
+          service.title === current.title && service.provider_id === current.provider_id
+        );
+        if (!isDuplicate) {
+          acc.push(current);
+        }
+        return acc;
+      }, []);
+      
+      setServices(uniqueServices);
       console.log('Services set to state:', servicesData?.length || 0, 'services');
       
       // Fetch favorites for logged-in users
