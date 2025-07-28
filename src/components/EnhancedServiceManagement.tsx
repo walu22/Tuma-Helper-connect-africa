@@ -209,7 +209,7 @@ const EnhancedServiceManagement = () => {
         .order('confidence_score', { ascending: false });
 
       if (error) throw error;
-      setPricingOptimizations(data || []);
+      setPricingOptimizations((data || []) as any);
     } catch (error: any) {
       console.error('Error fetching pricing optimizations:', error);
     }

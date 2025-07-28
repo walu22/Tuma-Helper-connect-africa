@@ -46,7 +46,7 @@ const Hero = () => {
       .insert({
         user_id: user.id,
         search_query: query,
-        search_filters: { query, location } as Record<string, unknown>
+        search_filters: { query, location } as any
       });
   };
 

@@ -88,7 +88,7 @@ const AdvancedSearch = ({ onSearch, initialFilters }: AdvancedSearchProps) => {
       .insert({
         user_id: user.id,
         search_query: searchFilters.query,
-        search_filters: searchFilters as Record<string, unknown>
+        search_filters: searchFilters as any
       });
   };
 
@@ -207,11 +207,11 @@ const AdvancedSearch = ({ onSearch, initialFilters }: AdvancedSearchProps) => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="">All categories</SelectItem>
-                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
+                       {categories.map((category) => (
+                         <SelectItem key={category.id as string} value={category.id as string}>
+                           {category.name as string}
+                         </SelectItem>
+                       ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -302,7 +302,7 @@ const AdvancedSearch = ({ onSearch, initialFilters }: AdvancedSearchProps) => {
           <div className="flex flex-wrap gap-2 mt-3">
             {filters.category && (
               <Badge variant="secondary" className="flex items-center gap-1">
-                Category: {categories.find(c => c.id === filters.category)?.name}
+                Category: {categories.find(c => c.id === filters.category)?.name as string}
                 <button
                   onClick={() => updateFilter("category", "")}
                   className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"

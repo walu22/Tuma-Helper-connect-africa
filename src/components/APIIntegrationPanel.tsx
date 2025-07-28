@@ -62,7 +62,7 @@ export const APIIntegrationPanel = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setIntegrations(data || []);
+      setIntegrations((data || []) as any);
     } catch (error) {
       console.error('Error fetching API integrations:', error);
       toast({
