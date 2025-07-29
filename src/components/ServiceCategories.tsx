@@ -157,126 +157,40 @@ const ServiceCategories = () => {
   }
 
   return (
-    <section className="py-24 bg-gradient-to-b from-background via-muted/10 to-background">
+    <section className="py-16 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-20 animate-fade-in">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gradient bg-gradient-to-r from-primary via-accent to-primary-glow bg-clip-text text-transparent">
-            Browse Services
-          </h2>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Discover trusted professionals across various service categories
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-          {categories.map((category, index) => {
+        {/* Simple grid of service categories - Angi style */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
+          {categories.slice(0, 11).map((category, index) => {
             const IconComponent = iconMap[category.icon] || Home;
-            const colorClass = colorMap[category.name] || 'from-gray-500 to-gray-600';
             return (
-              <Card 
-                key={category.id} 
-                className="service-category-card animate-fade-in group overflow-hidden"
-                style={{ animationDelay: `${index * 0.1}s` }}
+              <div 
+                key={category.id}
+                className="flex flex-col items-center p-4 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors group"
                 onClick={() => navigate(`/services?category=${category.id}`)}
               >
-                <CardHeader className="pb-4 md:pb-6 relative">
-                  {/* Gradient Background Glow */}
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-r ${colorClass} opacity-5 rounded-full blur-3xl transform translate-x-8 -translate-y-8 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                  
-                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-3xl bg-gradient-to-r ${colorClass} flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-medium relative z-10`}>
-                    <IconComponent className="w-8 h-8 md:w-10 md:h-10 text-white" />
-                  </div>
-                  
-                  <CardTitle className="text-xl md:text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                    {category.name}
-                  </CardTitle>
-                  <CardDescription className="text-sm md:text-base text-muted-foreground line-clamp-2 leading-relaxed">
-                    {category.description}
-                  </CardDescription>
-                </CardHeader>
-                
-                <CardContent className="space-y-4 md:space-y-5">
-                  <div className="flex items-center justify-between text-sm md:text-base">
-                    <div className="flex items-center space-x-2 text-muted-foreground bg-muted/30 rounded-full px-3 py-1">
-                      <Users className="w-4 h-4" />
-                      <span className="font-medium">{category.serviceCount || 0} services</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-success bg-success-light rounded-full px-3 py-1">
-                      <Shield className="w-4 h-4" />
-                      <span>{t('services.verified')}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="text-xs md:text-sm text-muted-foreground min-h-[40px] md:min-h-[60px] flex items-center line-clamp-3">
-                    Professional {category.name.toLowerCase()} services available in Windhoek. 
-                    All providers are background-checked and rated by our community.
-                  </div>
-                  
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-colors text-xs md:text-sm h-8 md:h-9"
-                  >
-                    {t('services.view')}
-                    <ArrowRight className="w-3 h-3 md:w-4 md:h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </CardContent>
-              </Card>
+                <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+                  <IconComponent className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-sm font-medium text-center text-foreground">
+                  {category.name}
+                </span>
+              </div>
             );
           })}
           
           {/* View All Services Card */}
-          <Card 
-            className="service-category-card animate-fade-in group overflow-hidden border-2 border-dashed border-primary/30 hover:border-primary/60 bg-gradient-to-br from-primary/5 to-accent/5"
-            style={{ animationDelay: `${categories.length * 0.1}s` }}
+          <div 
+            className="flex flex-col items-center p-4 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors group border-2 border-dashed border-muted"
             onClick={() => navigate("/services")}
           >
-            <CardHeader className="pb-4 md:pb-6 relative text-center">
-              <div className="w-16 h-16 md:w-20 md:h-20 rounded-3xl bg-gradient-to-r from-primary to-accent flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-medium mx-auto">
-                <ArrowRight className="w-8 h-8 md:w-10 md:h-10 text-white" />
-              </div>
-              
-              <CardTitle className="text-xl md:text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                View All Services
-              </CardTitle>
-              <CardDescription className="text-sm md:text-base text-muted-foreground line-clamp-2 leading-relaxed">
-                Browse all available services and categories
-              </CardDescription>
-            </CardHeader>
-            
-            <CardContent className="space-y-4 md:space-y-5">
-              <div className="flex items-center justify-center text-sm md:text-base">
-                <div className="flex items-center space-x-2 text-primary bg-primary/10 rounded-full px-3 py-1">
-                  <Users className="w-4 h-4" />
-                  <span className="font-medium">All Categories</span>
-                </div>
-              </div>
-              
-              <div className="text-xs md:text-sm text-muted-foreground min-h-[40px] md:min-h-[60px] flex items-center justify-center text-center line-clamp-3">
-                Explore our complete range of professional services across all categories in Windhoek.
-              </div>
-              
-              <Button 
-                variant="default" 
-                size="sm" 
-                className="w-full bg-primary hover:bg-primary/90 text-white transition-colors text-xs md:text-sm h-8 md:h-9"
-              >
-                Browse All
-                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="text-center mt-16">
-          <Button 
-            size="lg" 
-            className="btn-hero text-white font-semibold"
-            onClick={() => navigate("/services")}
-          >
-            {t('services.view_all')}
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Button>
+            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+              <ArrowRight className="w-6 h-6 text-muted-foreground" />
+            </div>
+            <span className="text-sm font-medium text-center text-muted-foreground">
+              View All
+            </span>
+          </div>
         </div>
       </div>
     </section>

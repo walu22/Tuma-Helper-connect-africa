@@ -31,8 +31,6 @@ const Index = () => {
       <Hero />
       <ServiceCategories />
       <FeaturedServices />
-      <Features />
-      <ImprovedCallToAction />
       <Footer />
     </div>
   );
