@@ -97,7 +97,8 @@ export default {
 				'elevated': 'var(--shadow-elevated)',
 			},
 			fontFamily: {
-				sans: ['Inter', 'system-ui', 'sans-serif'],
+				sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+				display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
 			},
 			fontSize: {
 				'xs': ['0.75rem', { lineHeight: '1.1rem', letterSpacing: '0.01em' }],
