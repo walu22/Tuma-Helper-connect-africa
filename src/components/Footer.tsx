@@ -48,72 +48,19 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-foreground text-white">
-      {/* Newsletter Section */}
-      <div className="border-b border-white/10">
-        <div className="container mx-auto px-4 py-16">
-          <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-3xl font-bold mb-4">{t('footer.stay_updated')}</h3>
-            <p className="text-white/80 mb-8 text-lg">
-              {t('footer.stay_updated_desc')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <Input
-                type="email"
-                placeholder={t('footer.email_placeholder')}
-                className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/60"
-              />
-              <Button className="bg-primary hover:bg-primary-glow">
-                {t('footer.subscribe')}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <footer className="bg-muted/30 border-t">
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
-          {/* Brand Section */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary-glow rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">T</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">Tuma Helper</h1>
-                <p className="text-sm text-white/70">{t('footer.tagline')}</p>
-              </div>
-            </div>
-            <p className="text-white/80 mb-6 leading-relaxed">
-              {t('footer.description')}
-            </p>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3 text-white/80">
-                <MapPin className="w-5 h-5 text-primary" />
-                <span>Windhoek, Namibia</span>
-              </div>
-              <div className="flex items-center space-x-3 text-white/80">
-                <Phone className="w-5 h-5 text-primary" />
-                <span>+264 61 123 4567</span>
-              </div>
-              <div className="flex items-center space-x-3 text-white/80">
-                <Mail className="w-5 h-5 text-primary" />
-                <span>hello@tumahelper.na</span>
-              </div>
-            </div>
-          </div>
-
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Services */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Services</h4>
+            <h4 className="font-semibold mb-4 text-foreground">Services</h4>
             <ul className="space-y-3">
-              {footerLinks.services.map((link, index) => (
+              {footerLinks.services.slice(0, 5).map((link, index) => (
                 <li key={index}>
                   <button
                     onClick={() => navigate(link.path)}
-                    className="text-white/80 hover:text-white transition-colors text-left"
+                    className="text-muted-foreground hover:text-foreground transition-colors text-left text-sm"
                   >
                     {link.name}
                   </button>
@@ -124,13 +71,13 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Company</h4>
+            <h4 className="font-semibold mb-4 text-foreground">Company</h4>
             <ul className="space-y-3">
-              {footerLinks.company.map((link, index) => (
+              {footerLinks.company.slice(0, 5).map((link, index) => (
                 <li key={index}>
                   <button
                     onClick={() => navigate(link.path)}
-                    className="text-white/80 hover:text-white transition-colors text-left"
+                    className="text-muted-foreground hover:text-foreground transition-colors text-left text-sm"
                   >
                     {link.name}
                   </button>
@@ -141,13 +88,13 @@ const Footer = () => {
 
           {/* Support */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Support</h4>
+            <h4 className="font-semibold mb-4 text-foreground">Support</h4>
             <ul className="space-y-3">
-              {footerLinks.support.map((link, index) => (
+              {footerLinks.support.slice(0, 5).map((link, index) => (
                 <li key={index}>
                   <button
                     onClick={() => navigate(link.path)}
-                    className="text-white/80 hover:text-white transition-colors text-left"
+                    className="text-muted-foreground hover:text-foreground transition-colors text-left text-sm"
                   >
                     {link.name}
                   </button>
@@ -158,13 +105,13 @@ const Footer = () => {
 
           {/* For Providers */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">For Providers</h4>
+            <h4 className="font-semibold mb-4 text-foreground">For Providers</h4>
             <ul className="space-y-3">
-              {footerLinks.providers.map((link, index) => (
+              {footerLinks.providers.slice(0, 4).map((link, index) => (
                 <li key={index}>
                   <button
                     onClick={() => navigate(link.path)}
-                    className="text-white/80 hover:text-white transition-colors text-left"
+                    className="text-muted-foreground hover:text-foreground transition-colors text-left text-sm"
                   >
                     {link.name}
                   </button>
@@ -176,21 +123,21 @@ const Footer = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="border-t border-white/10">
-        <div className="container mx-auto px-4 py-8">
+      <div className="border-t">
+        <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-white/80">
-              {t('footer.copyright')}
+            <div className="text-muted-foreground text-sm">
+              © 2024 Tuma Helper. All rights reserved.
             </div>
-            <div className="flex space-x-6">
-              <button className="text-white/80 hover:text-white transition-colors">
-                <Facebook className="w-6 h-6" />
+            <div className="flex space-x-4">
+              <button className="text-muted-foreground hover:text-foreground transition-colors">
+                <Facebook className="w-5 h-5" />
               </button>
-              <button className="text-white/80 hover:text-white transition-colors">
-                <Twitter className="w-6 h-6" />
+              <button className="text-muted-foreground hover:text-foreground transition-colors">
+                <Twitter className="w-5 h-5" />
               </button>
-              <button className="text-white/80 hover:text-white transition-colors">
-                <Instagram className="w-6 h-6" />
+              <button className="text-muted-foreground hover:text-foreground transition-colors">
+                <Instagram className="w-5 h-5" />
               </button>
             </div>
           </div>

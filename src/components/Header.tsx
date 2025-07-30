@@ -38,28 +38,17 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Button variant="ghost" onClick={() => navigate("/services")}>
-              {t('nav.services')}
+          <nav className="hidden md:flex items-center space-x-6">
+            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium">
+              Services
             </Button>
-            <Button variant="ghost" onClick={() => navigate("/how-it-works")}>
-              {t('nav.how_it_works')}
-            </Button>
-            <Button variant="ghost" onClick={() => navigate("/become-provider")}>
-              Become a Provider
-            </Button>
-            <Button variant="ghost" onClick={() => navigate("/help")}>
-              {t('nav.help')}
+            <Button variant="ghost" onClick={() => navigate("/become-provider")} className="font-medium">
+              For professionals
             </Button>
           </nav>
 
-          {/* Location, Language & Auth */}
-          <div className="hidden md:flex items-center space-x-4">
-            <CitySelector 
-              selectedCityId={selectedCityId} 
-              onCityChange={setSelectedCityId}
-            />
-            <LanguageSelector />
+          {/* Auth */}
+          <div className="hidden md:flex items-center space-x-3">
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -111,11 +100,11 @@ const Header = () => {
               </DropdownMenu>
             ) : (
               <>
-                <Button variant="outline" onClick={() => navigate("/auth")}>
+                <Button variant="ghost" onClick={() => navigate("/auth")} className="font-medium">
                   Sign In
                 </Button>
-                <Button className="btn-hero" onClick={() => navigate("/auth")}>
-                  Sign Up
+                <Button onClick={() => navigate("/auth")} className="bg-primary hover:bg-primary/90 text-white px-6">
+                  Sign up
                 </Button>
               </>
             )}
