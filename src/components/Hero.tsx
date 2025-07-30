@@ -59,45 +59,48 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-background to-muted/20 overflow-hidden min-h-[70vh] flex items-center">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23f1f5f9%22 fill-opacity=%220.4%22%3E%3Ccircle cx=%227%22 cy=%227%22 r=%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-foreground font-display">
+    <section 
+      className="relative min-h-[500px] flex items-center bg-cover bg-center"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
+      }}
+    >
+      <div className="container mx-auto px-4 py-20">
+        <div className="max-w-2xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight">
             Find top-rated pros in your area.
           </h1>
           
-          {/* Simple Search Bar - Angi Style */}
-          <div className="bg-white rounded-lg shadow-lg p-4 max-w-2xl mx-auto mb-12">
-            <div className="flex gap-2">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="What can we help you with?"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 h-12 border-0 focus-visible:ring-0"
-                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                />
-              </div>
-              <div className="relative flex-1">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="20120"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="pl-10 h-12 border-0 focus-visible:ring-0"
-                />
-              </div>
-              <Button 
-                onClick={handleSearch}
-                className="h-12 px-6 bg-primary hover:bg-primary/90 rounded-md"
-              >
-                <Search className="w-5 h-5" />
-              </Button>
+          {/* Angi-style Search Bar */}
+          <div className="bg-white rounded-full shadow-lg p-2 flex items-center max-w-2xl">
+            <div className="flex-1 flex items-center px-4">
+              <Search className="w-5 h-5 text-gray-400 mr-3" />
+              <Input
+                type="text"
+                placeholder="What can we help you with?"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="border-0 focus-visible:ring-0 text-lg placeholder:text-gray-500"
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+              />
             </div>
+            <div className="w-px h-8 bg-gray-200"></div>
+            <div className="flex items-center px-4">
+              <MapPin className="w-5 h-5 text-gray-400 mr-3" />
+              <Input
+                type="text"
+                placeholder="Zip Code"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="border-0 focus-visible:ring-0 text-lg placeholder:text-gray-500 w-32"
+              />
+            </div>
+            <Button 
+              onClick={handleSearch}
+              className="bg-red-500 hover:bg-red-600 text-white rounded-full h-12 w-12 flex items-center justify-center ml-2"
+            >
+              <Search className="w-5 h-5" />
+            </Button>
           </div>
         </div>
       </div>

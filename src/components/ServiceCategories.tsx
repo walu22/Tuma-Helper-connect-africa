@@ -61,136 +61,39 @@ const colorMap: { [key: string]: string } = {
 
 const ServiceCategories = () => {
   const navigate = useNavigate();
-  const { t } = useLanguage();
-  const [categories, setCategories] = useState<ServiceCategory[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = async () => {
-    try {
-      // Add retry logic for network issues
-      let retries = 3;
-      let categoriesData, error;
-      
-      while (retries > 0) {
-        try {
-          const result = await supabase
-            .from('service_categories')
-            .select(`
-              id,
-              name,
-              description,
-              icon,
-              services (count)
-            `)
-            .order('name');
-          
-          categoriesData = result.data;
-          error = result.error;
-          break;
-        } catch (networkError) {
-          retries--;
-          if (retries === 0) {
-            throw networkError;
-          }
-          // Wait before retrying
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-      }
-
-      if (error) throw error;
-      
-      if (categoriesData) {
-        // Map the data and add service counts
-        const mappedCategories = categoriesData.map(category => ({
-          ...category,
-          serviceCount: category.services?.length || 0
-        }));
-        setCategories(mappedCategories.slice(0, 6)); // Show first 6 categories
-      }
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      // Provide fallback categories if fetch fails
-      setCategories([
-        { id: '1', name: 'Home Services', description: 'Professional home services', icon: 'home', serviceCount: 0 },
-        { id: '2', name: 'Beauty & Wellness', description: 'Beauty and wellness services', icon: 'scissors', serviceCount: 0 },
-        { id: '3', name: 'Automotive', description: 'Car and vehicle services', icon: 'car', serviceCount: 0 },
-        { id: '4', name: 'Tech Support', description: 'Technology and IT services', icon: 'laptop', serviceCount: 0 },
-        { id: '5', name: 'Delivery & Moving', description: 'Delivery and moving services', icon: 'truck', serviceCount: 0 },
-        { id: '6', name: 'Gardening', description: 'Garden and landscaping services', icon: 'flower', serviceCount: 0 }
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <section className="py-20 bg-gradient-to-b from-background to-muted/20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-              {t('services.browse')}
-            </h2>
-            <div className="h-6 bg-muted animate-pulse rounded w-96 mx-auto"></div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...Array(6)].map((_, i) => (
-              <Card key={i} className="animate-pulse">
-                <CardHeader className="pb-4">
-                  <div className="w-16 h-16 bg-muted rounded-2xl mb-4"></div>
-                  <div className="h-6 bg-muted rounded mb-2"></div>
-                  <div className="h-4 bg-muted rounded w-3/4"></div>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-24 bg-muted rounded"></div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const serviceCategories = [
+    { name: "Handyperson", icon: "🔨", color: "bg-red-100 text-red-600" },
+    { name: "Landscaping", icon: "🌿", color: "bg-green-100 text-green-600" },
+    { name: "Plumbing", icon: "🔧", color: "bg-blue-100 text-blue-600" },
+    { name: "Electrical", icon: "⚡", color: "bg-yellow-100 text-yellow-600" },
+    { name: "Remodeling", icon: "⚒️", color: "bg-purple-100 text-purple-600" },
+    { name: "Roofing", icon: "🏠", color: "bg-orange-100 text-orange-600" },
+    { name: "Painting", icon: "🎨", color: "bg-pink-100 text-pink-600" },
+    { name: "Cleaning", icon: "🧽", color: "bg-cyan-100 text-cyan-600" },
+    { name: "HVAC", icon: "🌡️", color: "bg-indigo-100 text-indigo-600" },
+    { name: "Windows", icon: "🪟", color: "bg-teal-100 text-teal-600" },
+    { name: "Concrete", icon: "🏗️", color: "bg-gray-100 text-gray-600" },
+  ];
 
   return (
-    <section className="py-16 bg-background">
+    <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        {/* Simple grid of service categories - Angi style */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
-          {categories.slice(0, 11).map((category, index) => {
-            const IconComponent = iconMap[category.icon] || Home;
-            return (
-              <div 
-                key={category.id}
-                className="flex flex-col items-center p-4 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors group"
-                onClick={() => navigate(`/services?category=${category.id}`)}
-              >
-                <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
-                  <IconComponent className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-sm font-medium text-center text-foreground">
-                  {category.name}
-                </span>
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 gap-4 md:gap-6">
+          {serviceCategories.map((category, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer group"
+              onClick={() => navigate(`/services?category=${encodeURIComponent(category.name)}`)}
+            >
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${category.color} group-hover:scale-110 transition-transform`}>
+                <span className="text-xl">{category.icon}</span>
               </div>
-            );
-          })}
-          
-          {/* View All Services Card */}
-          <div 
-            className="flex flex-col items-center p-4 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors group border-2 border-dashed border-muted"
-            onClick={() => navigate("/services")}
-          >
-            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
-              <ArrowRight className="w-6 h-6 text-muted-foreground" />
+              <span className="text-sm font-medium text-gray-700 text-center leading-tight">
+                {category.name}
+              </span>
             </div>
-            <span className="text-sm font-medium text-center text-muted-foreground">
-              View All
-            </span>
-          </div>
+          ))}
         </div>
       </div>
     </section>

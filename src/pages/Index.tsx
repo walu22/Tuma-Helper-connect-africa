@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ServiceCategories from "@/components/ServiceCategories";
-import TrendingServices from "@/components/TrendingServices";
+import PopularProjects from "@/components/PopularProjects";
 import TrustSignals from "@/components/TrustSignals";
 import Footer from "@/components/Footer";
 import PersonalizedDashboard from "@/components/PersonalizedDashboard";
@@ -28,9 +28,9 @@ const Index = () => {
     <div className="min-h-screen">
       <Header />
       <Hero />
-      <TrustSignals />
       <ServiceCategories />
-      <TrendingServices />
+      <PopularProjects />
+      <TrustSignals />
       <Footer />
     </div>
   );

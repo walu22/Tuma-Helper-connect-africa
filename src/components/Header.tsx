@@ -23,27 +23,30 @@ const Header = () => {
   const { t } = useLanguage();
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigate("/")}>
-            <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary-glow rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">T</span>
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">Tuma Helper</h1>
-              <p className="text-xs text-muted-foreground">One tap, every service</p>
-            </div>
+          {/* Logo - Angi Style */}
+          <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigate("/")}>
+            <span className="text-2xl font-bold text-red-500">Angi</span>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium">
-              Services
+          {/* Desktop Navigation - Angi Style */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-gray-700 hover:text-gray-900">
+              Interior
             </Button>
-            <Button variant="ghost" onClick={() => navigate("/become-provider")} className="font-medium">
-              For professionals
+            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-gray-700 hover:text-gray-900">
+              Exterior
+            </Button>
+            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-gray-700 hover:text-gray-900">
+              Lawn & Garden
+            </Button>
+            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-gray-700 hover:text-gray-900">
+              More
+            </Button>
+            <Button variant="ghost" onClick={() => navigate("/become-provider")} className="font-medium text-gray-700 hover:text-gray-900">
+              Join as a Pro
             </Button>
           </nav>
 
@@ -100,11 +103,11 @@ const Header = () => {
               </DropdownMenu>
             ) : (
               <>
-                <Button variant="ghost" onClick={() => navigate("/auth")} className="font-medium">
-                  Sign In
+                <Button variant="ghost" onClick={() => navigate("/auth")} className="font-medium text-gray-700 hover:text-gray-900">
+                  Log In
                 </Button>
-                <Button onClick={() => navigate("/auth")} className="bg-primary hover:bg-primary/90 text-white px-6">
-                  Sign up
+                <Button onClick={() => navigate("/auth")} className="bg-red-500 hover:bg-red-600 text-white px-6 rounded-full font-medium">
+                  Sign Up
                 </Button>
               </>
             )}
