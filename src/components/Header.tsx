@@ -28,7 +28,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo - Angi Style */}
           <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigate("/")}>
-            <span className="text-2xl font-bold text-red-500">Angi</span>
+            <span className="text-2xl font-bold text-red-500">Tuma Helper</span>
           </div>
 
           {/* Desktop Navigation - Angi Style */}
