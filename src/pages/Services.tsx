@@ -309,9 +309,50 @@ const Services = () => {
       if (!matchesText) return false;
     }
 
-    // Category filter
+    // Category filter - enhanced to handle interior/exterior groupings
     if (searchFilters.category && searchFilters.category !== 'all') {
-      if (service.category_id !== searchFilters.category) return false;
+      const categoryFilter = searchFilters.category.toLowerCase();
+      const serviceCategoryName = service.service_categories?.name?.toLowerCase() || '';
+      const serviceTitle = service.title.toLowerCase();
+      
+      // Interior categories
+      if (categoryFilter === 'interior') {
+        const interiorKeywords = [
+          'interior', 'painting', 'flooring', 'plumbing', 'electrical', 
+          'remodeling', 'cleaning', 'hvac', 'windows', 'design', 'renovation',
+          'kitchen', 'bathroom', 'bedroom', 'living room'
+        ];
+        const matchesInterior = interiorKeywords.some(keyword => 
+          serviceCategoryName.includes(keyword) || serviceTitle.includes(keyword)
+        );
+        if (!matchesInterior) return false;
+      }
+      // Exterior categories  
+      else if (categoryFilter === 'exterior') {
+        const exteriorKeywords = [
+          'exterior', 'landscaping', 'roofing', 'concrete', 'garden', 
+          'lawn', 'outdoor', 'deck', 'patio', 'fence', 'driveway'
+        ];
+        const matchesExterior = exteriorKeywords.some(keyword => 
+          serviceCategoryName.includes(keyword) || serviceTitle.includes(keyword)
+        );
+        if (!matchesExterior) return false;
+      }
+      // Garden categories
+      else if (categoryFilter === 'garden') {
+        const gardenKeywords = [
+          'garden', 'landscaping', 'lawn', 'tree', 'plant', 'irrigation',
+          'outdoor', 'yard', 'maintenance'
+        ];
+        const matchesGarden = gardenKeywords.some(keyword => 
+          serviceCategoryName.includes(keyword) || serviceTitle.includes(keyword)
+        );
+        if (!matchesGarden) return false;
+      }
+      // Specific category names
+      else if (service.category_id !== searchFilters.category && !serviceCategoryName.includes(categoryFilter)) {
+        return false;
+      }
     }
 
     // Price range filter

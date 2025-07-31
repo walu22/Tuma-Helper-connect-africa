@@ -63,17 +63,18 @@ const ServiceCategories = () => {
   const navigate = useNavigate();
 
   const serviceCategories = [
-    { name: "Handyperson", icon: "🔨", color: "bg-red-100 text-red-600" },
-    { name: "Landscaping", icon: "🌿", color: "bg-green-100 text-green-600" },
-    { name: "Plumbing", icon: "🔧", color: "bg-blue-100 text-blue-600" },
-    { name: "Electrical", icon: "⚡", color: "bg-yellow-100 text-yellow-600" },
-    { name: "Remodeling", icon: "⚒️", color: "bg-purple-100 text-purple-600" },
-    { name: "Roofing", icon: "🏠", color: "bg-orange-100 text-orange-600" },
-    { name: "Painting", icon: "🎨", color: "bg-pink-100 text-pink-600" },
-    { name: "Cleaning", icon: "🧽", color: "bg-cyan-100 text-cyan-600" },
-    { name: "HVAC", icon: "🌡️", color: "bg-indigo-100 text-indigo-600" },
-    { name: "Windows", icon: "🪟", color: "bg-teal-100 text-teal-600" },
-    { name: "Concrete", icon: "🏗️", color: "bg-gray-100 text-gray-600" },
+    { name: "Interior Design", icon: "🏠", color: "bg-primary/10 text-primary", category: "interior" },
+    { name: "Painting", icon: "🎨", color: "bg-primary/10 text-primary", category: "interior" },
+    { name: "Flooring", icon: "📐", color: "bg-primary/10 text-primary", category: "interior" },
+    { name: "Landscaping", icon: "🌿", color: "bg-accent/10 text-accent", category: "exterior" },
+    { name: "Plumbing", icon: "🔧", color: "bg-secondary/10 text-secondary", category: "interior" },
+    { name: "Electrical", icon: "⚡", color: "bg-warning/10 text-warning", category: "interior" },
+    { name: "Remodeling", icon: "⚒️", color: "bg-primary/10 text-primary", category: "interior" },
+    { name: "Roofing", icon: "🏠", color: "bg-accent/10 text-accent", category: "exterior" },
+    { name: "Cleaning", icon: "🧽", color: "bg-success/10 text-success", category: "interior" },
+    { name: "HVAC", icon: "🌡️", color: "bg-secondary/10 text-secondary", category: "interior" },
+    { name: "Windows", icon: "🪟", color: "bg-primary/10 text-primary", category: "interior" },
+    { name: "Concrete", icon: "🏗️", color: "bg-accent/10 text-accent", category: "exterior" },
   ];
 
   return (
@@ -83,13 +84,16 @@ const ServiceCategories = () => {
           {serviceCategories.map((category, index) => (
             <div
               key={index}
-              className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer group"
-              onClick={() => navigate(`/services?category=${encodeURIComponent(category.name)}`)}
+              className="flex flex-col items-center p-4 rounded-lg hover:bg-muted/20 transition-colors cursor-pointer group"
+              onClick={() => {
+                const categoryParam = category.category || category.name.toLowerCase();
+                navigate(`/services?category=${encodeURIComponent(categoryParam)}`);
+              }}
             >
               <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${category.color} group-hover:scale-110 transition-transform`}>
                 <span className="text-xl">{category.icon}</span>
               </div>
-              <span className="text-sm font-medium text-gray-700 text-center leading-tight">
+              <span className="text-sm font-medium text-foreground text-center leading-tight">
                 {category.name}
               </span>
             </div>

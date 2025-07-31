@@ -34,19 +34,19 @@ const Header = () => {
 
           {/* Desktop Navigation - Angi Style */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-gray-700 hover:text-gray-900">
+            <Button variant="ghost" onClick={() => navigate("/services?category=interior")} className="font-medium text-secondary hover:text-primary transition-colors">
               Interior
             </Button>
-            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-gray-700 hover:text-gray-900">
+            <Button variant="ghost" onClick={() => navigate("/services?category=exterior")} className="font-medium text-secondary hover:text-primary transition-colors">
               Exterior
             </Button>
-            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-gray-700 hover:text-gray-900">
+            <Button variant="ghost" onClick={() => navigate("/services?category=garden")} className="font-medium text-secondary hover:text-primary transition-colors">
               Lawn & Garden
             </Button>
-            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-gray-700 hover:text-gray-900">
+            <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-secondary hover:text-primary transition-colors">
               More
             </Button>
-            <Button variant="ghost" onClick={() => navigate("/become-provider")} className="font-medium text-gray-700 hover:text-gray-900">
+            <Button variant="ghost" onClick={() => navigate("/become-provider")} className="font-medium text-secondary hover:text-primary transition-colors">
               Join as a Pro
             </Button>
           </nav>
