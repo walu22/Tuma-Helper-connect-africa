@@ -28,8 +28,8 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo - Angi Style */}
           <div className="flex flex-col items-start cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigate("/")}>
-            <span className="text-2xl font-bold text-red-500">Tuma Helper</span>
-            <span className="text-xs text-gray-500 -mt-1">Find & hire local services</span>
+            <span className="text-2xl font-bold text-primary">Tuma Helper</span>
+            <span className="text-xs text-secondary -mt-1">Find & hire local services</span>
           </div>
 
           {/* Desktop Navigation - Angi Style */}

@@ -2,46 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tuma Helper Design System - Southern African Service Platform */
+/* Tuma Helper Design System - Namibian Heritage Service Platform */
 
 @layer base {
   :root {
-    /* Modern color palette - Enhanced for better visual hierarchy */
-    --background: 210 40% 98%;
-    --foreground: 215 25% 17%;
+    /* Namibian-inspired color palette - Desert warmth meets African heritage */
+    --background: 30 15% 96%;
+    --foreground: 20 15% 20%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 17%;
+    --card: 35 20% 98%;
+    --card-foreground: 20 15% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 17%;
+    --popover: 35 20% 98%;
+    --popover-foreground: 20 15% 20%;
 
-    /* Primary - Vibrant Blue with enhanced accent */
-    --primary: 221 83% 53%;
+    /* Primary - Namibian Flag Red (Desert Sunset) */
+    --primary: 8 75% 55%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 221 83% 60%;
-    --primary-light: 221 83% 75%;
-    --primary-dark: 221 83% 35%;
+    --primary-glow: 8 75% 65%;
+    --primary-light: 8 75% 75%;
+    --primary-dark: 8 75% 45%;
 
-    /* Secondary - Warm Gray */
-    --secondary: 215 16% 47%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-light: 215 16% 65%;
+    /* Secondary - Desert Sand */
+    --secondary: 40 25% 65%;
+    --secondary-foreground: 20 15% 20%;
+    --secondary-light: 40 25% 80%;
 
-    /* Accent - Electric Teal */
-    --accent: 180 84% 45%;
+    /* Accent - Namibian Sky Blue */
+    --accent: 203 89% 53%;
     --accent-foreground: 0 0% 100%;
-    --accent-light: 180 84% 65%;
+    --accent-light: 203 89% 75%;
 
-    /* Success - Fresh Green */
-    --success: 142 76% 36%;
+    /* Success - Acacia Green */
+    --success: 95 45% 45%;
     --success-foreground: 0 0% 100%;
-    --success-light: 142 76% 85%;
+    --success-light: 95 45% 85%;
 
-    /* Warning - Warm Orange */
-    --warning: 38 92% 50%;
+    /* Warning - Sunset Orange */
+    --warning: 25 85% 60%;
     --warning-foreground: 0 0% 100%;
-    --warning-light: 38 92% 85%;
+    --warning-light: 25 85% 85%;
 
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
@@ -57,14 +57,14 @@
 
     /* Solid color alternatives */
     
-    /* Enhanced shadows with color */
-    --shadow-soft: 0 4px 12px -4px hsl(221 83% 53% / 0.15);
-    --shadow-medium: 0 8px 25px -8px hsl(221 83% 53% / 0.25);
-    --shadow-glow: 0 25px 50px -12px hsl(221 83% 53% / 0.4);
-    --shadow-strong: 0 12px 40px -12px hsl(180 84% 45% / 0.35);
-    --shadow-accent: 0 8px 32px -8px hsl(180 84% 45% / 0.3);
-    --shadow-success: 0 8px 32px -8px hsl(142 76% 36% / 0.3);
-    --shadow-elevated: 0 20px 60px -12px hsl(221 83% 53% / 0.25);
+    /* Enhanced shadows with Namibian warmth */
+    --shadow-soft: 0 4px 12px -4px hsl(8 75% 55% / 0.15);
+    --shadow-medium: 0 8px 25px -8px hsl(8 75% 55% / 0.25);
+    --shadow-glow: 0 25px 50px -12px hsl(25 85% 60% / 0.4);
+    --shadow-strong: 0 12px 40px -12px hsl(203 89% 53% / 0.35);
+    --shadow-accent: 0 8px 32px -8px hsl(203 89% 53% / 0.3);
+    --shadow-success: 0 8px 32px -8px hsl(95 45% 45% / 0.3);
+    --shadow-elevated: 0 20px 60px -12px hsl(8 75% 55% / 0.25);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -89,22 +89,22 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 221 83% 58%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --primary-glow: 221 83% 70%;
-    --primary-light: 221 83% 80%;
+    --primary: 8 75% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 8 75% 70%;
+    --primary-light: 8 75% 80%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 40 25% 30%;
+    --secondary-foreground: 35 20% 95%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 40 15% 25%;
+    --muted-foreground: 40 15% 70%;
 
-    --accent: 180 84% 55%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 203 89% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    --success: 142 76% 42%;
-    --warning: 38 92% 55%;
+    --success: 95 45% 50%;
+    --warning: 25 85% 65%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
