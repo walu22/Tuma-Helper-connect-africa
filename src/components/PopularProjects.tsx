@@ -10,7 +10,7 @@ const PopularProjects = () => {
       title: "Decks & Porches",
       rating: 3.7,
       reviews: "1k+",
-      price: "from $1,890",
+      price: "from N$1,890",
       icon: "🏗️",
       color: "bg-red-100"
     },
@@ -18,7 +18,7 @@ const PopularProjects = () => {
       title: "Home Cleaning",
       rating: 4.5,
       reviews: "414k+",
-      price: "from $85",
+      price: "from N$85",
       icon: "🧽",
       color: "bg-red-100"
     },
@@ -26,7 +26,7 @@ const PopularProjects = () => {
       title: "Roof Repair",
       rating: 4.7,
       reviews: "83k+",
-      price: "from $584",
+      price: "from N$584",
       icon: "🏠",
       color: "bg-red-100"
     },
@@ -34,7 +34,7 @@ const PopularProjects = () => {
       title: "Fence Repair",
       rating: 4.2,
       reviews: "8k+",
-      price: "from $380",
+      price: "from N$380",
       icon: "🏘️",
       color: "bg-red-100"
     },
@@ -42,7 +42,7 @@ const PopularProjects = () => {
       title: "Appliance Repair",
       rating: 4.7,
       reviews: "74k+",
-      price: "from $504",
+      price: "from N$504",
       icon: "🔧",
       color: "bg-red-100"
     },
@@ -50,7 +50,7 @@ const PopularProjects = () => {
       title: "Pest Control",
       rating: 4.8,
       reviews: "377k+",
-      price: "from $196",
+      price: "from N$196",
       icon: "🐛",
       color: "bg-red-100"
     },
@@ -58,7 +58,7 @@ const PopularProjects = () => {
       title: "Gutter Services",
       rating: 4.0,
       reviews: "47k+",
-      price: "from $575",
+      price: "from N$575",
       icon: "🏠",
       color: "bg-red-100"
     },
@@ -66,7 +66,7 @@ const PopularProjects = () => {
       title: "Plumbing Services",
       rating: 4.4,
       reviews: "287k+",
-      price: "from $210",
+      price: "from N$210",
       icon: "🔧",
       color: "bg-red-100"
     }
