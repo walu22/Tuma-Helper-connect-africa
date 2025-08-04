@@ -34,7 +34,7 @@ const Header = () => {
 
           {/* Desktop Navigation - Angi Style */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Button variant="ghost" onClick={() => navigate("/services?category=interior")} className="font-medium text-secondary hover:text-primary transition-colors">
+            <Button variant="ghost" onClick={() => navigate("/interior")} className="font-medium text-secondary hover:text-primary transition-colors">
               Interior
             </Button>
             <Button variant="ghost" onClick={() => navigate("/services?category=exterior")} className="font-medium text-secondary hover:text-primary transition-colors">

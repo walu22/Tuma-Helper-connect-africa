@@ -9,6 +9,7 @@ import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import Services from "./pages/Services";
 import ServicesTest from "./pages/ServicesTest";
+import InteriorServices from "./pages/InteriorServices";
 import ServiceDetail from "./pages/ServiceDetail";
 import Bookings from "./pages/Bookings";
 import BookingDetail from "./pages/BookingDetail";
@@ -68,6 +69,7 @@ const App = () => (
               <Route path="/provider-login" element={<ProviderLogin />} />
               <Route path="/training" element={<TrainingCenter />} />
               <Route path="/services-test" element={<ServicesTest />} />
+              <Route path="/interior" element={<InteriorServices />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/:id" element={<ServiceDetail />} />
               <Route path="/bookings" element={<Bookings />} />
