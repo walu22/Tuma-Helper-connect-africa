@@ -40,7 +40,7 @@ const Header = () => {
             <Button variant="ghost" onClick={() => navigate("/services?category=exterior")} className="font-medium text-secondary hover:text-primary transition-colors">
               Exterior
             </Button>
-            <Button variant="ghost" onClick={() => navigate("/services?category=garden")} className="font-medium text-secondary hover:text-primary transition-colors">
+            <Button variant="ghost" onClick={() => navigate("/lawn-garden")} className="font-medium text-secondary hover:text-primary transition-colors">
               Lawn & Garden
             </Button>
             <Button variant="ghost" onClick={() => navigate("/services")} className="font-medium text-secondary hover:text-primary transition-colors">
