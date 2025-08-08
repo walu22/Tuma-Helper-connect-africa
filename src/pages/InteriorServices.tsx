@@ -11,6 +11,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import BookingForm from '@/components/BookingForm';
 
 interface InteriorService {
   id: string;
@@ -43,6 +45,8 @@ const InteriorServices = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<InteriorService | null>(null);
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
@@ -62,6 +66,26 @@ const InteriorServices = () => {
     fetchInteriorServices();
   }, [selectedCategory, searchQuery]);
 
+  // SEO tags
+  useEffect(() => {
+    document.title = 'Interior Services | HomeHero Namibia';
+    const desc = 'Find and book trusted interior services in Namibia.';
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'description');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', desc);
+    let link = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      document.head.appendChild(link);
+    }
+    link.setAttribute('href', window.location.href);
+  }, []);
+
   const fetchInteriorServices = async () => {
     try {
       setLoading(true);
@@ -71,7 +95,7 @@ const InteriorServices = () => {
         .select(`
           *,
           service_categories (name, icon),
-          profiles (display_name, avatar_url),
+          profiles (display_name, avatar_url, user_id),
           service_images (id, image_url, is_primary)
         `)
         .eq('is_available', true);
@@ -131,7 +155,7 @@ const InteriorServices = () => {
     return `N$${priceFrom} ${unit}`;
   };
 
-  const handleBookService = (serviceId: string) => {
+  const handleBookService = (service: InteriorService) => {
     if (!user) {
       toast({
         title: "Please sign in",
@@ -141,7 +165,8 @@ const InteriorServices = () => {
       navigate('/auth');
       return;
     }
-    navigate(`/services/${serviceId}`);
+    setSelectedService(service);
+    setBookingOpen(true);
   };
 
   return (
@@ -319,7 +344,7 @@ const InteriorServices = () => {
                             size="sm" 
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleBookService(service.id);
+                              handleBookService(service);
                             }}
                           >
                             Book Now
@@ -334,6 +359,30 @@ const InteriorServices = () => {
           )}
         </div>
       </section>
+      <Dialog open={bookingOpen} onOpenChange={setBookingOpen}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Book {selectedService?.title}</DialogTitle>
+            <DialogDescription>Secure your booking and pay online.</DialogDescription>
+          </DialogHeader>
+          {selectedService && (
+            <BookingForm
+              service={{
+                id: selectedService.id,
+                title: selectedService.title,
+                price_from: selectedService.price_from,
+                price_to: selectedService.price_to,
+                price_unit: selectedService.price_unit,
+                profiles: {
+                  display_name: selectedService.profiles.display_name,
+                  user_id: selectedService.profiles.user_id || selectedService.provider_id,
+                },
+              }}
+              onClose={() => setBookingOpen(false)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>
