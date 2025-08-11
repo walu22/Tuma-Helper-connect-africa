@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import BookingForm from '@/components/BookingForm';
 import ServiceCard from '@/components/ServiceCard';
+import FiltersBar from '@/components/FiltersBar';
 
 interface GardenService {
   id: string;
@@ -49,6 +50,8 @@ const LawnGardenServices = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [bookingOpen, setBookingOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<GardenService | null>(null);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [minRating, setMinRating] = useState<number>(0);
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
@@ -66,7 +69,7 @@ const LawnGardenServices = () => {
 
   useEffect(() => {
     fetchGardenServices();
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, priceRange, minRating]);
 
   // SEO tags
   useEffect(() => {
@@ -100,7 +103,9 @@ const LawnGardenServices = () => {
           profiles (display_name, avatar_url, user_id),
           service_images (id, image_url, is_primary)
         `)
-        .eq('is_available', true);
+        .eq('is_available', true)
+        .gte('price_from', priceRange[0])
+        .lte('price_from', priceRange[1]);
 
       // Filter for lawn and garden services using keywords
       const gardenKeywords = [
@@ -118,6 +123,10 @@ const LawnGardenServices = () => {
         query = query.or(
           `title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`
         );
+      }
+
+      if (minRating > 0) {
+        query = query.gte('rating', minRating);
       }
 
       const { data, error } = await query.order('rating', { ascending: false }).limit(20);
@@ -220,6 +229,20 @@ const LawnGardenServices = () => {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* Quick Filters */}
+      <section className="py-6">
+        <div className="container mx-auto px-4">
+          <FiltersBar
+            value={{ priceRange, rating: minRating }}
+            onChange={(v) => {
+              setPriceRange(v.priceRange);
+              setMinRating(v.rating);
+            }}
+            maxPrice={1000}
+          />
         </div>
       </section>
 
