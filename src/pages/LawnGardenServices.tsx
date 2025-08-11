@@ -32,6 +32,7 @@ interface GardenService {
   profiles: {
     display_name: string | null;
     avatar_url: string | null;
+    user_id?: string | null;
   };
   service_images?: Array<{
     id: string;
