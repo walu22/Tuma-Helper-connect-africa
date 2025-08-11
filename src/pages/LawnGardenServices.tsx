@@ -13,6 +13,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import BookingForm from '@/components/BookingForm';
+import ServiceCard from '@/components/ServiceCard';
 
 interface GardenService {
   id: string;
@@ -263,98 +264,14 @@ const LawnGardenServices = () => {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.map((service) => {
-                  const primaryImage = service.service_images?.find(img => img.is_primary) || service.service_images?.[0];
-                  
-                  return (
-                    <Card 
-                      key={service.id}
-                      className="group cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-                      onClick={() => navigate(`/services/${service.id}`)}
-                    >
-                      <div className="relative h-48 overflow-hidden">
-                        {primaryImage ? (
-                          <img 
-                            src={primaryImage.image_url} 
-                            alt={service.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-green-400/20 to-green-600/20 flex items-center justify-center">
-                            <TreePine className="w-16 h-16 text-green-600/40" />
-                          </div>
-                        )}
-                        
-                        <div className="absolute bottom-3 left-3">
-                          <Badge variant="secondary" className="bg-white/90">
-                            <Clock className="w-3 h-3 mr-1" />
-                            Available
-                          </Badge>
-                        </div>
-                      </div>
-
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-lg group-hover:text-primary transition-colors">
-                          {service.title}
-                        </CardTitle>
-                        <CardDescription className="line-clamp-2">
-                          {service.description}
-                        </CardDescription>
-                        
-                        <div className="flex items-center justify-between mt-2">
-                          <Badge variant="outline">
-                            {service.service_categories.name}
-                          </Badge>
-                          {service.rating > 0 && (
-                            <div className="flex items-center gap-1 text-sm">
-                              <Star className="w-4 h-4 fill-current text-yellow-400" />
-                              <span className="font-medium">{service.rating.toFixed(1)}</span>
-                              <span className="text-muted-foreground">({service.total_reviews})</span>
-                            </div>
-                          )}
-                        </div>
-                      </CardHeader>
-
-                      <CardContent className="pt-0">
-                        <div className="flex items-center gap-3 mb-4 p-3 bg-muted/50 rounded-lg">
-                          <Avatar className="w-8 h-8">
-                            <AvatarImage src={service.profiles.avatar_url || ''} />
-                            <AvatarFallback>
-                              {service.profiles.display_name?.charAt(0) || 'P'}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">
-                              {service.profiles.display_name || 'Service Provider'}
-                            </p>
-                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <MapPin className="w-3 h-3" />
-                              <span>{service.location}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="text-xl font-bold text-primary">
-                              {formatPrice(service.price_from, service.price_to, service.price_unit)}
-                            </div>
-                            <p className="text-xs text-muted-foreground">Starting price</p>
-                          </div>
-                          <Button 
-                            size="sm" 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleBookService(service);
-                            }}
-                          >
-                            Book Now
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                {services.map((service) => (
+                  <ServiceCard
+                    key={service.id}
+                    service={service}
+                    onBook={(svc) => handleBookService(svc as unknown as GardenService)}
+                    onOpen={(id) => navigate(`/services/${id}`)}
+                  />
+                ))}
               </div>
             </>
           )}
