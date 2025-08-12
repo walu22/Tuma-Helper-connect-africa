@@ -24,10 +24,10 @@ interface FeaturedService {
     name: string;
     icon: string;
   };
-  profiles: {
+  profiles?: {
     display_name: string | null;
     avatar_url: string | null;
-  };
+  } | null;
   service_images?: Array<{
     id: string;
     image_url: string;
@@ -288,14 +288,14 @@ const FeaturedServices = () => {
                 <CardContent className="pt-0">
                   <div className="flex items-center gap-3 mb-3 p-3 bg-muted/50 rounded-lg">
                     <Avatar className="w-8 h-8">
-                      <AvatarImage src={service.profiles.avatar_url || ''} />
+                      <AvatarImage src={service.profiles?.avatar_url || ''} />
                       <AvatarFallback className="text-xs">
-                        {service.profiles.display_name?.charAt(0) || 'P'}
+                        {service.profiles?.display_name?.charAt(0) || 'P'}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
                       <p className="text-sm font-medium">
-                        {service.profiles.display_name || 'Service Provider'}
+                        {service.profiles?.display_name || 'Service Provider'}
                       </p>
                       <div className="flex items-center gap-1 text-xs text-muted-foreground">
                         <MapPin className="w-3 h-3" />

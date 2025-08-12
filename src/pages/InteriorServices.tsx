@@ -31,11 +31,11 @@ interface InteriorService {
     name: string;
     icon: string;
   };
-  profiles: {
+  profiles?: {
     display_name: string | null;
     avatar_url: string | null;
     user_id?: string | null;
-  };
+  } | null;
   service_images?: Array<{
     id: string;
     image_url: string;

@@ -18,11 +18,11 @@ export type CommonService = {
     name: string;
     icon: string;
   };
-  profiles: {
+  profiles?: {
     display_name: string | null;
     avatar_url: string | null;
     user_id?: string | null;
-  };
+  } | null;
   service_images?: Array<{
     id: string;
     image_url: string;
@@ -93,11 +93,11 @@ const ServiceCard = ({ service, onBook, onOpen }: ServiceCardProps) => {
       <CardContent className="pt-0">
         <div className="flex items-center gap-3 mb-4 p-3 bg-muted/50 rounded-lg">
           <Avatar className="w-8 h-8">
-            <AvatarImage src={service.profiles.avatar_url || ''} alt={`${service.profiles.display_name || 'Provider'} avatar`} />
-            <AvatarFallback>{service.profiles.display_name?.charAt(0) || 'P'}</AvatarFallback>
+            <AvatarImage src={service.profiles?.avatar_url || ''} alt={`${service.profiles?.display_name || 'Provider'} avatar`} />
+            <AvatarFallback>{service.profiles?.display_name?.charAt(0) || 'P'}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            <p className="text-sm font-medium">{service.profiles.display_name || 'Service Provider'}</p>
+            <p className="text-sm font-medium">{service.profiles?.display_name || 'Service Provider'}</p>
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <MapPin className="w-3 h-3" />
               <span>{service.location}</span>
