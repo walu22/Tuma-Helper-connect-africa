@@ -83,11 +83,19 @@ const ServiceDetail = () => {
       if (error) throw error;
       
       // Fetch provider profile separately
-      const { data: providerProfile } = await supabase
-        .from('provider_profiles')
-        .select('business_name, bio, years_of_experience, rating, total_jobs_completed')
-        .eq('user_id', data.provider_id)
-        .single();
+      const rpcRes = await (supabase as any)
+        .rpc('get_public_provider_profiles', { _user_ids: [data.provider_id] });
+      if (rpcRes.error) throw rpcRes.error;
+      const publicProviders = (rpcRes.data as any[]) || [];
+      const providerProfile = publicProviders[0]
+        ? {
+            business_name: publicProviders[0].business_name as string | null,
+            bio: publicProviders[0].bio as string | null,
+            years_of_experience: publicProviders[0].years_of_experience as number | null,
+            rating: publicProviders[0].rating as number | null,
+            total_jobs_completed: publicProviders[0].total_jobs_completed as number | null,
+          }
+        : null;
       
       setService({
         ...data,

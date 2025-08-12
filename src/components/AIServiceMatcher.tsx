@@ -78,10 +78,8 @@ export default function AIServiceMatcher() {
 
         // Get provider information separately
         const providerIds = servicesData?.map(s => s.provider_id) || [];
-        const { data: providersData } = await supabase
-          .from('provider_profiles')
-          .select('user_id, business_name, rating')
-          .in('user_id', providerIds);
+        const { data: providersData } = await (supabase as any)
+          .rpc('get_public_provider_profiles', { _user_ids: providerIds });
 
         // Combine recommendations with service and provider data
         const combinedData = recommendationsData.map(rec => {
@@ -143,10 +141,7 @@ export default function AIServiceMatcher() {
       // Simple AI matching algorithm
       const { data: services, error: servicesError } = await supabase
         .from('services')
-        .select(`
-          *,
-          provider_profiles!inner (business_name, rating)
-        `)
+        .select('*')
         .eq('is_available', true);
 
       if (servicesError) throw servicesError;
