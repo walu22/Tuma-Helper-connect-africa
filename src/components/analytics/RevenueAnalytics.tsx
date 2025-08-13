@@ -117,7 +117,7 @@ const RevenueAnalytics = () => {
           .eq("status", "completed")
           .gte("created_at", startDate.toISOString())
           .lte("created_at", endDate.toISOString()),
-        supabase.from("services").select("*, service_categories(name), provider_profiles(user_id)"),
+        supabase.from("services").select("*, service_categories(name)"),
         supabase.from("profiles").select("user_id, display_name").eq("role", "provider")
       ]);
 

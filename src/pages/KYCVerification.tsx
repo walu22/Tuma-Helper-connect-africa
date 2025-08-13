@@ -49,11 +49,11 @@ export default function KYCVerification() {
     // Fetch existing provider profile if exists
     const fetchProviderProfile = async () => {
       if (user) {
-        const { data } = await supabase
-          .from('provider_profiles')
-          .select('*')
-          .eq('user_id', user.id)
-          .single();
+      const { data } = await supabase
+        .from('provider_profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
         
         if (data) {
           setFormData(data);
