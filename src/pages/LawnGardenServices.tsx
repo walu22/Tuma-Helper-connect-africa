@@ -57,14 +57,14 @@ const LawnGardenServices = () => {
   const { toast } = useToast();
 
   const gardenCategories = [
-    { id: 'all', name: 'All Garden', icon: TreePine, color: 'bg-green/10' },
-    { id: 'landscaping', name: 'Landscaping', icon: TreePine, color: 'bg-green/10' },
-    { id: 'lawn', name: 'Lawn Care', icon: Scissors, color: 'bg-green/10' },
-    { id: 'irrigation', name: 'Irrigation', icon: Droplets, color: 'bg-blue/10' },
-    { id: 'tree', name: 'Tree Services', icon: TreePine, color: 'bg-brown/10' },
-    { id: 'garden', name: 'Garden Design', icon: Flower, color: 'bg-pink/10' },
-    { id: 'maintenance', name: 'Maintenance', icon: Sun, color: 'bg-yellow/10' },
-    { id: 'planting', name: 'Planting', icon: Sprout, color: 'bg-green/10' },
+    { id: 'all', name: 'All Garden', icon: TreePine, color: 'bg-success/10' },
+    { id: 'landscaping', name: 'Landscaping', icon: TreePine, color: 'bg-success/10' },
+    { id: 'lawn', name: 'Lawn Care', icon: Scissors, color: 'bg-success/10' },
+    { id: 'irrigation', name: 'Irrigation', icon: Droplets, color: 'bg-accent/10' },
+    { id: 'tree', name: 'Tree Services', icon: TreePine, color: 'bg-secondary/10' },
+    { id: 'garden', name: 'Garden Design', icon: Flower, color: 'bg-primary/10' },
+    { id: 'maintenance', name: 'Maintenance', icon: Sun, color: 'bg-warning/10' },
+    { id: 'planting', name: 'Planting', icon: Sprout, color: 'bg-success/10' },
   ];
 
   useEffect(() => {
@@ -185,14 +185,19 @@ const LawnGardenServices = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-accent text-white">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-gradient-to-br from-success via-success-light to-accent text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yIDItNCA0LTRzNCAyIDQgNC0yIDQtNCA0LTQtMi00LTR6bTAgMTJjMC0yIDItNCA0LTRzNCAyIDQgNC0yIDQtNCA0LTQtMi00LTR6TTEwIDM0YzAtMiAyLTQgNC00czQgMiA0IDQtMiA0LTQgNC00LTItNC00em0yNCAyMmMwLTIgMi00IDQtNHM0IDIgNCA0LTIgNC00IDQtNC0yLTQtNHptMC0xMmMwLTIgMi00IDQtNHM0IDIgNCA0LTIgNC00IDQtNC0yLTQtNHoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
+              <TreePine className="w-5 h-5" />
+              <span className="text-sm font-medium">Namibia's Garden Experts</span>
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 font-display">
               Lawn & Garden Services
             </h1>
-            <p className="text-xl mb-8 text-white/90">
-              Transform your outdoor spaces with expert Namibian landscapers and gardeners
+            <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
+              Transform your outdoor spaces with expert Namibian landscapers and gardeners. From desert-adapted plants to lush green lawns.
             </p>
             
             {/* Search Bar */}
@@ -203,8 +208,24 @@ const LawnGardenServices = () => {
                 placeholder="Search lawn & garden services..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 py-6 text-lg border-0 bg-white/95 text-foreground"
+                className="pl-12 py-6 text-lg border-0 bg-white/95 text-foreground shadow-soft hover:shadow-medium transition-all duration-300"
               />
+            </div>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+              <div className="text-center">
+                <div className="text-2xl font-bold mb-1">{services.length}+</div>
+                <div className="text-sm text-white/80">Garden Experts</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold mb-1">50+</div>
+                <div className="text-sm text-white/80">Services Available</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold mb-1">4.8★</div>
+                <div className="text-sm text-white/80">Average Rating</div>
+              </div>
             </div>
           </div>
         </div>
@@ -213,18 +234,26 @@ const LawnGardenServices = () => {
       {/* Category Filters */}
       <section className="py-8 bg-white border-b">
         <div className="container mx-auto px-4">
-          <div className="flex gap-4 overflow-x-auto pb-2">
+          <h2 className="text-lg font-semibold mb-4 text-foreground">Browse by Service Type</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
             {gardenCategories.map((category) => {
               const IconComponent = category.icon;
+              const isSelected = selectedCategory === category.id;
               return (
                 <Button
                   key={category.id}
-                  variant={selectedCategory === category.id ? "default" : "outline"}
+                  variant={isSelected ? "default" : "outline"}
                   onClick={() => setSelectedCategory(category.id)}
-                  className="flex items-center gap-2 whitespace-nowrap"
+                  className={`flex flex-col items-center gap-2 p-4 h-auto transition-all duration-300 ${
+                    isSelected 
+                      ? 'bg-success text-success-foreground shadow-success hover:shadow-elevated' 
+                      : 'hover:bg-success/5 hover:border-success/20 hover:shadow-soft'
+                  }`}
                 >
-                  <IconComponent className="w-4 h-4" />
-                  {category.name}
+                  <div className={`p-2 rounded-lg ${category.color}`}>
+                    <IconComponent className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-medium text-center leading-tight">{category.name}</span>
                 </Button>
               );
             })}
@@ -269,21 +298,48 @@ const LawnGardenServices = () => {
             </div>
           ) : services.length === 0 ? (
             <div className="text-center py-16">
-              <TreePine className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+              <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-32 h-32 bg-success/10 rounded-full blur-xl"></div>
+                </div>
+                <TreePine className="w-16 h-16 mx-auto text-success relative z-10" />
+              </div>
               <h3 className="text-2xl font-semibold mb-2">No lawn & garden services found</h3>
-              <p className="text-muted-foreground mb-6">
-                Try adjusting your search or browse all services
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                Try adjusting your search filters or explore our other service categories
               </p>
-              <Button onClick={() => navigate('/services')}>
-                Browse All Services
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button 
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedCategory('all');
+                    setPriceRange([0, 1000]);
+                    setMinRating(0);
+                  }}
+                  variant="outline"
+                >
+                  Clear Filters
+                </Button>
+                <Button onClick={() => navigate('/services')} className="btn-success">
+                  Browse All Services
+                </Button>
+              </div>
             </div>
           ) : (
             <>
-              <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-bold">
-                  {services.length} Lawn & Garden Services Found
-                </h2>
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                <div>
+                  <h2 className="text-2xl font-bold mb-2">
+                    {services.length} Lawn & Garden Services Found
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Professional garden and landscaping services across Namibia
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Star className="w-4 h-4 fill-warning text-warning" />
+                  <span>Trusted by 1000+ customers</span>
+                </div>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
