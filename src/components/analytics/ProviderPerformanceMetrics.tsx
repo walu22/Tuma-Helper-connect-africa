@@ -99,16 +99,19 @@ const ProviderPerformanceMetrics = () => {
       }
 
       // Fetch provider data
+      const { data: profiles } = await supabase.from("profiles").select("*").eq("role", "provider");
+      
+      const providerIds = profiles?.map(p => p.user_id) || [];
+      
+      // Get public provider profiles using the safe RPC
+      const { data: providerProfiles } = await (supabase as any).rpc('get_public_provider_profiles', { _user_ids: providerIds });
+      
       const [
-        { data: providerProfiles },
-        { data: profiles },
         { data: earnings },
         { data: bookings },
         { data: reviews },
         { data: services }
       ] = await Promise.all([
-        supabase.from("provider_profiles").select("*"),
-        supabase.from("profiles").select("*").eq("role", "provider"),
         supabase
           .from("provider_earnings")
           .select("*")
