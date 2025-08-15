@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Star, Heart, ArrowRight, Clock, MapPin, TreePine, Flower, Scissors, Droplets, Sun, Sprout } from 'lucide-react';
+import { Search, Star, Heart, ArrowRight, Clock, MapPin, TreePine, Flower, Scissors, Droplets, Sun, Sprout, SlidersHorizontal, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import BookingForm from '@/components/BookingForm';
 import ServiceCard from '@/components/ServiceCard';
 import FiltersBar from '@/components/FiltersBar';
@@ -52,6 +53,8 @@ const LawnGardenServices = () => {
   const [selectedService, setSelectedService] = useState<GardenService | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const [minRating, setMinRating] = useState<number>(0);
+  const [sortBy, setSortBy] = useState<'rating' | 'price' | 'reviews'>('rating');
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
@@ -67,9 +70,26 @@ const LawnGardenServices = () => {
     { id: 'planting', name: 'Planting', icon: Sprout, color: 'bg-success/10' },
   ];
 
+  // Debounced search effect
+  useEffect(() => {
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+    
+    const timeout = setTimeout(() => {
+      fetchGardenServices();
+    }, 300);
+    
+    setSearchTimeout(timeout);
+    
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [searchQuery]);
+
   useEffect(() => {
     fetchGardenServices();
-  }, [selectedCategory, searchQuery, priceRange, minRating]);
+  }, [selectedCategory, priceRange, minRating, sortBy]);
 
   // SEO tags
   useEffect(() => {
@@ -129,7 +149,25 @@ const LawnGardenServices = () => {
         query = query.gte('rating', minRating);
       }
 
-      const { data, error } = await query.order('rating', { ascending: false }).limit(20);
+      // Apply sorting
+      let orderColumn = 'rating';
+      let ascending = false;
+      
+      switch (sortBy) {
+        case 'price':
+          orderColumn = 'price_from';
+          ascending = true;
+          break;
+        case 'reviews':
+          orderColumn = 'total_reviews';
+          ascending = false;
+          break;
+        default:
+          orderColumn = 'rating';
+          ascending = false;
+      }
+
+      const { data, error } = await query.order(orderColumn, { ascending }).limit(20);
 
       if (error) throw error;
 
@@ -261,17 +299,53 @@ const LawnGardenServices = () => {
         </div>
       </section>
 
-      {/* Quick Filters */}
-      <section className="py-6">
+      {/* Filters & Sorting */}
+      <section className="py-6 bg-muted/30">
         <div className="container mx-auto px-4">
-          <FiltersBar
-            value={{ priceRange, rating: minRating }}
-            onChange={(v) => {
-              setPriceRange(v.priceRange);
-              setMinRating(v.rating);
-            }}
-            maxPrice={1000}
-          />
+          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+            <div className="flex-1 max-w-4xl">
+              <FiltersBar
+                value={{ priceRange, rating: minRating }}
+                onChange={(v) => {
+                  setPriceRange(v.priceRange);
+                  setMinRating(v.rating);
+                }}
+                maxPrice={1000}
+              />
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <SlidersHorizontal className="w-4 h-4" />
+                <span>Sort by:</span>
+              </div>
+              <Select value={sortBy} onValueChange={(value: 'rating' | 'price' | 'reviews') => setSortBy(value)}>
+                <SelectTrigger className="w-40">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="rating">
+                    <div className="flex items-center gap-2">
+                      <Star className="w-4 h-4" />
+                      Highest Rated
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="price">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">N$</span>
+                      Lowest Price
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="reviews">
+                    <div className="flex items-center gap-2">
+                      <Heart className="w-4 h-4" />
+                      Most Reviews
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -334,11 +408,35 @@ const LawnGardenServices = () => {
                   </h2>
                   <p className="text-muted-foreground">
                     Professional garden and landscaping services across Namibia
+                    {selectedCategory !== 'all' && (
+                      <span className="ml-2">
+                        • Filtered by {gardenCategories.find(c => c.id === selectedCategory)?.name}
+                      </span>
+                    )}
                   </p>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Star className="w-4 h-4 fill-warning text-warning" />
-                  <span>Trusted by 1000+ customers</span>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Star className="w-4 h-4 fill-warning text-warning" />
+                    <span>Trusted by 1000+ customers</span>
+                  </div>
+                  {(searchQuery || selectedCategory !== 'all' || minRating > 0 || priceRange[0] > 0 || priceRange[1] < 1000) && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setSearchQuery('');
+                        setSelectedCategory('all');
+                        setPriceRange([0, 1000]);
+                        setMinRating(0);
+                        setSortBy('rating');
+                      }}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <Filter className="w-4 h-4 mr-1" />
+                      Clear filters
+                    </Button>
+                  )}
                 </div>
               </div>
               
