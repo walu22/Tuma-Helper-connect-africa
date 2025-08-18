@@ -70,11 +70,10 @@ const ServiceCategories = () => {
     { name: "Plumbing", icon: "🔧", color: "bg-secondary/10 text-secondary", category: "interior" },
     { name: "Electrical", icon: "⚡", color: "bg-warning/10 text-warning", category: "interior" },
     { name: "Remodeling", icon: "⚒️", color: "bg-primary/10 text-primary", category: "interior" },
-    { name: "Roofing", icon: "🏠", color: "bg-accent/10 text-accent", category: "exterior" },
+    { name: "Exterior Services", icon: "🏗️", color: "bg-accent/10 text-accent", route: "/exterior" },
     { name: "Cleaning", icon: "🧽", color: "bg-success/10 text-success", category: "interior" },
     { name: "HVAC", icon: "🌡️", color: "bg-secondary/10 text-secondary", category: "interior" },
     { name: "Windows", icon: "🪟", color: "bg-primary/10 text-primary", category: "interior" },
-    { name: "Concrete", icon: "🏗️", color: "bg-accent/10 text-accent", category: "exterior" },
   ];
 
   return (
