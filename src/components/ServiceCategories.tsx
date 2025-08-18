@@ -66,7 +66,7 @@ const ServiceCategories = () => {
     { name: "Interior Design", icon: "🏠", color: "bg-primary/10 text-primary", category: "interior" },
     { name: "Painting", icon: "🎨", color: "bg-primary/10 text-primary", category: "interior" },
     { name: "Flooring", icon: "📐", color: "bg-primary/10 text-primary", category: "interior" },
-    { name: "Landscaping", icon: "🌿", color: "bg-accent/10 text-accent", category: "exterior" },
+    { name: "Lawn & Garden", icon: "🌱", color: "bg-success/10 text-success", route: "/lawn-garden" },
     { name: "Plumbing", icon: "🔧", color: "bg-secondary/10 text-secondary", category: "interior" },
     { name: "Electrical", icon: "⚡", color: "bg-warning/10 text-warning", category: "interior" },
     { name: "Remodeling", icon: "⚒️", color: "bg-primary/10 text-primary", category: "interior" },
@@ -86,8 +86,12 @@ const ServiceCategories = () => {
               key={index}
               className="flex flex-col items-center p-4 rounded-lg hover:bg-muted/20 transition-colors cursor-pointer group"
               onClick={() => {
-                const categoryParam = category.category || category.name.toLowerCase();
-                navigate(`/services?category=${encodeURIComponent(categoryParam)}`);
+                if (category.route) {
+                  navigate(category.route);
+                } else {
+                  const categoryParam = category.category || category.name.toLowerCase();
+                  navigate(`/services?category=${encodeURIComponent(categoryParam)}`);
+                }
               }}
             >
               <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${category.color} group-hover:scale-110 transition-transform`}>
