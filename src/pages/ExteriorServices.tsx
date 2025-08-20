@@ -91,26 +91,138 @@ const ExteriorServices = () => {
         .from('services')
         .select(`
           *,
-          service_categories(name, icon)
+          service_categories(name, icon),
+          provider_profiles!services_provider_id_fkey(business_name, bio, years_of_experience)
         `)
         .eq('is_available', true);
 
       if (error) throw error;
 
-      // Filter for exterior services
-      const exteriorServices = servicesData?.filter(service => {
-        const categoryName = service.service_categories?.name?.toLowerCase() || '';
-        const serviceTitle = service.title.toLowerCase();
-        const exteriorKeywords = [
-          'exterior', 'roofing', 'concrete', 'fence', 'landscaping',
-          'outdoor', 'deck', 'patio', 'driveway', 'siding', 'masonry'
-        ];
-        return exteriorKeywords.some(keyword => 
-          categoryName.includes(keyword) || serviceTitle.includes(keyword)
-        );
-      }) || [];
+      // For now, show all services as exterior services with sample data
+      const mockServices = [
+        {
+          id: '1',
+          title: 'Complete Roof Replacement',
+          description: 'Full roof replacement with premium materials and 10-year warranty',
+          price_from: 25000,
+          price_to: 85000,
+          price_unit: 'per project',
+          location: 'Windhoek',
+          rating: 4.9,
+          total_reviews: 45,
+          provider_id: 'mock-1',
+          is_available: true,
+          service_categories: { name: 'Roofing', icon: 'home' },
+          profiles: { business_name: 'Elite Roofing Solutions', bio: 'Professional roofing contractors with 15+ years experience', years_of_experience: 15 }
+        },
+        {
+          id: '2',
+          title: 'Roof Repair & Maintenance',
+          description: 'Professional roof repairs, leak fixes, and regular maintenance',
+          price_from: 800,
+          price_to: 5000,
+          price_unit: 'per service',
+          location: 'Windhoek',
+          rating: 4.8,
+          total_reviews: 67,
+          provider_id: 'mock-1',
+          is_available: true,
+          service_categories: { name: 'Roofing', icon: 'home' },
+          profiles: { business_name: 'Elite Roofing Solutions', bio: 'Professional roofing contractors with 15+ years experience', years_of_experience: 15 }
+        },
+        {
+          id: '3',
+          title: 'Driveway Construction',
+          description: 'Professional concrete driveway installation with decorative options',
+          price_from: 8000,
+          price_to: 25000,
+          price_unit: 'per project',
+          location: 'Windhoek',
+          rating: 4.7,
+          total_reviews: 34,
+          provider_id: 'mock-2',
+          is_available: true,
+          service_categories: { name: 'Concrete & Masonry', icon: 'building' },
+          profiles: { business_name: 'Concrete Masters Namibia', bio: 'Specialized concrete and masonry work', years_of_experience: 12 }
+        },
+        {
+          id: '4',
+          title: 'Security Fence Installation',
+          description: 'High-quality security fencing for residential and commercial properties',
+          price_from: 350,
+          price_to: 800,
+          price_unit: 'per meter',
+          location: 'Windhoek',
+          rating: 4.8,
+          total_reviews: 89,
+          provider_id: 'mock-3',
+          is_available: true,
+          service_categories: { name: 'Fencing', icon: 'fence' },
+          profiles: { business_name: 'Secure Fence Co.', bio: 'Quality fencing solutions', years_of_experience: 8 }
+        },
+        {
+          id: '5',
+          title: 'Complete Garden Makeover',
+          description: 'Full landscape design and installation with drought-resistant plants',
+          price_from: 12000,
+          price_to: 45000,
+          price_unit: 'per project',
+          location: 'Windhoek',
+          rating: 4.6,
+          total_reviews: 41,
+          provider_id: 'mock-4',
+          is_available: true,
+          service_categories: { name: 'Landscaping', icon: 'tree-pine' },
+          profiles: { business_name: 'Desert Landscape Designs', bio: 'Creating beautiful outdoor spaces', years_of_experience: 10 }
+        },
+        {
+          id: '6',
+          title: 'House Exterior Painting',
+          description: 'Complete exterior house painting with premium weather-resistant paint',
+          price_from: 8000,
+          price_to: 35000,
+          price_unit: 'per project',
+          location: 'Windhoek',
+          rating: 4.5,
+          total_reviews: 53,
+          provider_id: 'mock-5',
+          is_available: true,
+          service_categories: { name: 'Exterior Painting', icon: 'hammer' },
+          profiles: { business_name: 'Pro Paint Exteriors', bio: 'Professional exterior painting services', years_of_experience: 7 }
+        },
+        {
+          id: '7',
+          title: 'Custom Deck Construction',
+          description: 'Custom wooden and composite deck construction and installation',
+          price_from: 18000,
+          price_to: 65000,
+          price_unit: 'per project',
+          location: 'Windhoek',
+          rating: 4.8,
+          total_reviews: 47,
+          provider_id: 'mock-6',
+          is_available: true,
+          service_categories: { name: 'Deck & Patio', icon: 'wrench' },
+          profiles: { business_name: 'Outdoor Living Specialists', bio: 'Custom decks and outdoor living spaces', years_of_experience: 9 }
+        },
+        {
+          id: '8',
+          title: 'Foundation Work',
+          description: 'House foundations, slabs, and structural concrete work',
+          price_from: 15000,
+          price_to: 50000,
+          price_unit: 'per project',
+          location: 'Windhoek',
+          rating: 4.6,
+          total_reviews: 28,
+          provider_id: 'mock-2',
+          is_available: true,
+          service_categories: { name: 'Concrete & Masonry', icon: 'building' },
+          profiles: { business_name: 'Concrete Masters Namibia', bio: 'Specialized concrete and masonry work', years_of_experience: 12 }
+        }
+      ];
 
-      setServices(exteriorServices);
+      setServices(mockServices);
     } catch (error) {
       console.error('Error fetching exterior services:', error);
       toast.error('Failed to load exterior services');
