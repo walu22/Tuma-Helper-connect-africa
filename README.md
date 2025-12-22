@@ -1,6 +1,30 @@
-# Welcome to your Lovable project
+# Tuma Helper - Connect Africa
 
-## Project info
+## About This Project
+
+**Tuma Helper** is a comprehensive service marketplace platform that connects customers with top-rated local service professionals across Africa, with a primary focus on Namibia. The platform streamlines the process of finding, booking, and managing home services, trades, and professional expertise.
+
+### Key Features
+- 🔍 **AI-Powered Service Matching** - Intelligent matching of customers with the right professionals
+- ✅ **Verified Providers** - All service providers undergo KYC verification
+- 💬 **Real-time Messaging** - Direct communication between customers and providers
+- 📊 **Provider Dashboard** - Comprehensive business management tools for service providers
+- 🎓 **Training Center** - Professional development and certification programs
+- ⭐ **Review System** - Enhanced feedback and rating system
+- 💳 **Secure Payments** - Integrated Stripe payment processing
+- 🌍 **Multi-language Support** - Localized experience for diverse users
+- 📱 **Responsive Design** - Works seamlessly on all devices
+
+### For Detailed Information
+See [PROJECT_DESCRIPTION.md](./PROJECT_DESCRIPTION.md) for comprehensive documentation about:
+- Complete feature list
+- Technology stack details
+- Database schema
+- Security measures
+- API documentation
+- Development guidelines
+
+## Lovable Project Info
 
 **URL**: https://lovable.dev/projects/7febc6bc-6530-4253-b0f3-ec34448eae87
 
@@ -52,13 +76,27 @@ npm run dev
 
 ## What technologies are used for this project?
 
-This project is built with:
+This project is built with a modern, production-ready stack:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Frontend
+- **React 18.3** with TypeScript - Component-based UI development
+- **Vite** - Lightning-fast build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn-ui** - High-quality, accessible component library
+- **Radix UI** - Unstyled, accessible component primitives
+
+### Backend & Services
+- **Supabase** - Backend as a Service (PostgreSQL, Auth, Storage, Real-time)
+- **Stripe** - Payment processing
+- **TanStack Query** - Data fetching and state management
+
+### Development & Testing
+- **TypeScript** - Type-safe development
+- **Vitest** - Unit testing
+- **Playwright** - End-to-end testing
+- **ESLint** - Code quality and security
+
+For a complete list of technologies and dependencies, see [PROJECT_DESCRIPTION.md](./PROJECT_DESCRIPTION.md).
 
 ## How can I deploy this project?
 
