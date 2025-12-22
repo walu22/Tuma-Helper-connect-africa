@@ -111,7 +111,7 @@ Tuma Helper serves as a bridge between:
 - **Real-time**: WebSocket support for live updates
 
 ### Additional Technologies
-- **Payment Processing**: Stripe integration (@stripe/stripe-js, @stripe/react-stripe-js)
+- **Payment Processing**: Stripe integration (@stripe/stripe-js ^7.4.0, @stripe/react-stripe-js ^3.7.0)
 - **Charts & Visualization**: Recharts 2.12.7
 - **Date Handling**: date-fns 3.6.0
 - **Theming**: next-themes 0.3.0 for dark/light mode
@@ -309,9 +309,10 @@ Based on the codebase structure, planned features include:
 
 ## Project Statistics
 
-- **1,000+** Active Service Providers
-- **5,000+** Happy Customers
-- **4.8** Average Platform Rating
+These statistics are displayed on the platform's About page as target metrics:
+- **1,000+** Active Service Providers (target)
+- **5,000+** Happy Customers (target)
+- **4.8** Average Platform Rating (target)
 - **24/7** Support Available
 
 ## Contributing
