@@ -9,8 +9,9 @@ import { Loader2, CreditCard, Shield } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
-// Initialize Stripe with your publishable key
-const stripePromise = loadStripe('pk_test_51Rk6yIR4iCoK3aMBaoUfzVCdA54P6pLBXnWoXcV3BYG1ojORHOqvU6ksiIumdXs647khOBEb8LwIiDQx6mntMMgn00NIFuQkHf');
+// Initialize Stripe with publishable key from environment variables
+const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51Rk6yIR4iCoK3aMBaoUfzVCdA54P6pLBXnWoXcV3BYG1ojORHOqvU6ksiIumdXs647khOBEb8LwIiDQx6mntMMgn00NIFuQkHf';
+const stripePromise = loadStripe(stripePublishableKey);
 
 interface PaymentFormProps {
   bookingId: string;
